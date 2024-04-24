@@ -142,7 +142,7 @@ else{
 													<div class="stat-panel-title text-uppercase">Jumlah Kost</div>
 												</div>
 											</div>
-											<a href="mobil.php" class="block-anchor panel-footer text-center">Rincian &nbsp; <i class="fa fa-arrow-right"></i></a>
+											<a href="kost.php" class="block-anchor panel-footer text-center">Rincian &nbsp; <i class="fa fa-arrow-right"></i></a>
 										</div>
 									</div>
 									

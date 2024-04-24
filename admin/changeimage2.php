@@ -8,12 +8,12 @@ if(strlen($_SESSION['alogin'])==0){
 if(isset($_POST['update'])){
 	$image2=$_FILES["img1"]["name"];
 	$id=$_POST['id'];
-	move_uploaded_file($_FILES["img1"]["tmp_name"],"img/vehicleimages/".$_FILES["img1"]["name"]);
+	move_uploaded_file($_FILES["img1"]["tmp_name"],"img/kostimages/".$_FILES["img1"]["name"]);
 	$sql="update mobil set image2='$image2' where id_mobil='$id'";
 	$query	= mysqli_query($koneksidb, $sql);
 	echo "<script type='text/javascript'>
 			alert('Berhasil ganti gambar.');
-			document.location = 'mobiledit.php?id=$id'; 
+			document.location = 'kostedit.php?id=$id'; 
 		</script>";
 }
 ?>
@@ -97,7 +97,7 @@ if(isset($_POST['update'])){
 												while ($result = mysqli_fetch_array($query)){
 												?>
 												<div class="col-sm-8">
-													<img src="img/vehicleimages/<?php echo htmlentities($result['image2']);?>" width="300" height="200" style="border:solid 1px #000">
+													<img src="img/kostimages/<?php echo htmlentities($result['image2']);?>" width="300" height="200" style="border:solid 1px #000">
 												</div>
 											<?php }?>
 											</div>

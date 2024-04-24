@@ -51,23 +51,23 @@ while($result = mysqli_fetch_array($query))
 ?>  
 
 <div style="text-align: center;" >
-  <img class="mySlides" src="admin/img/vehicleimages/<?php echo htmlentities($result['image1']);?>" style="height:500px">
-  <img class="mySlides" src="admin/img/vehicleimages/<?php echo htmlentities($result['image2']);?>" style="height:500px">
+  <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" style="height:500px">
+  <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image2']);?>" style="height:500px">
 
   
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
   <?php if($result['image3']==""){} else {
   ?>
-  <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image3']);?>" class="mySlides" alt="image" height="500px"></div>
+  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image3']);?>" class="mySlides" alt="image" height="500px"></div>
   <?php } ?>
   <?php if($result['image4']==""){} else {
   ?>
-  <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image4']);?>" class="mySlides" alt="image" height="500px"></div>
+  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image4']);?>" class="mySlides" alt="image" height="500px"></div>
   <?php } ?>
   <?php if($result['image5']==""){} else {
   ?>
-  <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image5']);?>" class="mySlides" alt="image" height="500px"></div>
+  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image5']);?>" class="mySlides" alt="image" height="500px"></div>
   <?php } ?>
 </div>
 <script>

@@ -80,7 +80,7 @@ if(strlen($_SESSION['alogin'])==0){
 											<th>Harga /Hari</th>
 											<th>Type BB</th>
 											<th>Tahun</th>
-											<th><a href="tambahmobil.php"><span class="fa fa-plus-circle"></span>Tambah Mobil</a></th>
+											<th><a href="tambahkost.php"><span class="fa fa-plus-circle"></span>Tambah Mobil</a></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -99,8 +99,8 @@ if(strlen($_SESSION['alogin'])==0){
 											<td><?php echo format_rupiah($result['harga']);?></td>
 											<td><?php echo htmlentities($result['bb']);?></td>
 											<td><?php echo htmlentities($result['tahun']);?></td>
-											<td class="text-center"><a href="mobiledit.php?id=<?php echo $result['id_mobil'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-												<a href="mobildel.php?id=<?php echo $result['id_mobil'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_mobil'];?>?');"><i class="fa fa-close"></i></a></td>
+											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_mobil'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+												<a href="kostdel.php?id=<?php echo $result['id_mobil'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_mobil'];?>?');"><i class="fa fa-close"></i></a></td>
 										</tr>
 										<?php } ?>
 									</tbody>

@@ -86,7 +86,7 @@ while($result = mysqli_fetch_array($query1))
 { 
 ?>
         <div class="product-listing-m gray-bg">
-          <div class="product-listing-img"><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> 
+          <div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> 
           </div>
           <div class="product-listing-content">
             <h5><a href="kost-details.php?vhid=<?php echo htmlentities($result['id_mobil']);?>"><?php echo htmlentities($result['nama_merek']);?> , <?php echo htmlentities($result['nama_mobil']);?></a></h5>
@@ -153,7 +153,7 @@ while($result = mysqli_fetch_array($query1))
 					while($result = mysqli_fetch_array($query2))
 					{ ?>
 					<li class="gray-bg">
-						<div class="recent_post_img"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_mobil']);?>"><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image1']);?>" alt="image"></a> </div>
+						<div class="recent_post_img"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_mobil']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" alt="image"></a> </div>
 						<div class="recent_post_title"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_mobil']);?>"><?php echo htmlentities($result['nama_merek']);?> , <?php echo htmlentities($result['nama_mobil']);?></a>
 						<p class="widget_price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
 						</div>

@@ -12,12 +12,12 @@ if(isset($_GET['id'])){
 	$myQry	= mysqli_query($koneksidb, $mySql);
 	echo "<script type='text/javascript'>
 			alert('Data berhasil dihapus.'); 
-			document.location = 'mobil.php'; 
+			document.location = 'kost.php'; 
 		</script>";
 }else {
 	echo "<script type='text/javascript'>
 			alert('Terjadi kesalahan, silahkan coba lagi!.'); 
-			document.location = 'mobil.php'; 
+			document.location = 'kost.php'; 
 		</script>";
 }
 }

@@ -114,7 +114,7 @@ return true;
 	<section class="user_profile inner_pages">
 	<div class="container">
 	<div class="col-md-6 col-sm-8">
-	      <div class="product-listing-img"><img src="admin/img/vehicleimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> </div>
+	      <div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> </div>
           <div class="product-listing-content">
             <h5><?php echo htmlentities($result['nama_merek']);?> , <?php echo htmlentities($result['nama_mobil']);?></a></h5>
             <p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>

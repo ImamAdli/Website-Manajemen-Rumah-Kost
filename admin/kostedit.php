@@ -89,7 +89,7 @@ function valid(theform){
 										$result = mysqli_fetch_array($query);
 										?>
 
-										<form method="post" class="form-horizontal" name="theform" action ="mobileditact.php" onsubmit="return valid(this);" enctype="multipart/form-data">
+										<form method="post" class="form-horizontal" name="theform" action ="kosteditact.php" onsubmit="return valid(this);" enctype="multipart/form-data">
 										<div class="form-group">
 											<label class="col-sm-2 control-label">Nama Mobil<span style="color:red">*</span></label>
 											<div class="col-sm-4">
@@ -165,15 +165,15 @@ function valid(theform){
 
 										<div class="form-group">
 											<div class="col-sm-4">
-												Gambar 1 <img src="img/vehicleimages/<?php echo htmlentities($result['image1']);?>" width="300" style="border:solid 1px #000">
+												Gambar 1 <img src="img/kostimages/<?php echo htmlentities($result['image1']);?>" width="300" style="border:solid 1px #000">
 												<a href="changeimage1.php?imgid=<?php echo htmlentities($result['id_mobil'])?>">Ganti Gambar 1</a>
 											</div>
 											<div class="col-sm-4">
-												Gambar 2<img src="img/vehicleimages/<?php echo htmlentities($result['image2']);?>" width="300" style="border:solid 1px #000">
+												Gambar 2<img src="img/kostimages/<?php echo htmlentities($result['image2']);?>" width="300" style="border:solid 1px #000">
 												<a href="changeimage2.php?imgid=<?php echo htmlentities($result['id_mobil'])?>">Ganti Gambar 2</a>
 											</div>
 											<div class="col-sm-4">
-												Gambar 3<img src="img/vehicleimages/<?php echo htmlentities($result['image3']);?>" width="300" style="border:solid 1px #000">
+												Gambar 3<img src="img/kostimages/<?php echo htmlentities($result['image3']);?>" width="300" style="border:solid 1px #000">
 												<a href="changeimage3.php?imgid=<?php echo htmlentities($result['id_mobil'])?>">Ganti Gambar 3</a>
 											</div>
 										</div>
@@ -181,13 +181,13 @@ function valid(theform){
 
 										<div class="form-group">
 											<div class="col-sm-4">
-												Gambar 4<img src="img/vehicleimages/<?php echo htmlentities($result['image4']);?>" width="300" style="border:solid 1px #000">
+												Gambar 4<img src="img/kostimages/<?php echo htmlentities($result['image4']);?>" width="300" style="border:solid 1px #000">
 												<a href="changeimage4.php?imgid=<?php echo htmlentities($result['id_mobil'])?>">Ganti Gambar 4</a>
 											</div>
 											<div class="col-sm-4">
 												Gambar 5
 
-													<img src="img/vehicleimages/<?php echo htmlentities($result['image5']);?>" width="300" style="border:solid 1px #000">
+													<img src="img/kostimages/<?php echo htmlentities($result['image5']);?>" width="300" style="border:solid 1px #000">
 													<a href="changeimage5.php?imgid=<?php echo htmlentities($result['id_mobil'])?>">Ganti Gambar 5</a>
 												
 											</div>
