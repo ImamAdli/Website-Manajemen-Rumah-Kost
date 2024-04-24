@@ -9,7 +9,7 @@ if(isset($_POST['update'])){
 	$image4=$_FILES["img1"]["name"];
 	$id=$_POST['id'];
 	move_uploaded_file($_FILES["img1"]["tmp_name"],"img/kostimages/".$_FILES["img1"]["name"]);
-	$sql="update mobil set image4='$image4' where id_mobil='$id'";
+	$sql="update kost set image4='$image4' where id_kamarkost='$id'";
 	$query	= mysqli_query($koneksidb, $sql);
 	echo "<script type='text/javascript'>
 			alert('Berhasil ganti gambar.');
@@ -78,20 +78,20 @@ if(isset($_POST['update'])){
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Gambar Mobil 4</h2>
+						<h2 class="page-title">Gambar kost 4</h2>
 
 						<div class="row">
 							<div class="col-md-10">
 								<div class="panel panel-default">
-									<div class="panel-heading">Gambar Mobil 4 Details</div>
+									<div class="panel-heading">Gambar kost 4 Details</div>
 									<div class="panel-body">
 										<form method="post" class="form-horizontal" enctype="multipart/form-data">
 
 											<div class="form-group">
-											<label class="col-sm-4 control-label">Gambar Mobil 4 Sekarang</label>
+											<label class="col-sm-4 control-label">Gambar kost 4 Sekarang</label>
 												<?php 
 												$id=intval($_GET['imgid']);
-												$sql ="SELECT image4 from mobil where id_mobil='$id'";
+												$sql ="SELECT image4 from kost where id_kamarkost='$id'";
 												$query	= mysqli_query($koneksidb, $sql);
 												$cnt=1;
 												while ($result = mysqli_fetch_array($query)){
@@ -104,7 +104,7 @@ if(isset($_POST['update'])){
 
 											<div class="form-group">
 											<input type="hidden" name="id" value="<?php echo $id; ?>"required>
-											<label class="col-sm-4 control-label">Upload Gambar Mobil 4 Baru<span style="color:red">*</span></label>
+											<label class="col-sm-4 control-label">Upload Gambar kost 4 Baru<span style="color:red">*</span></label>
 												<div class="col-sm-8">
 													<input type="file" name="img1" accept="image/*" required>
 												</div>

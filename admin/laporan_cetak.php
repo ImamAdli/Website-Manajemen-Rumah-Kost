@@ -1,13 +1,21 @@
 <?php
+session_start();
 include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
 $awal=$_GET['awal'];
 $akhir=$_GET['akhir'];
-$stt	 = "Sudah Dibayar";
-$sqlsewa = "SELECT booking.*,mobil.*,merek.*,users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil
-			AND merek.id_merek=mobil.id_merek AND users.email=booking.email
+$stt	 = "Selesai";
+$logpk = $_SESSION['alogin'];
+if ($_SESSION['alogin'] == 'admin') {
+$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+			AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
 			AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
+} else {
+	$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+	AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'AND nama_kost.email='$logpk'
+	AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
+}
 $querysewa = mysqli_query($koneksidb,$sqlsewa);
 
 ?>
@@ -17,7 +25,7 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="rental mobil">
+	<meta name="description" content="Sewa Kost">
 	<meta name="author" content="universitas pamulang">
 
 	<title>Cetak Detail Laporan</title>
@@ -36,12 +44,6 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 	<!-- jQuery -->
 	<script src="../assets/new/jquery.min.js"></script>
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
 </head>
 
 <body>
@@ -53,7 +55,7 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 						<td rowspan="3" width="16%" class="text-center">
 							<img src="../assets/images/logo.png" alt="logo" width="80" />
 						</td>
-						<td class="text-center"><h3>Narty Rental Car</h3></td>
+						<td class="text-center"><h3>Narty Boarding House</h3></td>
 						<td rowspan="3" width="16%">&nbsp;</td>
 					</tr>
 					<tr>
@@ -87,8 +89,8 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 					$no=0;
 					$pemasukan=0;
 					while($result = mysqli_fetch_array($querysewa)) {
-						$biayamobil=$result['durasi']*$result['harga'];
-						$total=$result['driver']+$biayamobil;
+						$biayakost=$result['durasi']*$result['harga'];
+						$total=$biayakost;
 						$pemasukan += $total; 
 						$no++;
 				?>	

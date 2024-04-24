@@ -4,8 +4,7 @@ error_reporting(0);
 include('includes/config.php');
 $fname=$_POST['fullname'];
 $email=$_POST['emailid']; 
-$mobile=$_POST['mobileno'];
-$alamat=$_POST['alamat']; 
+$koste=$_POST['kosteno'];
 $pass = $_POST['pass'];
 $conf = $_POST['conf'];
 $image1=$_FILES["img1"]["name"];
@@ -22,7 +21,7 @@ if($conf!=$pass){
 			echo "<script type='text/javascript'> document.location = 'regist.php'; </script>";			
 		}else{
 			$password=md5($_POST['pass']);
-			$sql1="INSERT INTO users(nama_user,email,telp,password,alamat,ktp) VALUES('$fname','$email','$mobile','$password','$alamat','$newimg1')";
+			$sql1="INSERT INTO users(nama_user,email,telp,password,ktp) VALUES('$fname','$email','$koste','$password','$newimg1')";
 			$lastInsertId = mysqli_query($koneksidb, $sql1);
 				if($lastInsertId){
 					echo "<script>alert('Registrasi berhasil. Sekarang anda bisa login.');</script>";

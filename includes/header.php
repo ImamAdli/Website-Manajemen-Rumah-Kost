@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-3 col-md-2">
-          <div class="logo"> <a href="index.php"><img style="width: 150px;" src="assets/images/Logo_Rental.png" alt="image"/></a> </div>
+          <div class="logo"> <a href="index.php"><img style="width: 150px;" src="assets/images/Logo_Kost.png" alt="image"/></a> </div>
         </div>
         <div class="col-sm-9 col-md-10">
           <div class="header_info">
@@ -17,13 +17,15 @@
               <p class="uppercase_text">Untuk Layanan, Telpon Kita ke: </p>
               <a href="tel:+62-899-009-6343">+62-899-009-6343</a> </div>
             </div>
-   <?php   if(strlen($_SESSION['ulogin'])==0)
-	{	
-	?>
- <div class="login_btn"> <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login / Register</a> </div>
-	<?php }
+   <?php   
+
+   
+   if(strlen($_SESSION['ulogin'])==0){	
+    echo "<div class='login_btn'> <a href='#loginform' class='btn btn-xs uppercase' data-toggle='modal' data-dismiss='modal'>Login / Register</a> </div>";
+    }
 	else{ 
-		echo "<h3>Selamat Datang!</h3>";
+    $nauser = $_SESSION['fname'];
+		echo "<h4>Selamat Datang, $nauser!</h4>"; 
 	} ?>
           </div>
         </div>
@@ -40,7 +42,7 @@
       <div class="header_wrap">
         <div class="user_login">
           <ul>
-            <li class="dropdown"> <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> 
+            <li class="dropdown"> <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> 
 <?php 
 $email=$_SESSION['ulogin'];
 $sql ="SELECT nama_user FROM users WHERE email='$email'";

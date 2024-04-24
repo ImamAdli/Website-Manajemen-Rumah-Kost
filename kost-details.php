@@ -29,36 +29,32 @@ error_reporting(0);
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-	<link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
+<link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
 </head>
 <body>
-
 <!--Header-->
 <?php include('includes/header.php');?>
 <!-- /Header --> 
 
 <!--Listing-Image-Slider-->
-
 <?php 
 $vhid=intval($_GET['vhid']);
-$sql = "SELECT mobil.*, merek.* from mobil, merek WHERE merek.id_merek=mobil.id_merek AND mobil.id_mobil='$vhid'";
+$sql = "SELECT kost.*, nama_kost.* from kost, nama_kost WHERE nama_kost.id_namakost=kost.id_namakost AND kost.id_kamarkost='$vhid'";
 $query = mysqli_query($koneksidb,$sql);
 if(mysqli_num_rows($query)>0)
 {
 while($result = mysqli_fetch_array($query))
 { 
-	$_SESSION['brndid']=$result['id_merek'];  
+	$_SESSION['brndid']=$result['id_namakost'];  
 ?>  
 
 <div style="text-align: center;" >
   <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" style="height:500px">
   <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image2']);?>" style="height:500px">
-
-  
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-  <?php if($result['image3']==""){} else {
-  ?>
+  <?php if($result['image3']==""){
+  } else {?>
   <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image3']);?>" class="mySlides" alt="image" height="500px"></div>
   <?php } ?>
   <?php if($result['image4']==""){} else {
@@ -73,7 +69,6 @@ while($result = mysqli_fetch_array($query))
 <script>
 var slideIndex = 1;
 showDivs(slideIndex);
-
 function plusDivs(n) {
   showDivs(slideIndex += n);
 }
@@ -91,18 +86,17 @@ function showDivs(n) {
 </script>
 <!--/Listing-Image-Slider-->
 
-
 <!--Listing-detail-->
 <section class="listing-detail">
   <div class="container">
     <div class="listing_detail_head row">
       <div class="col-md-8">
-        <h2><?php echo htmlentities($result['nama_merek']);?>, <?php echo htmlentities($result['nama_mobil']);?></h2>
+        <h2><?php echo htmlentities($result['nama_kost']);?>, <?php echo htmlentities($result['nama_kamarkost']);?></h2>
+        <h4>Alamat : <?php echo htmlentities($result['alamat']);?></h4>
       </div>
       <div class="col-md-4">
         <div class="price_info">
           <p><?php echo htmlentities(format_rupiah($result['harga']));?> </p>/ Hari
-         
         </div>
       </div>
     </div>
@@ -110,41 +104,31 @@ function showDivs(n) {
       <div class="col-md-9">
         <div class="main_features">
           <ul>
-          
-            <li> <i class="fa fa-calendar" aria-hidden="true"></i>
-              <h5><?php echo htmlentities($result['tahun']);?></h5>
-              <p>Tahun Registrasi</p>
+            <li> <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+              <h5><?php echo htmlentities($result['luas']);?> m²</h5>
+              <p>Luas</p>
             </li>
-            <li> <i class="fa fa-cogs" aria-hidden="true"></i>
-              <h5><?php echo htmlentities($result['bb']);?></h5>
-              <p>Tipe Bahan Bakar</p>
+            <li> <i class="fa fa-bath" aria-hidden="true"></i>
+              <h5><?php echo htmlentities($result['bath']);?></h5>
+              <p>Kamar Mandi</p>
             </li>
-       
-            <li> <i class="fa fa-user-plus" aria-hidden="true"></i>
-              <h5><?php echo htmlentities($result['seating']);?></h5>
-              <p>Seats</p>
+            <li> <i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+              <h5><?php echo htmlentities($result['ac']);?></h5>
+              <p>AC</p>
             </li>
           </ul>
         </div>
         <div class="listing_more_info">
           <div class="listing_detail_wrap"> 
-            <!-- Nav tabs -->
             <ul class="nav nav-tabs gray-bg" role="tablist">
-              <li role="presentation" class="active"><a href="#vehicle-overview " aria-controls="vehicle-overview" role="tab" data-toggle="tab">Deskripsi Kamar Kost</a></li>
+              <li role="presentation" class="active"><a href="#kost-overview " aria-controls="kost-overview" role="tab" data-toggle="tab">Deskripsi Kamar Kost</a></li>
             </ul>
-            
-            <!-- Tab panes -->
             <div class="tab-content"> 
-              <!-- vehicle-overview -->
-              <div role="tabpanel" class="tab-pane active" id="vehicle-overview">
-                
+              <!-- kost-overview -->
+              <div role="tabpanel" class="tab-pane active" id="kost-overview">
                 <p><?php echo htmlentities($result['deskripsi']);?></p>
               </div>
-              
-              
-              <!-- Accessories -->
               <div role="tabpanel" class="tab-pane" id="accessories"> 
-                <!--Accessories-->
                 <table>
                   <thead>
                     
@@ -156,10 +140,8 @@ function showDivs(n) {
               </div>
             </div>
           </div>
-          
         </div>
-<?php }} ?>
-   
+        <?php }} ?>
       </div>
       
       <!--Side-Bar-->
@@ -169,33 +151,25 @@ function showDivs(n) {
             <h5><i class="fa fa-envelope" aria-hidden="true"></i>Sewa Sekarang</h5>
           </div>
           <form method="get" action="booking.php">
-			<input type="hidden" class="form-control" name="vid" value=<?php echo $vhid;?> required>
-			<!--
-            <div class="form-group">
-              <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
-            </div>
-            <div class="form-group">
-              <input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
-            </div>-->
-			<?php if($_SESSION['ulogin'])
-              {?>
+            <input type="hidden" class="form-control" name="vid" value=<?php echo $vhid;?> required>
+			      <?php if($_SESSION['ulogin'])
+            {?>
               <div class="form-group" align="center">
+              <!-- <div class="form-group">
+			          <label>Sewa Bulanan?</label><br/>
+				        <input type="radio" name="bulanan" value="1">Ya &nbsp;
+				        <input type="radio" name="bulanan" value="0" checked>Tidak
+              </div> -->
                 <button class="btn" align="center">Sewa Sekarang</button>
               </div>
               <?php } else { ?>
-				<a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login Untuk Menyewa</a>
-
+                <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login Untuk Menyewa</a>
               <?php } ?>
           </form>
         </div>
       </aside>
-      <!--/Side-Bar--> 
     </div>
-    
-
     <div class="divider"></div>
-
-    
   </div>
 </section>
 <!--/Listing-detail--> 
@@ -203,20 +177,15 @@ function showDivs(n) {
 <!--Footer -->
 <?php include('includes/footer.php');?>
 <!-- /Footer--> 
-
 <!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
 <!--/Back to top--> 
-
 <!--Login-Form -->
 <?php include('includes/login.php');?>
 <!--/Login-Form --> 
-
 <!--Register-Form -->
 <?php include('includes/registration.php');?>
-
 <!--/Register-Form --> 
-
 <!--Forgot-password-Form -->
 <?php include('includes/forgotpassword.php');?>
 

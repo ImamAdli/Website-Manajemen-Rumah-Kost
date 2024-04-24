@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>RentalMobil | Admin Update Info</title>
+	<title>Narty Boarding House | Admin Update Info</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">

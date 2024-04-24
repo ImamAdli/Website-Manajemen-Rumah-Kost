@@ -3,13 +3,13 @@ session_start();
 include('includes/config.php');
 if(isset($_POST['login']))
 {
-$email=$_POST['username'];
+$email=$_POST['email'];
 $password=md5($_POST['password']);
-$sql = "SELECT * FROM admin WHERE UserName='$email' AND Password='$password'";
+$sql = "SELECT * FROM nama_kost WHERE email='$email' AND password='$password'";
 $query = mysqli_query($koneksidb,$sql);
 $results = mysqli_fetch_array($query);
 if(mysqli_num_rows($query)>0){
-	$_SESSION['alogin']=$_POST['username'];
+	$_SESSION['alogin']=$_POST['email'];
 	echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
 } else{
 	echo "<script>alert('Invalid Details');</script>";
@@ -45,13 +45,13 @@ if(mysqli_num_rows($query)>0){
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<h1 class="text-center text-bold text-light mt-4x">Sign in</h1>
-						<div class="well row pt-2x pb-3x bk-light">
+						<h1 class="text-center text-bold text-light mt-4x">Sign in Pemilik Kost</h1>
+						<div class="well row pt-2x bk-light">
 							<div class="col-md-8 col-md-offset-2">
 								<form method="post">
 
-									<label for="" class="text-uppercase text-sm">Username </label>
-									<input type="text" placeholder="Username" name="username" class="form-control mb">
+									<label for="" class="text-uppercase text-sm">Email</label>
+									<input type="text" placeholder="Email" name="email" class="form-control mb">
 
 									<label for="" class="text-uppercase text-sm">Password</label>
 									<input type="password" placeholder="Password" name="password" class="form-control mb">
@@ -59,10 +59,17 @@ if(mysqli_num_rows($query)>0){
 								
 
 									<button class="btn btn-primary btn-block" name="login" type="submit">LOGIN</button>
+									<div class=" text-center">
+										<br>
+        								<p>Belum Memiliki Akun? <a href="registpk.php">Daftar Disini</a></p>
+										<hr>
+										<p>Login Sebagai Admin <a href="index2.php">Klik Disini</a></p>
+      								</div>
 								</form>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>

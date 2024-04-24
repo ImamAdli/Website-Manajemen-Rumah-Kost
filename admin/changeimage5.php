@@ -9,7 +9,7 @@ if(isset($_POST['update'])){
 	$image5=$_FILES["img1"]["name"];
 	$id=$_POST['id'];
 	move_uploaded_file($_FILES["img1"]["tmp_name"],"img/kostimages/".$_FILES["img1"]["name"]);
-	$sql="update mobil set image5='$image5' where id_mobil='$id'";
+	$sql="update kost set image5='$image5' where id_kamarkost='$id'";
 	$query	= mysqli_query($koneksidb, $sql);
 	echo "<script type='text/javascript'>
 			alert('Berhasil ganti gambar.');
@@ -76,20 +76,20 @@ if(isset($_POST['update'])){
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Gambar Mobil 5</h2>
+						<h2 class="page-title">Gambar kost 5</h2>
 
 						<div class="row">
 							<div class="col-md-10">
 								<div class="panel panel-default">
-									<div class="panel-heading">Gambar Mobil 5 Details</div>
+									<div class="panel-heading">Gambar kost 5 Details</div>
 									<div class="panel-body">
 										<form method="post" class="form-horizontal" enctype="multipart/form-data">
 
 											<div class="form-group">
-											<label class="col-sm-4 control-label">Gambar Mobil 5 Sekarang</label>
+											<label class="col-sm-4 control-label">Gambar kost 5 Sekarang</label>
 												<?php 
 												$id=intval($_GET['imgid']);
-												$sql ="SELECT image5 from mobil where id_mobil='$id'";
+												$sql ="SELECT image5 from kost where id_kamarkost='$id'";
 												$query	= mysqli_query($koneksidb, $sql);
 												$cnt=1;
 												while ($result = mysqli_fetch_array($query)){

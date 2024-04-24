@@ -20,7 +20,7 @@ else{
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>RentalMobil | Admin Kelola User</title>
+	<title>Narty Boarding House | Admin Kelola User</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -85,7 +85,6 @@ else{
 											<th>Nama</th>
 											<th>Email</th>
 											<th>Telp</th>
-											<th>Alamat</th>
 											<th>KTP</th>
 											<th>Action</th>
 										</tr>
@@ -104,8 +103,7 @@ else{
 											<td><?php echo htmlentities($result['nama_user']);?></td>
 											<td><?php echo htmlentities($result['email']);?></td>
 											<td><?php echo htmlentities($result['telp']);?></td>
-											<td><?php echo htmlentities($result['alamat']);?></td>
-											<td><a href="../image/id/<?php echo htmlentities($result['ktp']);?>" target="blank"><img src="../image/id/<?php echo htmlentities($result['ktp']);?>" width="40" height="30"></a></td>
+											<td><a href="../image/id/<?php echo htmlentities($result['ktp']);?>" target="blank"><img src="../image/id/<?php echo htmlentities($result['ktp']);?>" width="40"></a></td>
 											<td>
 												<a href="#myModal" data-toggle="modal" data-load-code="<?php echo $result['email']; ?>" data-remote-target="#myModal .modal-body"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;&nbsp;
 												<a href="userdel.php?email=<?php echo $result['email'];?>" onclick="return confirm('Apakah anda yakin akan mereset password untuk email <?php echo $result['email'];?>?');"><i class="fa fa-refresh"></i></a>

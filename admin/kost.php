@@ -17,7 +17,7 @@ if(strlen($_SESSION['alogin'])==0){
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Narty Boarding House | Admin Kelola Mobil</title>
+	<title>Narty Boarding House | Admin Kelola kost</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -63,7 +63,7 @@ if(strlen($_SESSION['alogin'])==0){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">List Kost</h2>
+						<h2 class="page-title">Kelola Kamar Kost</h2>
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
 							<div class="panel-heading">Daftar Kost</div>
@@ -74,33 +74,39 @@ if(strlen($_SESSION['alogin'])==0){
 									<thead>
 										<tr>
 											<th>No</th>
-											<th>Nama Mobil</th>
-											<th>Merek</th>
-											<th>No. Polisi</th>
+											<th>Nama Kamar Kost</th>
+											<th>Nama Kost</th>
 											<th>Harga /Hari</th>
-											<th>Type BB</th>
-											<th>Tahun</th>
-											<th><a href="tambahkost.php"><span class="fa fa-plus-circle"></span>Tambah Mobil</a></th>
+											<th>Kamar Mandi</th>
+											<th>Luas Kamar (m²)</th>
+											<th>AC</th>
+											<th><a href="tambahkost.php"><span class="fa fa-plus-circle"></span>Tambah kost</a></th>
 										</tr>
 									</thead>
 									<tbody>
 									<?php 
 										$nomor = 0;
-										$sqlmobil = "SELECT mobil.*, merek.* FROM mobil, merek WHERE mobil.id_merek=merek.id_merek ORDER BY mobil.id_mobil ASC";
-										$querymobil = mysqli_query($koneksidb,$sqlmobil);
-										while ($result = mysqli_fetch_array($querymobil)){
+										$logpk = $_SESSION['alogin'];
+										if ($_SESSION['alogin'] == 'admin') {
+										$sqlkost = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE kost.id_namakost=nama_kost.id_namakost ORDER BY kost.id_kamarkost ASC";
+										$querykost = mysqli_query($koneksidb,$sqlkost);
+										} else {
+											$sqlkost = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE kost.id_namakost=nama_kost.id_namakost AND nama_kost.email='$logpk' ORDER BY kost.id_kamarkost ASC";
+											$querykost = mysqli_query($koneksidb,$sqlkost);
+										}
+										while ($result = mysqli_fetch_array($querykost)){
 											$nomor++;
 											?>
 										<tr>
 											<td><?php echo htmlentities($nomor);?></td>
-											<td><?php echo htmlentities($result['nama_mobil']);?></td>
-											<td><?php echo htmlentities($result['nama_merek']);?></td>
-											<td><?php echo htmlentities($result['nopol']);?></td>
+											<td><?php echo htmlentities($result['nama_kamarkost']);?></td>
+											<td><?php echo htmlentities($result['nama_kost']);?></td>
 											<td><?php echo format_rupiah($result['harga']);?></td>
-											<td><?php echo htmlentities($result['bb']);?></td>
-											<td><?php echo htmlentities($result['tahun']);?></td>
-											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_mobil'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-												<a href="kostdel.php?id=<?php echo $result['id_mobil'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_mobil'];?>?');"><i class="fa fa-close"></i></a></td>
+											<td><?php echo htmlentities($result['bath']);?></td>
+											<td><?php echo htmlentities($result['luas']);?></td>
+											<td><?php echo htmlentities($result['ac']);?></td>
+											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_kamarkost'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+												<a href="kostdel.php?id=<?php echo $result['id_kamarkost'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_kamarkost'];?>?');"><i class="fa fa-close"></i></a></td>
 										</tr>
 										<?php } ?>
 									</tbody>

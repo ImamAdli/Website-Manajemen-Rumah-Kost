@@ -16,7 +16,7 @@ header('location:index.php');
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Mutiara Motor Car Rental Portal | Admin Edit Data User</title>
+	<title>Narty Boarding House | Admin Edit Data User</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -55,9 +55,9 @@ header('location:index.php');
 <script type="text/javascript">
 function valid(theform){
 		pola_nama=/^[a-zA-Z]*$/;
-		if (!pola_nama.test(theform.vehicletitle.value)){
-		alert ('Hanya huruf yang diperbolehkan untuk Nama Mobil!');
-		theform.vehicletitle.focus();
+		if (!pola_nama.test(theform.kosttitle.value)){
+		alert ('Hanya huruf yang diperbolehkan untuk Nama Kamar Kost!');
+		theform.kosttitle.focus();
 		return false;
 		}
 		return (true);

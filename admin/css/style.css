@@ -95,19 +95,19 @@ a:hover {
 *      Background Colors        *
 ****************************/
 .bk-primary {
-  background: #325d88;
+  background: #244cd1;
 }
 .bk-success {
-  background: #93c54b;
+  background: #27925d;
 }
 .bk-warning {
-  background: #f47c3c;
+  background: #a02323;
 }
 .bk-danger {
   background: #d9534f;
 }
 .bk-info {
-  background: #29abe0;
+  background: #244cd1;
 }
 .bk-white,
 .bk-light {

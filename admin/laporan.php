@@ -104,9 +104,17 @@ function valid()
 								$no=0;
 								$mulai 	 = $_GET['awal'];
 								$selesai = $_GET['akhir'];
-								$sqlsewa = "SELECT booking.*,mobil.*,merek.*,users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil
-											AND merek.id_merek=mobil.id_merek AND users.email=booking.email
+								$logpk = $_SESSION['alogin'];
+								$stt	 = "Selesai";
+								if ($_SESSION['alogin'] == 'admin') {
+								$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+											AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
 											AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
+								} else {
+									$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+									AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt' AND nama_kost.email='$logpk'
+									AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
+								}
 								$querysewa = mysqli_query($koneksidb,$sqlsewa);
 							?>
 						<!-- Zero Configuration Table -->
@@ -118,6 +126,7 @@ function valid()
 										<tr>
 											<th>No</th>
 											<th>Kode Sewa</th>
+											<th>Status</th>
 											<th>Tanggal Sewa</th>
 											<th>Total</th>
 										</tr>
@@ -125,13 +134,14 @@ function valid()
 									<tbody>
 									<?php
 										while ($result = mysqli_fetch_array($querysewa)) {
-												$biayamobil=$result['durasi']*$result['harga'];
-												$total=$result['driver']+$biayamobil;
+												$biayakost=$result['durasi']*$result['harga'];
+												$total=$biayakost;
 										$no++;
 									?>	
 										<tr>
 											<td><?php echo $no;?></td>
 											<td><?php echo htmlentities($result['kode_booking']);?></td>
+											<td><?php echo htmlentities($result['status']);?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_booking']));?></td>
 											<td><?php echo format_rupiah($total);?></td>
 										</tr>

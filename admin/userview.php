@@ -22,11 +22,11 @@ else {
 <body>
 <div id="section-to-print">
 <div id="only-on-print">
-	<h2>Detail Member</h2>
+	<h2>Detail Penyewa</h2>
 </div>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-	<h4 class="modal-title" id="myModalLabel">Detail Member</h4>
+	<h4 class="modal-title" id="myModalLabel">Detail Penyewa</h4>
 </div>
 <div><br/></div>
 <form id="theform" data-parsley-validate class="form-horizontal form-label-left" action="<?php $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">

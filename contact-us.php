@@ -2,19 +2,18 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if(isset($_POST['send']))
-{
+if(isset($_POST['send'])){
 $name=$_POST['fullname'];
 $email=$_POST['email'];
 $contactno=$_POST['contactno'];
 $message=$_POST['message'];
 $sql1="INSERT INTO contactus (nama_visit,email_visit,telp_visit,pesan) VALUES('$name','$email','$contactno','$message')";
 $lastInsertId = mysqli_query($koneksidb, $sql1);
-if($lastInsertId){
-	$msg="Pesan Terkirim. Kami akan menghubungi anda secepatnya.";
-}else{
-	$error="Terjadi Kesalahan! Silahkan coba lagi.";
-}
+  if($lastInsertId){
+    $msg="Pesan Terkirim. Kami akan menghubungi anda secepatnya.";
+  }else{
+    $error="Terjadi Kesalahan! Silahkan coba lagi.";
+  }
 }
 ?>
 <!DOCTYPE HTML>
@@ -41,7 +40,7 @@ if($lastInsertId){
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
- <style>
+<style>
     .errorWrap {
     padding: 10px;
     margin: 0 0 20px 0;
@@ -58,14 +57,9 @@ if($lastInsertId){
     -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
     box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
-    </style>
+</style>
 </head>
 <body>
-
-<!-- Start Switcher -->
-<?php include('includes/colorswitcher.php');?>
-<!-- /Switcher -->  
-        
 <!--Header-->
 <?php include('includes/header.php');?>
 <!-- /Header --> 
@@ -95,8 +89,13 @@ if($lastInsertId){
       <div class="col-md-6">
         <h3>Ada Keluhan?</h3>
         <h3>Silahkan Isi Form Berikut :</h3>
-          <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+          <?php 
+          if($error){
+            ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php 
+          } 
+            else if($msg){
+            ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div>
+            <?php }?>
         <div class="contact_form gray-bg">
           <form  method="post">
             <div class="form-group">
@@ -124,15 +123,15 @@ if($lastInsertId){
       <div class="col-md-6">
         <h3>Info Kontak</h3>
         <div class="contact_detail">
-<?php 
-$pagetype=$_GET['type'];
-$sql1 = "SELECT * from contactusinfo";
-$query1 = mysqli_query($koneksidb,$sql1);
-if(mysqli_num_rows($query1)>0)
-{
-while($result = mysqli_fetch_array($query1))
-{
-?>
+          <?php 
+          $pagetype=$_GET['type'];
+          $sql1 = "SELECT * from contactusinfo";
+          $query1 = mysqli_query($koneksidb,$sql1);
+          if(mysqli_num_rows($query1)>0)
+          {
+          while($result = mysqli_fetch_array($query1))
+          {
+          ?>
           <ul>
             <li>
               <div class="icon_wrap"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
@@ -147,7 +146,7 @@ while($result = mysqli_fetch_array($query1))
               <div class="contact_info_m"><a href=""><?php   echo htmlentities($result['telp_kami']); ?></a></div>
             </li>
           </ul>
-        <?php }} ?>
+          <?php }} ?>
         </div>
       </div>
     </div>
@@ -155,24 +154,18 @@ while($result = mysqli_fetch_array($query1))
 </section>
 <!-- /Contact-us--> 
 
-
 <!--Footer -->
 <?php include('includes/footer.php');?>
 <!-- /Footer--> 
-
 <!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
 <!--/Back to top--> 
-
 <!--Login-Form -->
 <?php include('includes/login.php');?>
 <!--/Login-Form --> 
-
 <!--Register-Form -->
 <?php include('includes/registration.php');?>
-
 <!--/Register-Form --> 
-
 <!--Forgot-password-Form -->
 <?php include('includes/forgotpassword.php');?>
 <!--/Forgot-password-Form --> 
@@ -190,6 +183,4 @@ while($result = mysqli_fetch_array($query1))
 <script src="assets/js/owl.carousel.min.js"></script>
 
 </body>
-
-<!-- Mirrored from themes.webmasterdriver.net/carforyou/demo/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Jun 2017 07:26:55 GMT -->
 </html>

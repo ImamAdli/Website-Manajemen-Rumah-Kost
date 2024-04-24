@@ -9,12 +9,12 @@ include('includes/format_rupiah.php');
 include('includes/library.php');
 if($_GET) {
 	$Kode = $_GET['code'];
-	$sqlsewa = "SELECT booking.*,mobil.*,merek.*,users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil
-				AND merek.id_merek=mobil.id_merek AND users.email=booking.email AND booking.kode_booking='$Kode'";
+	$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+				AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND booking.kode_booking='$Kode'";
 	$querysewa = mysqli_query($koneksidb,$sqlsewa);
 	$result = mysqli_fetch_array($querysewa);
-	$biayamobil=$result['durasi']*$result['harga'];
-	$total=$result['driver']+$biayamobil;
+	$biayakost=$result['durasi']*$result['harga'];
+	$total=$biayakost;
 	$bukti=$result['bukti_bayar'];
 }
 else {
@@ -45,9 +45,9 @@ else {
 		<td colspan="3">&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="20%"><b>Mobil</b></td>
+		<td width="20%"><b>kost</b></td>
 		<td width="2%"><b>:</b></td>
-		<td width="78%"><?php echo $result['nama_merek'];?>, <?php echo $result['nama_mobil'];?></td>
+		<td width="78%"><?php echo $result['nama_kost'];?>, <?php echo $result['nama_kamarkost'];?></td>
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>
@@ -77,14 +77,6 @@ else {
 		<td colspan="3">&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="20%"><b>Metode Pickup</b></td>
-		<td width="2%"><b>:</b></td>
-		<td width="78%"><?php echo $result['pickup'];?></td>
-	</tr>
-	<tr>
-		<td colspan="3">&nbsp;</td>
-	</tr>
-	<tr>
 		<td width="20%"><b>Penyewa</b></td>
 		<td width="2%"><b>:</b></td>
 		<td width="78%"><?php echo $result['nama_user'];?></td>
@@ -93,17 +85,12 @@ else {
 		<td colspan="3">&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="20%"><b>Biaya Driver</b></td>
-		<td width="2%"><b>:</b></td>
-		<td width="78%"><?php echo $result['driver'];?></td>
-	</tr>
-	<tr>
 		<td colspan="3">&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="20%"><b>Biaya Mobil</b></td>
+		<td width="20%"><b>Biaya kost</b></td>
 		<td width="2%"><b>:</b></td>
-		<td width="78%"><?php echo $biayamobil;?></td>
+		<td width="78%"><?php echo $biayakost;?></td>
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>

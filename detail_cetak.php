@@ -3,53 +3,41 @@ include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
 $kode=$_GET['kode'];
-$sql1 	= "SELECT booking.*,mobil.*, merek.*, users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil 
-			AND merek.id_merek=mobil.id_merek and booking.email=users.email and booking.kode_booking='$kode'";
+$sql1 	= "SELECT booking.*,kost.*, nama_kost.*, users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost 
+			AND nama_kost.id_namakost=kost.id_namakost and booking.email=users.email and booking.kode_booking='$kode'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 $harga	= $result['harga'];
 $durasi = $result['durasi'];
-$totalmobil = $durasi*$harga;
-$drivercharges = $result['driver'];
-$totalsewa = $totalmobil+$drivercharges;
+$rekening = $result['rekening'];
+$alamat = $result['alamat'];
+$namapemilik = $result['nama_pemilik'];
+$totalkost = $durasi*$harga;
+$totalsewa = $totalkost;
 $tglmulai = strtotime($result['tgl_mulai']);
 $jmlhari  = 86400*1;
 $tgl	  = $tglmulai-$jmlhari;
 $tglhasil = date("Y-m-d",$tgl);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="rental mobil">
-	<meta name="author" content="universitas pamulang">
-
-	<title>Cetak Detail Transaksi Sewa Mobil</title>
-
-	<link href="assets/images/cat-profile.png" rel="icon" type="images/x-icon">
-
-	<!-- Bootstrap Core CSS -->
-	<link href="assets/new/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-	<!-- Custom CSS -->
-	<link href="assets/new/offline-font.css" rel="stylesheet">
-
-	<!-- Custom Fonts -->
-	<link href="assets/new/font-awesome.min.css" rel="stylesheet" type="text/css">
-	
-	<!-- jQuery -->
-	<script src="assets/new/jquery.min.js"></script>
-
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Sewa Kost">
+<meta name="author" content="universitas pamulang">
+<title>Cetak Detail Transaksi Sewa Kost</title>
+<link href="assets/images/cat-profile.png" rel="icon" type="images/x-icon">
+<!-- Bootstrap Core CSS -->
+<link href="assets/new/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" type="text/css">
+<!-- Custom CSS -->
+<link href="assets/new/offline-font.css" rel="stylesheet">
+<!-- Custom Fonts -->
+<link href="assets/new/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- jQuery -->
+<script src="assets/new/jquery.min.js"></script>
 </head>
 
 <body>
@@ -61,14 +49,14 @@ $tglhasil = date("Y-m-d",$tgl);
 						<td rowspan="3" width="16%" class="text-center">
 							<img src="assets/images/logo.png" alt="logo-dkm" width="80" />
 						</td>
-						<td class="text-center"><h3>Narty Rental Car</h3></td>
+						<td class="text-center"><h3>Narty Boarding House</h3></td>
 						<td rowspan="3" width="16%">&nbsp;</td>
 					</tr>
 					<tr>
 						<td class="text-center"><h2>Transkip Detail Transaksi</h2></td>
 					</tr>
 					<tr>
-						<td class="text-center">Jl. Kemanggisan Raya No.19, RT.4/RW.13, Kemanggisan, Kec. Palmerah, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11480 </td>
+						<td class="text-center"><?php echo $alamat;?> </td>
 					</tr>
 				</tbody>
 			</table>
@@ -93,9 +81,9 @@ $tglhasil = date("Y-m-d",$tgl);
 						<td><?php echo $result['nama_user'] ?></td>
 					</tr>
 					<tr>
-						<td>Mobil</td>
+						<td>kost</td>
 						<td>:</td>
-						<td><?php echo $result['nama_merek'];echo  ", "; echo $result['nama_mobil']; ?></td>
+						<td><?php echo $result['nama_kost'];echo  ", "; echo $result['nama_kamarkost']; ?></td>
 					</tr>
 					<tr>
 						<td>Tanggal Mulai</td>
@@ -113,14 +101,9 @@ $tglhasil = date("Y-m-d",$tgl);
 						<td><?php echo $result['durasi'];?> Hari</td>
 					</tr>
 					<tr>
-						<td>Biaya Mobil (<?php echo $result['durasi'];?>) Hari</td>
+						<td>Biaya kost (<?php echo $result['durasi'];?>) Hari</td>
 						<td>:</td>
-						<td><?php echo format_rupiah($totalmobil);?></td>
-					</tr>
-					<tr>
-						<td>Biaya Driver (<?php echo $result['durasi'];?>) Hari</td>
-						<td>:</td>
-						<td><?php echo format_rupiah($drivercharges);?></td>
+						<td><?php echo format_rupiah($totalkost);?></td>
 					</tr>
 					<tr>
 						<td>Total Biaya Sewa (<?php echo $result['durasi'];?>) Hari</td>
@@ -134,19 +117,14 @@ $tglhasil = date("Y-m-d",$tgl);
 					</tr>
 					<?php
 						if($result['status']=="Menunggu Pembayaran"){
-							$sqlrek 	= "SELECT * FROM tblpages WHERE id='5'";
-							$queryrek = mysqli_query($koneksidb,$sqlrek);
-							$resultrek = mysqli_fetch_array($queryrek);
-
 							echo "
 						<tr>
 							<td colspan='3'>
-								<b>*Silahkan transfer total biaya sewa ke ".$resultrek['detail']." maksimal tanggal "?> <?php echo IndonesiaTgl($tglhasil);?> <?php echo ".
+								<b>*Silahkan transfer total biaya sewa ke BANK ".$result['rekening']." dengan nama ".$result['nama_pemilik']." maksimal tanggal "?> <?php echo IndonesiaTgl($tglhasil);?> <?php echo ".
 							</td>
 						</tr>
 							";
 						}else{
-							
 						}?>
 				</tbody>
 			</table>
@@ -160,7 +138,6 @@ $tglhasil = date("Y-m-d",$tgl);
 				'output_div' 	: "jumlah2",
 				'akhiran'		: "Rupiah",
 			});
-
 			window.print();
 		});
 	</script>

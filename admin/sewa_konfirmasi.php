@@ -68,7 +68,7 @@ else{
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Menunggu Konfirmasi Sewa Mobil</h2>
+						<h2 class="page-title">Menunggu Konfirmasi Sewa Kost</h2>
 						
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
@@ -81,7 +81,7 @@ else{
 										<tr align="center">
 										<th>No</th>
 										<th>Kode Sewa</th>
-										<th>Mobil</th>
+										<th>kost</th>
 										<th>Tgl. Mulai</th>
 										<th>Tgl. Selesai</th>
 										<th>Total</th>
@@ -93,19 +93,26 @@ else{
 									<tbody>
 									<?php
 										$i=0;
-										$sqlsewa = "SELECT booking.*,mobil.*,merek.*,users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil
-													AND merek.id_merek=mobil.id_merek AND users.email=booking.email AND status='Menunggu Konfirmasi'
+										$logpk = $_SESSION['alogin'];
+										if ($_SESSION['alogin'] == 'admin') {
+										$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+													AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi'
 													ORDER BY booking.kode_booking DESC";
+										} else {
+											$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+											AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi' AND nama_kost.email='$logpk'
+											ORDER BY booking.kode_booking DESC";
+										}
 										$querysewa = mysqli_query($koneksidb,$sqlsewa);
 										while ($result = mysqli_fetch_array($querysewa)) {
-											$biayamobil=$result['durasi']*$result['harga'];
-											$total=$result['driver']+$biayamobil;
+											$biayakost=$result['durasi']*$result['harga'];
+											$total=$biayakost;
 											$i++;
 											?>
 										<tr align="center">
 											<td><?php echo $i;?></td>
 											<td><?php echo htmlentities($result['kode_booking']);?></td>
-											<td><?php echo htmlentities($result['nama_mobil']);?></td>
+											<td><?php echo htmlentities($result['nama_kamarkost']);echo ", "; echo $result['nama_kost'];?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_mulai']));?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_selesai']));?></td>
 											<td><?php echo format_rupiah(htmlentities($total));?></td>

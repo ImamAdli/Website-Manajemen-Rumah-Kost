@@ -2,11 +2,13 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
+
 if(strlen($_SESSION['ulogin'])==0){ 
 header('location:index.php');
 }else{
 ?>
-  <!DOCTYPE HTML>
+
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -28,67 +30,57 @@ header('location:index.php');
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
 </head>
 <body>
 
-<!-- Start Switcher -->
-<?php include('includes/colorswitcher.php');?>
-<!-- /Switcher -->  
-        
 <!--Header-->
 <?php include('includes/header.php');?>
 <!-- /Header --> 
 <!-- /Page Header--> 
 <section class="user_profile inner_pages">
   <div class="container">
-	<div class="user_profile_info">
-		<div class="col-md-12 col-sm-10">
+    <div class="user_profile_info">
+      <div class="col-md-12 col-sm-10">
         <?php
-			$mail=$_SESSION['ulogin'];
-		?>
-          <form  method="post" action="update-passwordact.php">
-            <div class="form-group">
-              <label class="control-label">Current Password</label>
-			  <input class="form-control white_bg" name="mail" id="mail" type="hidden" value="<?php echo $mail;?>" required>
-              <input class="form-control white_bg" name="pass" id="pass" type="password"  required>
-            </div>
-            <div class="form-group">
-              <label class="control-label">New Password</label>
-              <input class="form-control white_bg" name="new" id="new" type="password"  required>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Confirm Password</label>
-              <input class="form-control white_bg" name="confirm" id="confirm" type="password"  required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn">Update Password <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-            </div>
-          </form>
-		 </div>
-	</div>
-</div>
+        $mail=$_SESSION['ulogin'];
+        ?>
+        <form  method="post" action="update-passwordact.php">
+          <div class="form-group">
+            <label class="control-label">Current Password</label>
+            <input class="form-control white_bg" name="mail" id="mail" type="hidden" value="<?php echo $mail;?>" required>
+            <input class="form-control white_bg" name="pass" id="pass" type="password"  required>
+          </div>
+          <div class="form-group">
+            <label class="control-label">New Password</label>
+            <input class="form-control white_bg" name="new" id="new" type="password"  required>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Confirm Password</label>
+            <input class="form-control white_bg" name="confirm" id="confirm" type="password"  required>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn">Update Password <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 <!--/Profile-setting--> 
 
 <<!--Footer -->
 <?php include('includes/footer.php');?>
 <!-- /Footer--> 
-
 <!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
 <!--/Back to top--> 
-
 <!--Login-Form -->
 <?php include('includes/login.php');?>
 <!--/Login-Form --> 
-
 <!--Register-Form -->
 <?php include('includes/registration.php');?>
-
 <!--/Register-Form --> 
-
 <!--Forgot-password-Form -->
 <?php include('includes/forgotpassword.php');?>
 <!--/Forgot-password-Form --> 

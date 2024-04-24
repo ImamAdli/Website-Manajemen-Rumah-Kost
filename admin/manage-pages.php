@@ -79,7 +79,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 }
 //-->
 </script>
-<script type="text/javascript" src="nicEdit.js"></script>
+<script type="text/javascript" src="js/nicEdit.js"></script>
 <script type="text/javascript">
 	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 </script>

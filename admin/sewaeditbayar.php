@@ -34,7 +34,7 @@ header('location:index.php');
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Narty Boarding House | Admin Edit Sewa Mobil</title>
+	<title>Narty Boarding House | Admin Edit Sewa Kost</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -72,12 +72,12 @@ header('location:index.php');
 									<div class="panel-body">
 										<?php 
 										$id=$_GET['id'];
-										$sqlsewa = "SELECT booking.*,mobil.*,merek.*,users.* FROM booking,mobil,merek,users WHERE booking.id_mobil=mobil.id_mobil
-													AND merek.id_merek=mobil.id_merek AND users.email=booking.email AND booking.kode_booking ='$id'";
+										$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+													AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND booking.kode_booking ='$id'";
 										$querysewa = mysqli_query($koneksidb,$sqlsewa);
 										$result = mysqli_fetch_array($querysewa);
-										$biayamobil=$result['durasi']*$result['harga'];
-										$total = $result['driver']+$biayamobil;
+										$biayakost=$result['durasi']*$result['harga'];
+										$total =$biayakost;
 										?>
 
 										<form method="post" class="form-horizontal" name="theform" enctype="multipart/form-data">
@@ -137,16 +137,9 @@ header('location:index.php');
 										<div class="panel-body">
 										<form>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">Mobil</label>
+												<label class="col-sm-2 control-label">kost</label>
 												<div class="col-sm-4">
-													<input type="text" name="namamobil" class="form-control" value="<?php echo $result['nama_mobil'];?>" required readonly>
-												</div>
-											</div>
-											<br/>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">Biaya Driver</label>
-												<div class="col-sm-4">
-													<input type="text" name="driver" class="form-control" value="<?php echo format_rupiah($result['driver']);?>" required readonly>
+													<input type="text" name="namakost" class="form-control" value="<?php echo $result['nama_kamarkost'];?>" required readonly>
 												</div>
 											</div>
 											<br/>
@@ -158,9 +151,9 @@ header('location:index.php');
 											</div>
 											<br/>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">Biaya Mobil</label>
+												<label class="col-sm-2 control-label">Biaya kost</label>
 												<div class="col-sm-4">
-													<input type="text" name="biayamobil" class="form-control" value="<?php echo format_rupiah($biayamobil);?>" required readonly>
+													<input type="text" name="biayakost" class="form-control" value="<?php echo format_rupiah($biayakost);?>" required readonly>
 												</div>
 											</div>
 											<br/>
