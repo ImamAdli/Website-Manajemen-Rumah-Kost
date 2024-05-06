@@ -57,7 +57,7 @@ error_reporting(0);
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="resentnewcar">
           <?php 
-          $sql = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE nama_kost.id_namakost = kost.id_namakost";
+          $sql = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE nama_kost.id_namakost = kost.id_namakost order by nama_kost.id_namakost desc limit 6";
           $query = mysqli_query($koneksidb,$sql);
           if(mysqli_num_rows($query)>0)
           {

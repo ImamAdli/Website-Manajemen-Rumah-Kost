@@ -15,17 +15,15 @@ header('location:index.php');
 		$mySql1	= "UPDATE cek_booking SET status = '$status' WHERE kode_booking='$kode'";
 		$myQry1	= mysqli_query($koneksidb, $mySql1);
 		echo "<script type='text/javascript'>
-				alert('Status berhasil diupdate.'); 
-				document.location = 'sewa.php'; 
+			alert('Status berhasil diupdate.'); 
+			document.location = 'sewa.php'; 
 			</script>";
 	}else {
 	}
-	
-
 ?>
+
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,9 +31,7 @@ header('location:index.php');
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Edit Sewa Kost</title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -53,18 +49,16 @@ header('location:index.php');
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 	<?php include('includes/header.php');?>
 	<div class="ts-main-content">
-	<?php include('includes/leftbar.php');?>
+		<?php include('includes/leftbar.php');?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
-
 				<div class="row">
 					<div class="col-md-12">
-					
 						<h2 class="page-title">Edit Status Sewa</h2>
-
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
@@ -79,62 +73,60 @@ header('location:index.php');
 										$biayakost=$result['durasi']*$result['harga'];
 										$total =$biayakost;
 										?>
-
 										<form method="post" class="form-horizontal" name="theform" enctype="multipart/form-data">
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Kode Sewa</label>
-											<div class="col-sm-4">
-												<input type="text" name="id" class="form-control" value="<?php echo $id;?>" required readonly>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Status<span style="color:red">*</span></label>
-											<div class="col-sm-4">
-												<select class="form-control" name="status" required>
-														<?php
-															$stt = $result['status'];
-															echo "<option value='$stt' selected>".strtoupper($stt)."</option>";
-															echo "<option value='Cancel'>".strtoupper("Cancel")."</option>";
-														?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Penyewa</label>
-											<div class="col-sm-4">
-												<input type="text" name="penyewa" class="form-control" value="<?php echo $result['nama_user'];?>" required readonly>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Telepon</label>
-											<div class="col-sm-4">
-												<input type="text" name="telp" class="form-control" value="<?php echo $result['telp'];?>" required readonly>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Alamat</label>
-											<div class="col-sm-4">
-												<textarea col="5" name="alamat" class="form-control" readonly><?php echo $result['alamat'];?></textarea>
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="col-sm-3">
-												<div class="checkbox checkbox-inline">
-													<button class="btn btn-primary" type="submit" name="submit" style="margin-top:4%">Save changes</button>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Kode Sewa</label>
+												<div class="col-sm-4">
+													<input type="text" name="id" class="form-control" value="<?php echo $id;?>" required readonly>
 												</div>
 											</div>
-										</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Status<span style="color:red">*</span></label>
+												<div class="col-sm-4">
+													<select class="form-control" name="status" required>
+															<?php
+																$stt = $result['status'];
+																echo "<option value='$stt' selected>".strtoupper($stt)."</option>";
+																echo "<option value='Cancel'>".strtoupper("Cancel")."</option>";
+															?>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Penyewa</label>
+												<div class="col-sm-4">
+													<input type="text" name="penyewa" class="form-control" value="<?php echo $result['nama_user'];?>" required readonly>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Telepon</label>
+												<div class="col-sm-4">
+													<input type="text" name="telp" class="form-control" value="<?php echo $result['telp'];?>" required readonly>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Alamat</label>
+												<div class="col-sm-4">
+													<textarea col="5" name="alamat" class="form-control" readonly><?php echo $result['alamat'];?></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-3">
+													<div class="checkbox checkbox-inline">
+														<button class="btn btn-primary" type="submit" name="submit" style="margin-top:4%">Simpan Perubahan</button>
+													</div>
+												</div>
+											</div>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
-				
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
 									<div class="panel-heading">Detail Sewa</div>
-										<div class="panel-body">
+									<div class="panel-body">
 										<form>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">kost</label>
@@ -177,15 +169,13 @@ header('location:index.php');
 													<input type="text" name="durasi" class="form-control" value="<?php echo $result['durasi'];?>" required readonly>
 												</div>
 											</div>
-											</form>
+										</form>
 									</div>
 								</div>
 							</div>
 						</div>
-				
 					</div>
-				</div>
-			<!-- COntainer Fluid-->			
+				</div>		
 			</div>
 		</div>
 	</div>

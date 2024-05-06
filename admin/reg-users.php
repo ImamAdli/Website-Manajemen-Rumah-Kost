@@ -2,16 +2,14 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if(strlen($_SESSION['alogin'])==0)
-	{	
-header('location:index.php');
+if(strlen($_SESSION['alogin'])==0){	
+	header('location:index.php');
 }
 else{
- ?>
+?>
 
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,9 +17,7 @@ else{
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Kelola User</title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -40,44 +36,39 @@ else{
 	<link rel="stylesheet" href="css/style.css">
 <style>
 .errorWrap {
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #dd3d36;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #dd3d36;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 .succWrap{
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #5cb85c;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #5cb85c;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
-		</style>
-
+</style>
 </head>
 
 <body>
 	<?php include('includes/header.php');?>
-
 	<div class="ts-main-content">
 		<?php include('includes/leftbar.php');?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
-
 				<div class="row">
 					<div class="col-md-12">
-
 						<h2 class="page-title">Detail User</h2>
-
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
 							<div class="panel-heading">Daftar User</div>
 							<div class="panel-body">
-							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+								<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+								else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -90,14 +81,14 @@ else{
 										</tr>
 									</thead>
 									<tbody>
-									<?php
-									$no=0;
-									$sql = "SELECT * from  users ";
-									$query = mysqli_query($koneksidb,$sql);
-									while($result=mysqli_fetch_array($query))
-									{
-										$no++;
-									?>	
+										<?php
+										$no=0;
+										$sql = "SELECT * from  users ";
+										$query = mysqli_query($koneksidb,$sql);
+										while($result=mysqli_fetch_array($query))
+										{
+											$no++;
+										?>	
 										<tr>
 											<td><?php echo $no;?></td>
 											<td><?php echo htmlentities($result['nama_user']);?></td>
@@ -110,31 +101,23 @@ else{
 											</td>
 										</tr>
 										<?php } ?>
-										
 									</tbody>
 								</table>
-	<!-- Large modal -->
-	<div class="modal fade bs-example-modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>One fine body…</p>
-				</div>
-			</div>
-		</div>
-	</div>    
-	<!-- Large modal --> 
-
-						
-
+								<!-- Large modal -->
+								<div class="modal fade bs-example-modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-body">
+												<p>One fine body…</p>
+											</div>
+										</div>
+									</div>
+								</div>    
+								<!-- Large modal --> 
 							</div>
 						</div>
-
-					
-
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -149,21 +132,20 @@ else{
 	<script src="js/fileinput.js"></script>
 	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
-    <script>
-		var app = {
-			code: '0'
-		};
-		$('[data-load-code]').on('click',function(e) {
-					e.preventDefault();
-					var $this = $(this);
-					var code = $this.data('load-code');
-					if(code) {
-						$($this.data('remote-target')).load('userview.php?code='+code);
-						app.code = code;
-						
-					}
-		});
-    </script>
+	<script>
+	var app = {
+		code: '0'
+	};
+	$('[data-load-code]').on('click',function(e) {
+		e.preventDefault();
+		var $this = $(this);
+		var code = $this.data('load-code');
+		if(code) {
+			$($this.data('remote-target')).load('userview.php?code='+code);
+			app.code = code;
+		}
+	});
+	</script>
 
 </body>
 </html>

@@ -5,12 +5,24 @@ include('includes/config.php');
 if(strlen($_SESSION['ulogin'])==0){ 
 header('location:index.php');
 }else{
+
 if(isset($_POST['updateprofile'])){
 	$name=$_POST['fullname'];
 	$kosteno=$_POST['kostenumber'];
 	$address=$_POST['address'];
 	$email=$_POST['email'];
-	$sql="UPDATE users SET nama_user='$name',telp='$kosteno',alamat='$address' WHERE email='$email'";
+
+  $imgold = $_POST['img1old'];
+	$imgoldData = $_POST['textimg'];
+	$file = $_FILES['imgusr']['name'];
+	
+	if($file!="") {
+		move_uploaded_file($_FILES["imgusr"]["tmp_name"],"image/id/".$_FILES['imgusr']['name']);
+	} else {
+		$file = $imgoldData;
+	}
+
+	$sql="UPDATE users SET nama_user='$name',telp='$kosteno', ktp='$file' WHERE email='$email'";
 	$query = mysqli_query($koneksidb,$sql);
 	if($query){
 	$msg="Profile berhasi diupdate.";
@@ -113,7 +125,7 @@ while($result=mysqli_fetch_array($query)){
       <div class="col-md-12 col-sm-10">
         <?php  
         if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
-        <form  method="post" name="theform" onSubmit="return checkLetter(this);">
+        <form  method="post" name="theform" onSubmit="return checkLetter(this);" enctype="multipart/form-data">
           <div class="form-group">
             <label class="control-label">Tanggal Daftar -</label>
             <?php echo htmlentities($result['RegDate']);?>
@@ -136,11 +148,12 @@ while($result=mysqli_fetch_array($query)){
             <label class="control-label">Telepon</label>
             <input class="form-control white_bg" name="kostenumber" value="<?php echo htmlentities($result['telp']);?>" id="phone-number" type="number" min="0" required>
           </div>
-          <div class="form-group">
-            <label class="control-label">KTP</label><br/>
-            <img src="image/id/<?php echo htmlentities($result['ktp']);?>" width="300" style="border:solid 1px #000"><br/>
-            <a href="gantiktp.php?">Ganti Gambar KTP</a>
-          </div>
+            <div class="form-group">
+              <label class="control-label">KTP</label><br/>
+              <img src="image/id/<?php echo htmlentities($result['ktp']);?>" width="300"  style="border:solid 1px #000"><br/>
+              <input type="text" name="textimg" value="<?php echo htmlentities($result['ktp']);?>" hidden>
+              <h6>Ganti Gambar KTP</h6><input type="file" name="imgusr">
+            </div>
           <?php } ?>
           <div class="form-group">
             <button type="submit" name="updateprofile" class="btn">Simpan Perubahan <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>

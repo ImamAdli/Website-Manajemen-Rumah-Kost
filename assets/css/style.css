@@ -110,7 +110,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	color:#111111;
-	font-weight:900;
+	font-weight:800;
 	/* margin:0 auto 15px; */
 }
 h1 {
@@ -130,8 +130,9 @@ h5 {
 	line-height:32px;
   /* text-align: center; */
 }
+
 h6 {
-	font-size: 14px;
+	font-size: 16px;
 }
 h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
 	font-weight:300	
@@ -158,7 +159,7 @@ ul, ol {
 	margin:0 auto;
 }
 ul li, ol li {
-  font-size: 16px;
+  /* font-size: 16px; */
   line-height: 26px;
   margin: 0 auto 10px;
 }
@@ -184,6 +185,7 @@ ul.list-with-icon li i {
   position: absolute;
   top: 4px;
 }
+
 
 blockquote {
 	background:#f5f5f5 ;	
@@ -259,7 +261,7 @@ blockquote {
 }
 .btn.btn-xs {
 	font-size:12px;
-	margin: 10px;	
+  width: 100%;
 }
 .btn.btn-xs .fa {
 	margin:0 5px;
@@ -282,7 +284,6 @@ blockquote {
   font-size: 18px;
   line-height: 22px;
   margin: 0;
-  vertical-align: middle;
 }
 .btn.outline.active-btn {
 	border-color:#089901;
@@ -392,7 +393,7 @@ a:hover, a:focus, .btn-link:hover {
 #other_info, 
 .main_bg, 
 .slider .slider-handle, .slider .slider-selection {
-  background: #4736e0; none repeat scroll 0 0;
+  background: #4736e0 none repeat scroll 0 0;
   fill: #4736e0;;
 }
 .btn:hover, .btn:focus, 
@@ -684,7 +685,7 @@ table thead th, table thead td {
   color:#fff;
 }
 .section-padding {
-  padding: 110px 0;
+  padding: 50px 0;
 }
 .section-header {
   padding-bottom: 55px;
@@ -698,7 +699,6 @@ table thead th, table thead td {
 .section-header p {
   font-size: 17px;
 }
-
 
 
 /*--------------------
@@ -777,7 +777,7 @@ table thead th, table thead td {
 .default-header {
   background: #fff none repeat scroll 0 0;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px 0;
+  padding: 10px 0;
   transition-duration:0.3s;
    -moz-transition-duration:0.3s;
     -o-transition-duration:0.3s;
@@ -793,13 +793,19 @@ table thead th, table thead td {
 }
 .logo {
   float:left;
+  width: 150px;
+  padding: 1%;
 }
 .navbar-default .navbar-toggle:focus .icon-bar, .navbar-default .navbar-toggle:hover .icon-bar {
 	background:#fff;
 }
 .header_info {
-  float: right;
+  float: left;
   text-align: right;
+}
+.login_info {
+  float: right;
+  margin: 1%;
 }
 .social-follow {
   display: inline-block;
@@ -827,7 +833,6 @@ table thead th, table thead td {
 }
 .login_btn {
   display: inline-block;
-  margin-left: 10px;
   vertical-align: middle;
 }
 .circle_icon {
@@ -1865,7 +1870,7 @@ input.newsletter-input {
 }
 .footer-bottom {
   background: #191919 none repeat scroll 0 0;
-  padding: 22px 0;
+  padding: 15px 0;
   text-align: center;
 }
 .footer_widget {
@@ -1919,7 +1924,6 @@ input.newsletter-input {
   height: 40px;
   line-height: 36px;
   text-align: center;
-  vertical-align: top;
   width: 40px;
 }
 .back-top a:hover, .back-top a:focus {
@@ -2282,7 +2286,7 @@ form .slider.slider-horizontal {
   position: relative;
 }
 .page-header_wrap {
-  padding:60px 0;
+  padding:50px 0;
   position:relative;	
   text-align:center;
 }
@@ -2449,16 +2453,16 @@ form .slider.slider-horizontal {
   text-align: center;
   top: 10px;
 }
-.recent_addedcars ul {
+.recent_addedkost ul {
   margin: 0;
   padding: 0;
 }
-.recent_addedcars ul li {
+.recent_addedkost ul li {
   list-style: outside none none;
   margin: 0 auto 15px;
   overflow: hidden;
 }
-.recent_addedcars ul li a {
+.recent_addedkost ul li a {
   display: block;
 }
 .recent_post_img {
@@ -2575,7 +2579,7 @@ form .slider.slider-horizontal {
 	9. Listing-Detail
 ===============================*/
 .listing-detail {
-	padding:80px 0;	
+	padding:60px 0;	
 }
 .listing_detail_head {
 	margin-bottom:50px;
@@ -2691,7 +2695,7 @@ table.info-tabel tr td {
   border: 1px solid #dcd9d9;
   float: left;
   list-style: outside none none;
-  margin: 0 17px 0 0;
+  margin: 0 20px 0 0;
   min-height: 113px;
   min-width: 123px;
   padding: 10px;
@@ -3655,7 +3659,7 @@ table.info-tabel tr td {
 	padding:80px 0;
 }
 .user_profile_info {
-	margin:0 auto 45px;	
+	margin: auto;	
 	max-width:660px;
 	overflow:hidden;
 }
@@ -4080,12 +4084,17 @@ table.info-tabel tr td {
   text-align: center;
   top: 50%;
   width: 32px;
-  transform:translateY(-50%)
-   -moz-transform:translateY(-50%);
-    -o-transform:translateY(-50%);
-     -webkit-transform:translateY(-50%);
-     -md-transform:translateY(-50%)
-} 
+  transform: translateY(-50%);
+
+  -moz-transform: translateY(-50%);
+
+  -o-transform: translateY(-50%);
+
+  -webkit-transform: translateY(-50%);
+
+  -ms-transform: translateY(-50%);
+
+}
 .td_divider {
   display: block;
   height: 70%;
@@ -4269,9 +4278,14 @@ table.info-tabel tr td {
 #menu_slide {
 	margin:0px;
 }
-.default-header {
-  padding: 20px 0;
+.login_info{
+  margin: 7px;
 }
+.default-header {
+  padding: 0px;
+  font-size: 12px;
+}
+
 #navigation .nav.navbar-nav {
   float: none;
   margin:0px;
@@ -4368,11 +4382,10 @@ h3 {
 }
 .footer-top h6 {
   margin-bottom: 20px;
-  margin-top: 50px;
 }
-.footer-bottom div {
+/* .footer-bottom div {
 	text-align:left !important;
-}
+} */
 .footer-bottom .footer_widget {
 	margin:0 30px 0 0;
 }
@@ -4512,9 +4525,9 @@ h3 {
 	display:block;
 	margin:0 auto 10px;	
 }
-.login_btn .btn.btn-xs {
+/* .login_btn .btn.btn-xs {
   margin-top: 8px;
-}
+} */
 .navbar-nav > li > .dropdown-menu {
 	margin:0 20px;
 }
@@ -4579,10 +4592,10 @@ h3 {
 .dealer_social_links li {
   margin: 0 15px 20px 0;
 }
-.recent_addedcars {
+.recent_addedkost {
   overflow: hidden;
 }
-.recent_addedcars ul li {
+.recent_addedkost ul li {
 	width:50%;
 	float:left;
 }
@@ -4652,7 +4665,7 @@ h3 {
   margin-bottom: 30px;
 }
 .listing-detail {
-  padding: 60px 0;
+  padding: 20px 0;
 }
 
 .listing_detail_wrap .tab-content {
@@ -4816,7 +4829,7 @@ h3 {
 .header_style2 .navbar-nav > li, .header_style2 .navbar-nav {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
   display: block;
-  text-align: left;
+  text-align: right;
 }
 .header_style2 .navbar-default .navbar-nav li:hover .dropdown-menu li a {
   color: #111;
@@ -4884,7 +4897,7 @@ h3 {
   font-size: 18px;
   line-height: 20px;
 }
-.recent_addedcars ul li {
+.recent_addedkost ul li {
 	width:100%;
 	float:none;
 }
@@ -5126,10 +5139,10 @@ h3 {
   margin: 0 auto 5px;
   padding: 12px;
 }
-.recent_addedcars {
+.recent_addedkost {
   overflow: hidden;
 }
-.recent_addedcars ul li {
+.recent_addedkost ul li {
 	width:50%;
 	float:left;
 }
@@ -5155,7 +5168,7 @@ h3 {
   margin-bottom: 30px;
 }
 .listing-detail {
-  padding: 60px 0;
+  padding: 40px 0;
 }
 #other_info {
 	display:block;
@@ -5477,8 +5490,4 @@ h5 {
   padding: 40px 20px;
 }
 
-
-
 }
-
-

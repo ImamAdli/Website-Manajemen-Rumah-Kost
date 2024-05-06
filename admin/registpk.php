@@ -13,9 +13,7 @@ include('includes/config.php');
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Change Password</title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -33,17 +31,15 @@ include('includes/config.php');
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
 <script type="text/javascript">
-function checkLetter(theform)
-{
+function checkLetter(theform){
 	pola_nama=/^[a-zA-Z .]*$/;
 	if (!pola_nama.test(theform.namapemilik.value)){
-	alert ('Hanya huruf yang diperbolehkan untuk Nama!');
-	theform.namapemilik.focus();
-	return false;
+		alert ('Hanya huruf yang diperbolehkan untuk Nama!');
+		theform.namapemilik.focus();
+		return false;
 	}
-		
-	if(theform.password.value!= theform.confpassword.value)
-	{
+
+	if(theform.password.value!= theform.confpassword.value){
 	alert("New Password and Confirm Password Field do not match!");
 	theform.confpassword.focus();
 	return false;
@@ -64,7 +60,7 @@ function checkLetter(theform)
 		},
 		error:function (){}
 	});
-	}
+}
 </script>
 </head>
 
@@ -119,6 +115,52 @@ function checkLetter(theform)
 										</div>
 									</div>
 									<div class="form-group">
+										<div class="col-sm-10 col-sm-offset-1">
+											<style>
+											#map {
+												height: 400px;
+												width: 100%;
+												}
+											</style>
+											<body>
+												<h4>Pilih Lokasi Kost pada Google Maps</h4>
+												<div id="map"></div>
+												<input type="text" name="latitude" id="latitude" hidden>
+												<input type="text" name="longitude" id="longitude" hidden>
+												<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
+												<script>
+													function initMap() {
+														var map = new google.maps.Map(document.getElementById('map'), {
+															center: {lat: -6.175110, lng: 106.865039}, // Default lokasi (Monas, Jakarta)
+															zoom: 12
+														});
+														var marker = new google.maps.Marker({
+															position: {lat: -6.175110, lng: 106.865039},
+															map: map,
+															draggable: true // Marker dapat digeser
+														});
+														// Ketika marker digeser, update nilai latitude dan longitude pada form
+														marker.addListener('dragend', function(event) {
+															document.getElementById('latitude').value = event.latLng.lat();
+															document.getElementById('longitude').value = event.latLng.lng();
+														});
+														// Ketika peta diklik, pindahkan marker dan update form
+														map.addListener('click', function(event) {
+															marker.setPosition(event.latLng);
+															document.getElementById('latitude').value = event.latLng.lat();
+															document.getElementById('longitude').value = event.latLng.lng();
+														});
+													}
+											</script>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Link Maps</label>
+										<div class="col-sm-8">
+												<input type="text" class="form-control" name="maps" id="maps" placeholder="Masukkan Link Google Maps" required>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-sm-3 control-label">KTP</label>
 										<div class="col-sm-8">
 										Upload Foto KTP<span style="color:red">*</span><input type="file" name="img1" accept="image/*" required>
@@ -137,8 +179,8 @@ function checkLetter(theform)
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-8 col-sm-offset-3">
-											<button class="btn btn-primary" name="submit" type="submit">Daftar</button>
+										<div class="col-sm-10 col-sm-offset-1">
+											<button class="btn btn-primary col-sm-2"  name="submit" type="submit">Daftar</button>
 										</div>
 									</div>
 									</form>
@@ -164,5 +206,4 @@ function checkLetter(theform)
 	<script src="js/main.js"></script>
 
 </body>
-
 </html>

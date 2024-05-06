@@ -2,8 +2,8 @@
 include('includes/config.php');
 error_reporting(0);
 $kosttitle=$_POST['kosttitle'];
-$namakost=$_POST['namakostname'];
-$kostoverview=$_POST['vehicalorcview'];
+$namakost=$_POST['kostname'];	
+$kostoverview=$_POST['kostview'];
 $priceperday=$_POST['priceperday'];
 $bathinfo=$_POST['bathinfo'];
 $modelluas=$_POST['modelluas'];
@@ -19,23 +19,21 @@ move_uploaded_file($_FILES["img3"]["tmp_name"],"img/kostimages/".$_FILES["img3"]
 move_uploaded_file($_FILES["img4"]["tmp_name"],"img/kostimages/".$_FILES["img4"]["name"]);
 move_uploaded_file($_FILES["img5"]["tmp_name"],"img/kostimages/".$_FILES["img5"]["name"]);
 $sql 	= "INSERT INTO kost (nama_kamarkost,id_namakost,deskripsi,harga,bath,luas,ac,image1,image2,image3,image4,image5)
-			VALUES ('$kosttitle','$namakost',','$kostoverview','$priceperday','$bathinfo','$modelluas','$acinfo',
+			VALUES ('$kosttitle','$namakost','$kostoverview','$priceperday','$bathinfo','$modelluas','$acinfo',
 			'$kimage1','$kimage2','$kimage3','$kimage4','$kimage5')";
 $query 	= mysqli_query($koneksidb,$sql);
 if($query){
 	echo "<script type='text/javascript'>
-			alert('Berhasil tambah data.'); 
-			document.location = 'kost.php'; 
+		alert('Berhasil tambah data.'); 
+		document.location = 'kost.php'; 
 		</script>";
 }else {
-			echo "No Error : ".mysqli_errno($koneksidb);
-			echo "<br/>";
-			echo "Pesan Error : ".mysqli_error($koneksidb);
-
+	echo "No Error : ".mysqli_errno($koneksidb);
+	echo "<br/>";
+	echo "Pesan Error : ".mysqli_error($koneksidb);
 	echo "<script type='text/javascript'>
-			alert('Terjadi kesalahan, silahkan coba lagi!.'); 
-			document.location = 'tambahkost.php'; 
+		alert('Terjadi kesalahan, silahkan coba lagi!.'); 
+		document.location = 'tambahkost.php'; 
 		</script>";
 }
-
 ?>

@@ -2,25 +2,21 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if(strlen($_SESSION['alogin'])==0)
-	{	
-header('location:index.php');
+if(strlen($_SESSION['alogin'])==0){	
+	header('location:index.php');
 }
 else{
-if(isset($_REQUEST['eid']))
-	{
-$eid=intval($_GET['eid']);
-$status=1;
-$sql = "UPDATE contactus SET status='$status' WHERE  id_cu='$eid'";
-$query = mysqli_query($koneksidb,$sql);
-$msg="Pesan sudah dibaca.";
+	if(isset($_REQUEST['eid'])){
+		$eid=intval($_GET['eid']);
+		$status=1;
+		$sql = "UPDATE contactus SET status='$status' WHERE  id_cu='$eid'";
+		$query = mysqli_query($koneksidb,$sql);
+		$msg="Pesan sudah dibaca.";
 }
-
- ?>
+?>
 
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,9 +24,7 @@ $msg="Pesan sudah dibaca.";
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Manage Queries   </title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -47,46 +41,41 @@ $msg="Pesan sudah dibaca.";
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-  <style>
-		.errorWrap {
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #dd3d36;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+<style>
+	.errorWrap {
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #dd3d36;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 .succWrap{
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #5cb85c;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #5cb85c;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
-		</style>
-
+</style>
 </head>
 
 <body>
 	<?php include('includes/header.php');?>
-
 	<div class="ts-main-content">
 		<?php include('includes/leftbar.php');?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
-
 				<div class="row">
 					<div class="col-md-12">
-
 						<h2 class="page-title">Manage Contact Us Queries</h2>
-
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
 							<div class="panel-heading">User queries</div>
 							<div class="panel-body">
-							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+								<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+								else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -100,14 +89,13 @@ $msg="Pesan sudah dibaca.";
 										</tr>
 									</thead>
 									<tbody>
-
-<?php 
-$sql = "SELECT * from contactus";
-$query = mysqli_query($koneksidb,$sql);
-$no=0;
-while($result=mysqli_fetch_array($query))
-{	$no++;
-	?>	
+										<?php 
+										$sql = "SELECT * from contactus";
+										$query = mysqli_query($koneksidb,$sql);
+										$no=0;
+										while($result=mysqli_fetch_array($query))
+										{	$no++;
+										?>	
 										<tr>
 											<td><?php echo $no;?></td>
 											<td><?php echo htmlentities($result['nama_visit']);?></td>
@@ -120,20 +108,13 @@ while($result=mysqli_fetch_array($query))
 											<td><a href="manage-conactusquery.php?eid=<?php echo htmlentities($result['id_cu']);?>" onclick="return confirm('Tandai sudah dibaca?')" >Baca</a></td>
 											<?php } ?>
 										</tr>
-								<?php } ?>		
+										<?php } ?>		
 									</tbody>
 								</table>
-
-						
-
 							</div>
 						</div>
-
-					
-
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

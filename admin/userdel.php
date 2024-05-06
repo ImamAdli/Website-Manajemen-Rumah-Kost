@@ -13,13 +13,13 @@ if(isset($_GET['email'])){
 	$mySql	= "UPDATE users SET password='$pass' WHERE email='$id'";
 	$myQry	= mysqli_query($koneksidb, $mySql);
 	echo "<script type='text/javascript'>
-			alert('Berhasil reset password.'); 
-			document.location = 'reg-users.php'; 
+		alert('Berhasil reset password.'); 
+		document.location = 'reg-users.php'; 
 		</script>";
 }else {
 	echo "<script type='text/javascript'>
-			alert('Terjadi kesalahan, silahkan coba lagi!.'); 
-			document.location = 'reg-users.php'; 
+		alert('Terjadi kesalahan, silahkan coba lagi!.'); 
+		document.location = 'reg-users.php'; 
 		</script>";
 }
 }

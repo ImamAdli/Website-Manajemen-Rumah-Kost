@@ -53,7 +53,7 @@ if($query){
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="keywords" content="">
 <meta name="description" content="">
-<title>Mutiara Motor Car Rental Portal</title>
+<title>Narty Boarding House | Booking Ready</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
@@ -78,7 +78,6 @@ if($query){
 
 	<br/>
 	<center><h3>kost Tersedia untuk disewa.</h3></center>
-	<hr>
 </div>
 <?php
 $email=$_SESSION['ulogin']; 
@@ -124,7 +123,7 @@ $totalsewa = $totalkost;
             </div>
             <div class="form-group">
 			<label>Tanggal Selesai</label>
-				<input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" value="<?php echo $selesai;?>"readonly>
+				<input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" value="<?php echo $selesai;?>" readonly>
             </div>
             <div class="form-group">
 			<label>Durasi</label>

@@ -10,7 +10,11 @@ $telepon = $_POST['telepon'];
 $namapemilik= $_POST['namapemilik'];
 $rekening = $_POST['rekening'];
 $alamat = $_POST['alamat'];
+$maps = $_POST['maps'];
+$statuspk = "Pending";
 $image1=$_FILES["img1"]["name"];
+$latitude = $_POST['latitude'];
+$longitude = $_POST['longitude'];
 $newimg1 = date('d-m-Y-His').$image1;
 move_uploaded_file($_FILES["img1"]["tmp_name"],"img/id/".$newimg1);
 if($conf!=$password){
@@ -24,12 +28,12 @@ if($conf!=$password){
 			echo "<script type='text/javascript'> document.location = 'registpk.php'; </script>";			
 		}else{
 			$password=md5($_POST['password']);
-			$sql1="INSERT INTO nama_kost (nama_kost,email,password,telepon,nama_pemilik,rekening,alamat,ktp) VALUES 
-			('$namakost','$email','$password','$telepon','$namapemilik','$rekening','$alamat','$newimg1')";
+			$sql1="INSERT INTO nama_kost (nama_kost,email,password,telepon,nama_pemilik,rekening,alamat,ktp,statuspk,gmap,latitude,longitude) VALUES 
+			('$namakost','$email','$password','$telepon','$namapemilik','$rekening','$alamat','$newimg1','$statuspk','$maps','$latitude','$longitude')";
 			$lastInsertId = mysqli_query($koneksidb, $sql1);
 				if($lastInsertId){
 					if($_SESSION['alogin'] == 'admin'){	
-						echo "<script>alert('Registrasi berhasil. Sekarang anda bisa login.');</script>";
+						echo "<script>alert('Registrasi berhasil.');</script>";
 						echo "<script type='text/javascript'> document.location = 'namakost.php'; </script>";
 					} else {
 						echo "<script>alert('Registrasi berhasil. Sekarang anda bisa login.');</script>";

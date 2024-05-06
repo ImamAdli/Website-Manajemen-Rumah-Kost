@@ -92,12 +92,44 @@ function showDivs(n) {
     <div class="listing_detail_head row">
       <div class="col-md-8">
         <h2><?php echo htmlentities($result['nama_kost']);?>, <?php echo htmlentities($result['nama_kamarkost']);?></h2>
-        <h4>Alamat : <?php echo htmlentities($result['alamat']);?></h4>
+        <h3>Alamat Kost : <?php echo htmlentities($result['alamat']); ?></h3>
       </div>
       <div class="col-md-4">
         <div class="price_info">
-          <p><?php echo htmlentities(format_rupiah($result['harga']));?> </p>/ Hari
+          <p><?php echo htmlentities(format_rupiah($result['harga']));?> </p><h5>/ Hari</h5>
         </div>
+      </div>
+      <div class="col-md-12">
+        <hr>
+      </div>
+      <div class="col-md-12">
+      <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        </style>
+        <h4>Lokasi Google Maps</h4>
+        <!-- Div untuk menampilkan peta -->
+        <div id="map"></div>
+        <!-- Menyisipkan Google Maps JavaScript API -->
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap">
+        </script>
+        <!-- Script untuk inisialisasi peta -->
+        <script>
+          function initMap() {
+            var lokasi =   {lat:<?php echo htmlentities($result['latitude']);?>, lng: <?php echo htmlentities($result['longitude']);?>}; // Contoh: Lokasi Monas
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: lokasi
+                });
+            var marker = new google.maps.Marker({
+                position: lokasi,
+                map: map
+                });
+          }
+        </script>
       </div>
     </div>
     <div class="row">
@@ -155,11 +187,11 @@ function showDivs(n) {
 			      <?php if($_SESSION['ulogin'])
             {?>
               <div class="form-group" align="center">
-              <!-- <div class="form-group">
-			          <label>Sewa Bulanan?</label><br/>
-				        <input type="radio" name="bulanan" value="1">Ya &nbsp;
-				        <input type="radio" name="bulanan" value="0" checked>Tidak
-              </div> -->
+                <div class="form-group">
+                  <label>Sewa Bulanan?</label><br/>
+                  <input type="radio" name="bulanan" value="1">Ya &nbsp;
+                  <input type="radio" name="bulanan" value="0" checked>Tidak
+                </div>
                 <button class="btn" align="center">Sewa Sekarang</button>
               </div>
               <?php } else { ?>
@@ -169,7 +201,6 @@ function showDivs(n) {
         </div>
       </aside>
     </div>
-    <div class="divider"></div>
   </div>
 </section>
 <!--/Listing-detail--> 

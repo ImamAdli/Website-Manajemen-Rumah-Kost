@@ -4,12 +4,11 @@ error_reporting(0);
 include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
-if(strlen($_SESSION['alogin'])==0)
-	{	
-header('location:index.php');
+if(strlen($_SESSION['alogin'])==0){	
+	header('location:index.php');
 }
 else{
- ?>
+?>
 
 <!doctype html>
 <html lang="en" class="no-js">
@@ -20,9 +19,7 @@ else{
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Laporan</title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -41,85 +38,81 @@ else{
 	<link rel="stylesheet" href="css/style.css">
 <style>
 .errorWrap {
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #dd3d36;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #dd3d36;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 .succWrap{
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #5cb85c;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #5cb85c;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 </style>
 <script type="text/javascript">
 function valid()
 {
-	if(document.laporan.akhir.value < document.laporan.awal.value)
-	{
+	if(document.laporan.akhir.value < document.laporan.awal.value){
 		alert("Tanggal akhir harus lebih besar dari tanggal awal!");
 		return false;
 	}
 	return true;
 }
 </script>
-
 </head>
 
 <body>
 	<?php include('includes/header.php');?>
-
 	<div class="ts-main-content">
 		<?php include('includes/leftbar.php');?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
-						<h2 class="page-title">Laporan Transaksi</h2>
-						<div class="panel panel-default">
-							<div class="panel-body">
-					        <form method="get" name="laporan" onSubmit="return valid();"> 
-								<div class="form-group">
-									<div class="col-sm-4">
-										<label>Tanggal Awal</label>
-										<input type="date" class="form-control" name="awal" placeholder="From Date(dd/mm/yyyy)" required>
-									</div>
-									<div class="col-sm-4">
-										<label>Tanggal Akhir</label>
-										<input type="date" class="form-control" name="akhir" placeholder="To Date(dd/mm/yyyy)" required>
-									</div>
-									<div class="col-sm-4">
-										<label>&nbsp;</label><br/>
-										<input type="submit" name="submit" value="Lihat Laporan" class="btn btn-primary">
-									</div>
+				<h2 class="page-title">Laporan Transaksi</h2>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form method="get" name="laporan" onSubmit="return valid();"> 
+							<div class="form-group">
+								<div class="col-sm-4">
+									<label>Tanggal Awal</label>
+									<input type="date" class="form-control" name="awal" placeholder="From Date(dd/mm/yyyy)" required>
 								</div>
-							</form>
+								<div class="col-sm-4">
+									<label>Tanggal Akhir</label>
+									<input type="date" class="form-control" name="akhir" placeholder="To Date(dd/mm/yyyy)" required>
+								</div>
+								<div class="col-sm-4">
+									<label>&nbsp;</label><br/>
+									<input type="submit" name="submit" value="Lihat Laporan" class="btn btn-primary">
+								</div>
 							</div>
-						</div>
-						<?php
-							if(isset($_GET['submit'])){
-								$no=0;
-								$mulai 	 = $_GET['awal'];
-								$selesai = $_GET['akhir'];
-								$logpk = $_SESSION['alogin'];
-								$stt	 = "Selesai";
-								if ($_SESSION['alogin'] == 'admin') {
-								$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-											AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
-											AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
-								} else {
-									$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-									AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt' AND nama_kost.email='$logpk'
-									AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
-								}
-								$querysewa = mysqli_query($koneksidb,$sqlsewa);
-							?>
-						<!-- Zero Configuration Table -->
-						<div class="panel panel-default">
-							<div class="panel-heading">Laporan Sewa Tanggal <?php echo IndonesiaTgl($mulai);?> sampai <?php echo IndonesiaTgl($selesai);?></div>
+						</form>
+					</div>
+				</div>
+				<?php
+				if(isset($_GET['submit'])){
+					$no=0;
+					$mulai 	 = $_GET['awal'];
+					$selesai = $_GET['akhir'];
+					$logpk = $_SESSION['alogin'];
+					$stt	 = "Selesai";
+					if ($_SESSION['alogin'] == 'admin') {
+					$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+								AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
+								AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
+					} else {
+						$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+						AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt' AND nama_kost.email='$logpk'
+						AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
+					}
+					$querysewa = mysqli_query($koneksidb,$sqlsewa);
+					?>
+					<div class="panel panel-default">
+						<div class="panel-heading">Laporan Sewa Tanggal <?php echo IndonesiaTgl($mulai);?> sampai <?php echo IndonesiaTgl($selesai);?></div>
 							<div class="panel-body">
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
@@ -132,12 +125,12 @@ function valid()
 										</tr>
 									</thead>
 									<tbody>
-									<?php
+										<?php
 										while ($result = mysqli_fetch_array($querysewa)) {
-												$biayakost=$result['durasi']*$result['harga'];
-												$total=$biayakost;
+											$biayakost=$result['durasi']*$result['harga'];
+											$total=$biayakost;
 										$no++;
-									?>	
+										?>	
 										<tr>
 											<td><?php echo $no;?></td>
 											<td><?php echo htmlentities($result['kode_booking']);?></td>
@@ -145,23 +138,18 @@ function valid()
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_booking']));?></td>
 											<td><?php echo format_rupiah($total);?></td>
 										</tr>
-							<?php } 
-							?>
-										
+										<?php } 
+										?>
 									</tbody>
 								</table>
-								
 							</div>
 						</div>
-							<div class="form-group">
-									<a href="laporan_cetak.php?awal=<?php echo $mulai;?>&akhir=<?php echo $selesai;?>" target="_blank" class="btn btn-primary">Cetak</a>
-							</div>
+						<div class="form-group">
+								<a href="laporan_cetak.php?awal=<?php echo $mulai;?>&akhir=<?php echo $selesai;?>" target="_blank" class="btn btn-primary">Cetak</a>
+						</div>
 						<?php }?>
-					
-
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -176,21 +164,20 @@ function valid()
 	<script src="js/fileinput.js"></script>
 	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
-    <script>
-		var app = {
-			code: '0'
-		};
-		$('[data-load-code]').on('click',function(e) {
-					e.preventDefault();
-					var $this = $(this);
-					var code = $this.data('load-code');
-					if(code) {
-						$($this.data('remote-target')).load('userview.php?code='+code);
-						app.code = code;
-						
-					}
-		});
-    </script>
+	<script>
+	var app = {
+		code: '0'
+	};
+	$('[data-load-code]').on('click',function(e) {
+		e.preventDefault();
+		var $this = $(this);
+		var code = $this.data('load-code');
+		if(code) {
+			$($this.data('remote-target')).load('userview.php?code='+code);
+			app.code = code;
+		}
+	});
+	</script>
 
 </body>
 </html>

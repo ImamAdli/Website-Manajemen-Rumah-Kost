@@ -9,5 +9,4 @@ $koneksidb = mysqli_connect( $myHost, $myUser, $myPass, $myDbs);
 if (! $koneksidb) {
   echo "Failed Connection !";
 }
-
 ?>

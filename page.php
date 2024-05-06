@@ -32,6 +32,7 @@ include('includes/config.php');
 
 <!--Header-->
 <?php include('includes/header.php');?>
+<!-- /Header --> 
 <?php 
 $pagetype=$_GET['type'];
 $sql = "SELECT * from tblpages where type='$pagetype'";
@@ -57,7 +58,7 @@ while($results = mysqli_fetch_array($query))
 
 <section class="about_us section-padding">
   <div class="container">
-    <div class="section-header text-center">
+    <div class="section-header">
       <h2><?php   echo htmlentities($results['PageName']); ?></h2>
       <p><?php  echo $results['detail']; ?> </p>
     </div>
@@ -84,6 +85,7 @@ while($results = mysqli_fetch_array($query))
 <!-- Scripts --> 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/interface.js"></script> 
+<script src="assets/js/bootstrap.min.js"></script> 
 <!--bootstrap-slider-JS--> 
 <script src="assets/js/bootstrap-slider.min.js"></script> 
 <!--Slider-JS--> 

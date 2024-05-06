@@ -1,21 +1,19 @@
 <?php
-if(isset($_POST['login']))
-{
-$email=$_POST['email'];
-$password=md5($_POST['password']);
-$sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-$query = mysqli_query($koneksidb,$sql);
-$results = mysqli_fetch_array($query);
-if(mysqli_num_rows($query)>0){
-	$_SESSION['ulogin']=$_POST['email'];
-	$_SESSION['fname']=$results['nama_user'];
-	$currentpage=$_SERVER['REQUEST_URI'];
-	echo "<script type='text/javascript'> document.location = '$currentpage'; </script>";
-	} else{
-		echo "<script>alert('Email atau Password Salah!');</script>";
-	}
+if(isset($_POST['login'])){
+  $email=$_POST['email'];
+  $password=md5($_POST['password']);
+  $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+  $query = mysqli_query($koneksidb,$sql);
+  $results = mysqli_fetch_array($query);
+  if(mysqli_num_rows($query)>0){
+    $_SESSION['ulogin']=$_POST['email'];
+    $_SESSION['fname']=$results['nama_user'];
+    $currentpage=$_SERVER['REQUEST_URI'];
+    echo "<script type='text/javascript'> document.location = '$currentpage'; </script>";
+  } else{
+    echo "<script>alert('Email atau Password Salah!');</script>";
+  }
 }
-
 ?>
 
 <div class="modal fade" id="loginform">

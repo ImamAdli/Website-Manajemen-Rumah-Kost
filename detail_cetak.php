@@ -26,7 +26,7 @@ $tglhasil = date("Y-m-d",$tgl);
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Sewa Kost">
-<meta name="author" content="universitas pamulang">
+<meta name="author" content="Narty">
 <title>Cetak Detail Transaksi Sewa Kost</title>
 <link href="assets/images/cat-profile.png" rel="icon" type="images/x-icon">
 <!-- Bootstrap Core CSS -->

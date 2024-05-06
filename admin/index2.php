@@ -1,32 +1,29 @@
 <?php
 session_start();
 include('includes/config.php');
-if(isset($_POST['login']))
-{
-$email=$_POST['username'];
-$password=md5($_POST['password']);
-$sql = "SELECT * FROM admin WHERE UserName='$email' AND Password='$password'";
-$query = mysqli_query($koneksidb,$sql);
-$results = mysqli_fetch_array($query);
-if(mysqli_num_rows($query)>0){
-	$_SESSION['alogin']=$_POST['username'];
-	echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
-} else{
-	echo "<script>alert('Invalid Details');</script>";
-}
+if(isset($_POST['login'])){
+	$email=$_POST['username'];
+	$password=md5($_POST['password']);
+	$sql = "SELECT * FROM admin WHERE UserName='$email' AND Password='$password'";
+	$query = mysqli_query($koneksidb,$sql);
+	$results = mysqli_fetch_array($query);
+	if(mysqli_num_rows($query)>0){
+		$_SESSION['alogin']=$_POST['username'];
+		echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
+	} else{
+		echo "<script>alert('Invalid Details');</script>";
+	}
 }
 
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-
 	<title>Narty Boarding House | Admin Login</title>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -37,9 +34,7 @@ if(mysqli_num_rows($query)>0){
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-	
 	<div class="login-page bk-img" style="background-image: url(img/bg_login2.jpg);">
 		<div class="form-content">
 			<div class="container">
@@ -49,25 +44,19 @@ if(mysqli_num_rows($query)>0){
 						<div class="well row pt-2x bk-light">
 							<div class="col-md-8 col-md-offset-2">
 								<form method="post">
-
 									<label for="" class="text-uppercase text-sm">Username </label>
 									<input type="text" placeholder="Username" name="username" class="form-control mb">
-
 									<label for="" class="text-uppercase text-sm">Password</label>
 									<input type="password" placeholder="Password" name="password" class="form-control mb">
-
-								
-
 									<button class="btn btn-primary btn-block" name="login" type="submit">LOGIN</button>
 									<div class=" text-center">
 										<br>
-        								<p>Login Sebagai Pemilik Kost <a href="index.php">Klik Disini</a></p>
-      								</div>
+										<p>Login Sebagai Pemilik Kost <a href="index.php">Klik Disini</a></p>
+									</div>
 								</form>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -85,5 +74,4 @@ if(mysqli_num_rows($query)>0){
 	<script src="js/main.js"></script>
 
 </body>
-
 </html>

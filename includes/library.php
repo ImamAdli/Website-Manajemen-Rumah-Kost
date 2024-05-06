@@ -14,24 +14,22 @@ function buatKode($tabel, $inisial){
 	// membaca panjang kolom kunci (cara 2)
 	//$hasil 	= mysql_fetch_field($struktur,0);
 	//$panjang	= $hasil->max_length; 
-	
-
- 	$qry	= mysqli_query($koneksidb, "SELECT MAX(".$field.") FROM ".$tabel);
- 	$row	= mysqli_fetch_array($qry); 
- 	if ($row[0]=="") {
- 		$angka=0;
+	$qry	= mysqli_query($koneksidb, "SELECT MAX(".$field.") FROM ".$tabel);
+	$row	= mysqli_fetch_array($qry); 
+	if ($row[0]=="") {
+		$angka=0;
 	}
- 	else {
- 		$angka		= substr($row[0], strlen($inisial));
- 	}
-	
- 	$angka++;
- 	$angka	=strval($angka); 
- 	$tmp	="";
- 	for($i=1; $i<=($panjang-strlen($inisial)-strlen($angka)); $i++) {
+	else {
+		$angka		= substr($row[0], strlen($inisial));
+	}
+
+	$angka++;
+	$angka	=strval($angka); 
+	$tmp	="";
+	for($i=1; $i<=($panjang-strlen($inisial)-strlen($angka)); $i++) {
 		$tmp=$tmp."0";	
 	}
- 	return $inisial.$tmp.$angka;
+	return $inisial.$tmp.$angka;
 }
 
 # Fungsi untuk membalik tanggal dari format Indo (d-m-Y) -> English (Y-m-d)
@@ -56,7 +54,6 @@ function IndonesiaTgl($tanggal){
 function Indonesia2Tgl($tanggal){
 	$namaBln = array("01" => "Januari", "02" => "Februari", "03" => "Maret", "04" => "April", "05" => "Mei", "06" => "Juni", 
 					 "07" => "Juli", "08" => "Agustus", "09" => "September", "10" => "Oktober", "11" => "November", "12" => "Desember");
-					 
 	$tgl=substr($tanggal,8,2);
 	$bln=substr($tanggal,5,2);
 	$thn=substr($tanggal,0,4);
@@ -67,7 +64,6 @@ function Indonesia2Tgl($tanggal){
 function hitungHari($myDate1, $myDate2){
         $myDate1 = strtotime($myDate1);
         $myDate2 = strtotime($myDate2);
- 
         return ($myDate2 - $myDate1)/ (24 *3600);
 }
 

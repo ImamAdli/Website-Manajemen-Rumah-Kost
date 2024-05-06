@@ -15,16 +15,25 @@ if(strlen($_SESSION['ulogin'])==0){
 
 	if(isset($_POST['submit'])){
 		$fromdate=$_POST['fromdate'];
-		$todate=$_POST['todate'];
+		$month=29*$_POST['month'];
+		$statustgl=$_GET['bulanan'];
+		$lsdate=$_POST['lastdate'];
+		if ($statustgl == 0) {
+			$dateto= $lsdate;
+		} else {
+			$dateto= date("Y-m-d", strtotime($fromdate . "+$month days")) ;
+		}
 		$vid=$_POST['vid'];
 //cek
-		$sql 	= "SELECT kode_booking FROM cek_booking WHERE tgl_booking between '$fromdate' AND '$todate' AND id_kamarkost='$vid' AND status!='Cancel'";
+		$sql 	= "SELECT kode_booking FROM cek_booking WHERE tgl_booking 
+						BETWEEN '$fromdate' AND '$dateto' AND id_kamarkost='$vid' and kode_booking is not NULL ";
 		$query 	= mysqli_query($koneksidb,$sql);
 		if(mysqli_num_rows($query)>0){
 			echo " <script> alert ('kost tidak tersedia di tanggal yang anda pilih, silahkan pilih tanggal lain!'); 
 			</script> ";
 		}else{
-			echo "<script type='text/javascript'> document.location = 'booking_ready.php?vid=$vid&mulai=$fromdate&selesai=$todate'; </script>";
+			echo "<script type='text/javascript'> 
+			document.location = 'booking_ready.php?vid=$vid&mulai=$fromdate&selesai=$dateto'; </script>";
 		}
 }
 ?>
@@ -69,7 +78,7 @@ $result = mysqli_fetch_array($query1);
 <script type="text/javascript">
 function valid()
 {
-	if(document.sewa.todate.value < document.sewa.fromdate.value){
+	if(document.sewa.lastdate.value < document.sewa.fromdate.value){
 		alert("Tanggal selesai harus lebih besar dari tanggal mulai sewa!");
 		return false;
 	}
@@ -105,10 +114,22 @@ return true;
 						<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
 						<input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
 					</div>
-					<div class="form-group">
-					<label>Tanggal Selesai</label>
-						<input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
-					</div>
+					<?php 
+					$statustgl = $_GET['bulanan'];
+					if ($statustgl == 0){
+					echo "<div class='form-group'>";
+					echo "<label>Tanggal Selesai</label>";
+					echo	"<input type='date' class='form-control' name='lastdate' placeholder='To Date(dd/mm/yyyy)' required>";
+					echo "<input type='hidden' class='form-control' name='statustgl'  value='<?php echo $statustgl;?>' required>";
+					echo "</div>";
+					} else {
+						echo "<div class='form-group'>";
+					echo "<label>Lama Bulan</label>";
+					echo	"<input type='number' class='form-control' name='month' placeholder='Masukkan Bulan' required>";
+					echo "<input type='hidden' class='form-control' name='statustgl'  value='<?php echo $statustgl;?>' required>";
+					echo "</div>";
+					}
+					?>
 					<br/>			
 					<div class="form-group">
 						<input type="submit" name="submit" value="Cek Ketersediaan" class="btn btn-block">

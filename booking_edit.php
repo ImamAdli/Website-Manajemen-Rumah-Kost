@@ -104,8 +104,13 @@ $tglhasil = date("Y-m-d",$tgl);
 					</div>											
 					<div class="hr-dashed"></div>
 					<div class="form-group">
+					<div class="col-md-6">
 						<button class="btn btn-primary" type="submit" name="submit1" value="submit1" formaction="update_sewa.php">Submit</button>
+						</div>
+					<div class="col-md-6">
 						<button class="btn btn-warning" type="submit" name="submit2" value="submit2" formaction="booking_del.php">Batalkan Pemesanan</button>
+						</div>
+
 					</div>
 				</form>
 			</div>

@@ -5,7 +5,7 @@ include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
 if(strlen($_SESSION['alogin'])==0){	
-header('location:index.php');}
+	header('location:index.php');}
 else{
 ?>
 <!doctype html>
@@ -17,9 +17,7 @@ else{
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	
 	<title>Narty Boarding House | Admin Kelola Sewa   </title>
-
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -38,44 +36,39 @@ else{
 	<link rel="stylesheet" href="css/style.css">
  <style>
 .errorWrap {
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #dd3d36;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #dd3d36;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 .succWrap{
-    padding: 10px;
-    margin: 0 0 20px 0;
-    background: #fff;
-    border-left: 4px solid #5cb85c;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 10px;
+	margin: 0 0 20px 0;
+	background: #fff;
+	border-left: 4px solid #5cb85c;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 </style>
-
 </head>
 
 <body>
 	<?php include('includes/header.php');?>
-
 	<div class="ts-main-content">
 		<?php include('includes/leftbar.php');?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
-
 				<div class="row">
 					<div class="col-md-12">
-
 						<h2 class="page-title">Menunggu Konfirmasi Sewa Kost</h2>
-						
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
 							<div class="panel-heading">Daftar Sewa Menunggu Konfirmasi</div>
 							<div class="panel-body">
-							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-							else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+								<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+								else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr align="center">
@@ -91,23 +84,23 @@ else{
 										</tr>
 									</thead>
 									<tbody>
-									<?php
-										$i=0;
-										$logpk = $_SESSION['alogin'];
-										if ($_SESSION['alogin'] == 'admin') {
-										$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-													AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi'
-													ORDER BY booking.kode_booking DESC";
-										} else {
-											$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-											AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi' AND nama_kost.email='$logpk'
-											ORDER BY booking.kode_booking DESC";
-										}
-										$querysewa = mysqli_query($koneksidb,$sqlsewa);
-										while ($result = mysqli_fetch_array($querysewa)) {
-											$biayakost=$result['durasi']*$result['harga'];
-											$total=$biayakost;
-											$i++;
+										<?php
+											$i=0;
+											$logpk = $_SESSION['alogin'];
+											if ($_SESSION['alogin'] == 'admin') {
+												$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+												AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi'
+												ORDER BY booking.kode_booking DESC";
+											} else {
+												$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
+												AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='Menunggu Konfirmasi' AND nama_kost.email='$logpk'
+												ORDER BY booking.kode_booking DESC";
+											}
+											$querysewa = mysqli_query($koneksidb,$sqlsewa);
+											while ($result = mysqli_fetch_array($querysewa)) {
+												$biayakost=$result['durasi']*$result['harga'];
+												$total=$biayakost;
+												$i++;
 											?>
 										<tr align="center">
 											<td><?php echo $i;?></td>
@@ -125,18 +118,17 @@ else{
 										<?php }?>
 									</tbody>
 								</table>
-	<!-- Large modal -->
-	<div class="modal fade bs-example-modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>One fine body…</p>
-				</div>
-			</div>
-		</div>
-	</div>    
-	<!-- Large modal --> 
-
+								<!-- Large modal -->
+								<div class="modal fade bs-example-modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-body">
+												<p>One fine body…</p>
+											</div>
+										</div>
+									</div>
+								</div>    
+								<!-- Large modal --> 
 							</div>
 						</div>
 					</div>
@@ -160,24 +152,22 @@ else{
 			code: '0'
 		};
 		$('[data-load-code]').on('click',function(e) {
-					e.preventDefault();
-					var $this = $(this);
-					var code = $this.data('load-code');
-					if(code) {
-						$($this.data('remote-target')).load('sewaview.php?code='+code);
-						app.code = code;
-						
-					}
+			e.preventDefault();
+			var $this = $(this);
+			var code = $this.data('load-code');
+			if(code) {
+				$($this.data('remote-target')).load('sewaview.php?code='+code);
+				app.code = code;
+			}
 		});
 		$('[data-load-id]').on('click',function(e) {
-					e.preventDefault();
-					var $this = $(this);
-					var code = $this.data('load-id');
-					if(code) {
-						$($this.data('remote-target')).load('userview.php?code='+code);
-						app.code = code;
-						
-					}
+			e.preventDefault();
+			var $this = $(this);
+			var code = $this.data('load-id');
+			if(code) {
+				$($this.data('remote-target')).load('userview.php?code='+code);
+				app.code = code;
+			}
 		});
     </script>
 </body>

@@ -17,7 +17,6 @@ $sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_k
 	AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
 }
 $querysewa = mysqli_query($koneksidb,$sqlsewa);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,24 +25,17 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Sewa Kost">
-	<meta name="author" content="universitas pamulang">
-
+	<meta name="author" content="Narty">
 	<title>Cetak Detail Laporan</title>
-
 	<link href="../assets/images/cat-profile.png" rel="icon" type="images/x-icon">
-
 	<!-- Bootstrap Core CSS -->
 	<link href="../assets/new/bootstrap.min.css" rel="stylesheet">
-
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="css/style.css">
-
 	<!-- Custom Fonts -->
 	<link href="../assets/new/font-awesome.min.css" rel="stylesheet" type="text/css">
-	
 	<!-- jQuery -->
 	<script src="../assets/new/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -69,7 +61,6 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 			<hr class="line-top" />
 		</div>
 	</section>
-
 	<section id="body-of-report">
 		<div class="container-fluid">
 			<h4 class="text-center">Detail Laporan</h4>
@@ -85,7 +76,7 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 					</tr>
 				</thead>
 				<tbody>
-				<?php
+					<?php
 					$no=0;
 					$pemasukan=0;
 					while($result = mysqli_fetch_array($querysewa)) {
@@ -93,45 +84,40 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 						$total=$biayakost;
 						$pemasukan += $total; 
 						$no++;
-				?>	
+					?>	
 					<tr align="center">
 						<td><?php echo $no;?></td>
 						<td><?php echo htmlentities($result['kode_booking']);?></td>
 						<td><?php echo IndonesiaTgl(htmlentities($result['tgl_booking']));?></td>
 						<td><?php echo format_rupiah($total);?></td>
 					</tr>
-				<?php } ?>					
+					<?php } ?>					
 				</tbody>
 				<tfoot>
-				<?php
+					<?php
 					echo '<tr>';
 					echo '<th colspan="3" class="text-center">Total Pemasukan</th>';
 					echo '<th class="text-center">'. format_rupiah($pemasukan) .'</th>';
 					echo '</tr>';
-				?>
+					?>
 				</tfoot>
 			</table>
-
-
-		</div><!-- /.container -->
+		</div>
 	</section>
-
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#jumlah').terbilang({
-				'style'			: 3, 
-				'output_div' 	: "jumlah2",
-				'akhiran'		: "Rupiah",
-			});
-
-			window.print();
+	$(document).ready(function() {
+		$('#jumlah').terbilang({
+			'style'			: 3, 
+			'output_div' 	: "jumlah2",
+			'akhiran'		: "Rupiah",
 		});
+		window.print();
+	});
 	</script>
-
+	
 	<!-- Bootstrap Core JavaScript -->
 	<script src="../assets/new/bootstrap.min.js"></script>
 	<!-- jTebilang JavaScript -->
 	<script src="../assets/new/jTerbilang.js"></script>
-
 </body>
 </html>

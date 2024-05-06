@@ -1,15 +1,17 @@
 <?php 
 session_start();
-error_reporting(0);
 include('includes/config.php');
 include('includes/format_rupiah.php');
+error_reporting(0);
+	$tglnow   = date('Y-m-d');
+	$tglmulai = strtotime($tglnow);
+  $jmlhari  = 86400*1;
+	$tglplus	  = $tglmulai+$jmlhari;
+	$now = date("Y-m-d",$tglplus);
 
   if(isset($_POST['submit'])){
-    $namakost=$_POST['nama_kost'];
     $fromdate=$_POST['fromdate'];
     $todate=$_POST['todate'];
-    $_SESSION['fdate']=$_POST['fromdate'];
-    $_SESSION['tdate']=$_POST['todate'];
   }
 ?>
 
@@ -21,7 +23,7 @@ include('includes/format_rupiah.php');
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="keywords" content="">
 <meta name="description" content="">
-<title>Narty Boarding House | Daftar Kost</title>
+<title>Narty Boarding House</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->
@@ -38,6 +40,7 @@ include('includes/format_rupiah.php');
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
 </head>
 <body>
+
 <!--Header--> 
 <?php include('includes/header.php');?>
 <!-- /Header --> 
@@ -68,51 +71,70 @@ include('includes/format_rupiah.php');
         <div class="result-sorting-wrapper">
           <div class="sorting-count">
             <?php 
-             $tglnow   = date('Y-m-d');
-             $tglmulai = strtotime($tglnow);
-             $jmlhari  = 86400*1;
-             $tglplus	  = $tglmulai+$jmlhari;
-             $now = date("Y-m-d",$tglplus);
             //Query for Listing count
-            $sql = "SELECT DISTINCT a.*
-            FROM kost a 
-            JOIN nama_kost c 
-            ON a.id_namakost=c.id_namakost
-            LEFT JOIN cek_booking b 
-            ON a.id_kamarkost=b.id_kamarkost and b.kode_booking is not NULL
-            AND b.tgl_booking='$now' 
-            where b.tgl_booking is null ";
+            $namakost=$_POST['namakost'];
+            $fromdate=$_POST['fromdate'];
+            $todate=$_POST['todate'];
+            if($namakost == null){
+              $sql = "SELECT DISTINCT *
+                      FROM kost a 
+                      JOIN nama_kost c 
+                      ON a.id_namakost=c.id_namakost
+                      LEFT JOIN cek_booking b 
+                      ON a.id_kamarkost=b.id_kamarkost
+                      AND b.tgl_booking between '$fromdate' and '$todate'
+                      where b.tgl_booking is null";
+            }else{
+              $sql = "SELECT DISTINCT *
+                    FROM kost a 
+                    JOIN nama_kost c 
+                    ON a.id_namakost=c.id_namakost
+                    LEFT JOIN cek_booking b 
+                    ON a.id_kamarkost=b.id_kamarkost
+                    AND b.tgl_booking between '$fromdate' and '$todate'
+                    WHERE a.id_namakost='$namakost'
+                    AND b.tgl_booking is null";
+            }
             $query = mysqli_query($koneksidb,$sql);
             $cnt = mysqli_num_rows($query);
             ?>
-            <p><span><?php echo htmlentities($cnt);?> Kamar Kost Tersedia Untuk Hari Ini</span></p>
+            <p><span><?php echo htmlentities($cnt);?> Kamar Kost Tersedia</span></p>
           </div>
         </div>
-        <?php
-        $sql1 = "SELECT DISTINCT a.*,c.*
-        FROM kost a 
-        JOIN nama_kost c 
-        ON a.id_namakost=c.id_namakost
-        LEFT JOIN cek_booking b 
-        ON a.id_kamarkost=b.id_kamarkost and b.kode_booking is not NULL
-        AND b.tgl_booking= '$now'
-        where b.tgl_booking is null ";
+        <?php 
+          if($namakost == null){
+            $sql1 = "SELECT DISTINCT a.*,c.*
+                    FROM kost a 
+                    JOIN nama_kost c 
+                    ON a.id_namakost=c.id_namakost
+                    LEFT JOIN cek_booking b 
+                    ON a.id_kamarkost=b.id_kamarkost
+                    AND b.tgl_booking between '$fromdate' and '$todate'
+                    where b.tgl_booking is null";
+            }else{
+              $sql1 = "SELECT DISTINCT a.*,c.*
+                    FROM kost a 
+                    JOIN nama_kost c 
+                    ON a.id_namakost=c.id_namakost
+                    LEFT JOIN cek_booking b 
+                    ON a.id_kamarkost=b.id_kamarkost
+                    AND b.tgl_booking between '$fromdate' and '$todate'
+                    WHERE a.id_namakost='$namakost'
+                    AND b.tgl_booking is null";
+            }
         $query1 = mysqli_query($koneksidb,$sql1);
-        
-        if(mysqli_num_rows($query1)>0)
-        {
-        while($result = mysqli_fetch_array($query1))
-        { 
+        if(mysqli_num_rows($query1)>0){
+          while($result = mysqli_fetch_array($query1)){ 
         ?>
         <div class="product-listing-m gray-bg">
-          <div class="product-listing-img"><a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> 
+          <div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> 
           </div>
           <div class="product-listing-content">
-            <h5><a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a></h5>
+            <h5><a href="kost-details.php?vhid=<?php echo $result['id_kamarkost'];?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a></h5>
             <h6><?php echo htmlentities($result['alamat']);?></a></h6>
             <p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
             <ul>
-              <li><i class="fa fa-arrows-alt" aria-hidden="true"></i>Luas <?php echo htmlentities($result['luas']);?>m²</li>
+            <li><i class="fa fa-arrows-alt" aria-hidden="true"></i>Luas <?php echo htmlentities($result['luas']);?>m²</li>
               <li><i class="fa fa-bath" aria-hidden="true"></i><?php echo htmlentities($result['bath']);?></li>
               <li><i class="fa fa-thermometer-quarter" aria-hidden="true"></i><?php echo htmlentities($result['ac']);?> </li>
             </ul>
@@ -121,34 +143,31 @@ include('includes/format_rupiah.php');
         </div>
         <?php }} ?>
       </div>
-
 <!--Side-Bar-->
-    <script type="text/javascript">
-    function checkDate()
-    {
-     
-
-      if(document.sewa.todate.value < document.sewa.fromdate.value){
-          alert("Tanggal selesai harus lebih besar dari tanggal mulai sewa!");
+      <script type="text/javascript">
+      function checkDate()
+      {
+        if(document.sewa.todate.value < document.sewa.fromdate.value){
+            alert("Tanggal selesai harus lebih besar dari tanggal mulai sewa!");
+            return false;
+        }
+        if(document.sewa.fromdate.value < document.sewa.now.value){
+          alert("Tanggal sewa minimal H-1!");
           return false;
+        }
+        return true;
       }
-      if(document.sewa.fromdate.value < document.sewa.now.value){
-        alert("Tanggal sewa minimal H-1!");
-        return false;
-      }
-      return true;
-    }
-    </script>
+      </script>
       <aside class="col-md-3 col-md-pull-9">
         <div class="sidebar_widget">
           <div class="widget_heading">
-            <h5><i class="fa fa-filter" aria-hidden="true"></i>Cari Kost</h5>
+            <h5><i class="fa fa-filter" aria-hidden="true"></i>Cari kost</h5>
           </div>
           <div class="sidebar_filter">
             <form method="post" action="search-kostresult.php" name="sewa" onSubmit="return checkDate();">
               <div class="form-group">
                 <label>Tanggal Mulai</label>
-                <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" >
+                <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
                 <input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
               </div>
               <div class="form-group">
@@ -156,7 +175,7 @@ include('includes/format_rupiah.php');
                 <input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
               </div>
               <div class="form-group select">
-                <select class="form-control" name="namakost">
+                <select class="form-control" name="namakost" >
                 <option value="" selected>Pilih Nama Kost</option>
                 <?php 
                 $sql3 = "SELECT * from  nama_kost";
@@ -175,10 +194,9 @@ include('includes/format_rupiah.php');
             </form>
           </div>
         </div>
-
         <div class="sidebar_widget">
           <div class="widget_heading">
-            <h5><i class="fa fa-home" aria-hidden="true"></i>Kost Terbaru</h5>
+            <h5><i class="fa fa-home" aria-hidden="true"></i>kost Terbaru</h5>
           </div>
           <div class="recent_addedkost">
             <ul>
@@ -186,9 +204,8 @@ include('includes/format_rupiah.php');
               $sql2 = "SELECT kost.*,nama_kost.* FROM kost,nama_kost 
                   WHERE nama_kost.id_namakost=kost.id_namakost order by nama_kost.id_namakost desc limit 4";
               $query2 = mysqli_query($koneksidb,$sql2);
-              if(mysqli_num_rows($query2)>0)
-              {
-                while($result = mysqli_fetch_array($query2))
+              if(mysqli_num_rows($query2)>0){
+              while($result = mysqli_fetch_array($query2))
               { ?>
               <li class="gray-bg">
                 <div class="recent_post_img"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" alt="image"></a> </div>
@@ -196,12 +213,12 @@ include('includes/format_rupiah.php');
                 <p class="widget_price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
                 </div>
               </li>
-            <?php }} ?>
+              <?php }} ?>
             </ul>
           </div>
         </div>
       </aside>
-<!--/Side-Bar--> 
+      <!--/Side-Bar-->
     </div>
   </div>
 </section>
@@ -210,6 +227,7 @@ include('includes/format_rupiah.php');
 <!--Footer -->
 <?php include('includes/footer.php');?>
 <!-- /Footer--> 
+
 <!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
 <!--/Back to top--> 
@@ -224,11 +242,12 @@ include('includes/format_rupiah.php');
 <!-- Scripts --> 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 
-<script src="assets/js/interface.js"></script> 
+<script src="assets/js/interface.js"></script>
 <!--bootstrap-slider-JS--> 
 <script src="assets/js/bootstrap-slider.min.js"></script> 
 <!--Slider-JS--> 
 <script src="assets/js/slick.min.js"></script> 
 <script src="assets/js/owl.carousel.min.js"></script>
+
 </body>
 </html>

@@ -11,13 +11,13 @@ if(isset($_GET['id'])){
 	$mySql	= "DELETE FROM nama_kost WHERE id_namakost='$id'";
 	$myQry	= mysqli_query($koneksidb, $mySql);
 	echo "<script type='text/javascript'>
-			alert('Data berhasil dihapus.'); 
-			document.location = 'namakost.php'; 
+		alert('Data berhasil dihapus.'); 
+		document.location = 'namakost.php'; 
 		</script>";
 }else {
 	echo "<script type='text/javascript'>
-			alert('Terjadi kesalahan, silahkan coba lagi!.'); 
-			document.location = 'namakost.php'; 
+		alert('Terjadi kesalahan, silahkan coba lagi!.'); 
+		document.location = 'namakost.php'; 
 		</script>";
 }
 }
