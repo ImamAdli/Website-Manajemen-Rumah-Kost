@@ -1,8 +1,8 @@
 <?php
 error_reporting(0);
 include('includes/config.php');
-if(isset($_POST['kode'])){
-	$id	= $_POST['kode'];
+if(isset($_GET['kode'])){ // Mengubah dari $_POST ke $_GET
+	$id	= $_GET['kode']; // Mengubah dari $_POST ke $_GET
 	$mySql	= "DELETE FROM booking WHERE kode_booking='$id'";
 
 	$myQry	= mysqli_query($koneksidb, $mySql);

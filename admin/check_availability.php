@@ -7,7 +7,7 @@ if(!empty($_POST["emailid"])) {
 		echo "error : You did not enter a valid email.";
 	}
 	else {
-	$sql = "SELECT email FROM nama_kost WHERE email='$email'";
+	$sql = "SELECT email FROM pemilik_kost WHERE email='$email'";
 	$query = mysqli_query($koneksidb,$sql);
 	if(mysqli_num_rows($query)>0){
 		echo "<span style='color:red'> Email sudah terdaftar.</span>";

@@ -28,8 +28,6 @@ else{
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
@@ -96,13 +94,13 @@ function checkLetter(theform)
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">Tambah Nama Kost</h2>
+						<h2 class="page-title">Tambah Pemilik Kost</h2>
 						<div class="row">
 							<div class="col-md-10">
 								<div class="panel panel-default">
-									<div class="panel-heading">Form Tambah Nama Kost</div>
+									<div class="panel-heading">Form Tambah Pemilik Kost</div>
 									<div class="panel-body">
-										<form  method="post" name="theform" class="form-horizontal" action="namakostact.php" id="theform" onSubmit="return checkLetter(this); " enctype="multipart/form-data">
+										<form  method="post" name="theform" class="form-horizontal" action="pkact.php" id="theform" onSubmit="return checkLetter(this); " enctype="multipart/form-data">
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Nama Kost</label>
 												<div class="col-sm-8">
@@ -110,7 +108,7 @@ function checkLetter(theform)
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-3 control-label">Nama Lengkap</label>
+												<label class="col-sm-3 control-label">Nama Pemilik</label>
 												<div class="col-sm-8">
 														<input type="text" class="form-control" name="namapemilik" placeholder="Nama Lengkap" required>
 												</div>
@@ -140,6 +138,56 @@ function checkLetter(theform)
 														<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat" required>
 												</div>
 											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">Tipe Kost</label>
+												<div class="col-sm-8">
+													<select class="form-control" name="tipekost" id="tipekost" required>
+														<option value="Pria">Pria</option>
+														<option value="Wanita">Wanita</option>
+														<option value="Campur" selected>Campur</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+										<div class="col-sm-10 col-sm-offset-1">
+											<style>
+											#map {
+												height: 400px;
+												width: 100%;
+												}
+											</style>
+											<body>
+												<h4>Pilih Lokasi Kost pada Google Maps</h4>
+												<div id="map"></div>
+												<input type="text" name="latitude" id="latitude" hidden>
+												<input type="text" name="longitude" id="longitude" hidden>
+												<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
+												<script>
+													function initMap() {
+														var map = new google.maps.Map(document.getElementById('map'), {
+															center: {lat: -0.8262803081990282, lng: 100.35501429355675}, // Default lokasi (Monas, Jakarta)
+															zoom: 15
+														});
+														var marker = new google.maps.Marker({
+															position: {lat: -0.8262803081990282, lng: 100.35501429355675},
+															map: map,
+															draggable: true // Marker dapat digeser
+														});
+														// Ketika marker digeser, update nilai latitude dan longitude pada form
+														marker.addListener('dragend', function(event) {
+															document.getElementById('latitude').value = event.latLng.lat();
+															document.getElementById('longitude').value = event.latLng.lng();
+														});
+														// Ketika peta diklik, pindahkan marker dan update form
+														map.addListener('click', function(event) {
+															marker.setPosition(event.latLng);
+															document.getElementById('latitude').value = event.latLng.lat();
+															document.getElementById('longitude').value = event.latLng.lng();
+														});
+													}
+											</script>
+										</div>
+									</div>
 											<div class="form-group">
 												<label class="col-sm-3 control-label">KTP</label>
 												<div class="col-sm-8">

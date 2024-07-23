@@ -7,15 +7,21 @@ $awal=$_GET['awal'];
 $akhir=$_GET['akhir'];
 $stt	 = "Selesai";
 $logpk = $_SESSION['alogin'];
+$alamat = '';
+
 if ($_SESSION['alogin'] == 'admin') {
-$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-			AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
-			AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
+    $sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+                AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND status='$stt'
+                AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
 } else {
-	$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-	AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'AND nama_kost.email='$logpk'
-	AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
+    $sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+                AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND status='$stt'AND pemilik_kost.email='$logpk'
+                AND booking.tgl_booking BETWEEN '$awal' AND '$akhir'";
+    $queryPemilik = mysqli_query($koneksidb, "SELECT alamat FROM pemilik_kost WHERE email='$logpk'");
+    $resultPemilik = mysqli_fetch_array($queryPemilik);
+    $alamat = $resultPemilik['alamat'];
 }
+
 $querysewa = mysqli_query($koneksidb,$sqlsewa);
 ?>
 <!DOCTYPE html>
@@ -54,7 +60,7 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 						<td class="text-center"><h2>Laporan Transaksi</h2></td>
 					</tr>
 					<tr>
-						<td class="text-center">Jl. Kemanggisan Raya No.19, RT.4/RW.13, Kemanggisan, Kec. Palmerah, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11480</td>
+						<td class="text-center"><?php echo htmlentities($alamat); ?></td>
 					</tr>
 				</tbody>
 			</table>
@@ -71,8 +77,10 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 					<tr>
 						<th>No</th>
 						<th>Kode Sewa</th>
+						<th>Kamar Kost</th>
+						<th>Status</th>
 						<th>Tanggal Sewa</th>
-						<th>Total Bayar</th>
+						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -88,6 +96,8 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 					<tr align="center">
 						<td><?php echo $no;?></td>
 						<td><?php echo htmlentities($result['kode_booking']);?></td>
+						<td><?php echo htmlentities($result['nama_kamar']);echo ", "; echo $result['nama_kost'];?> </td>
+						<td><?php echo htmlentities($result['status']);?></td>
 						<td><?php echo IndonesiaTgl(htmlentities($result['tgl_booking']));?></td>
 						<td><?php echo format_rupiah($total);?></td>
 					</tr>
@@ -96,7 +106,7 @@ $querysewa = mysqli_query($koneksidb,$sqlsewa);
 				<tfoot>
 					<?php
 					echo '<tr>';
-					echo '<th colspan="3" class="text-center">Total Pemasukan</th>';
+					echo '<th colspan="5" class="text-center">Total Pemasukan</th>';
 					echo '<th class="text-center">'. format_rupiah($pemasukan) .'</th>';
 					echo '</tr>';
 					?>

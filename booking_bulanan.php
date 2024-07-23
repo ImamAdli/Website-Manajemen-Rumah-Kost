@@ -18,7 +18,7 @@ if(isset($_POST['submit'])){
 	$todate=$_POST['todate'];
 	$vid=$_POST['vid'];
 //cek
-$sql 	= "SELECT kode_booking FROM cek_booking WHERE tgl_booking between '$fromdate' AND '$todate' AND id_kamarkost='$vid' AND status!='Cancel'";
+$sql 	= "SELECT kode_booking FROM cek_booking WHERE tgl_booking between '$fromdate' AND '$todate' AND id_kamar='$vid' AND status!='Cancel'";
 $query 	= mysqli_query($koneksidb,$sql);
 if(mysqli_num_rows($query)>0){
 		echo " <script> alert ('kost tidak tersedia di tanggal yang anda pilih, silahkan pilih tanggal lain!'); 
@@ -53,12 +53,7 @@ if(mysqli_num_rows($query)>0){
 
 <!-- Fav and touch icons -->
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->  
+
 </head>
 <body>
 
@@ -70,7 +65,7 @@ if(mysqli_num_rows($query)>0){
 <?php 
 $vid=$_GET['vid'];
 $useremail=$_SESSION['login'];
-$sql1 = "SELECT kost.*,nama_kost.* FROM kost,nama_kost WHERE nama_kost.id_namakost=kost.id_namakost and kost.id_kamarkost='$vid'";
+$sql1 = "SELECT kamar_kost.*,pemilik_kost.* FROM kamar_kost,pemilik_kost WHERE pemilik_kost.id_pemilik=kamar_kost.id_pemilik and kamar_kost.id_kamar='$vid'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 ?>
@@ -93,9 +88,18 @@ return true;
 	<section class="user_profile inner_pages">
 	<div class="container">
 	<div class="col-md-6 col-sm-8">
-	      <div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> </div>
+	      <div class="product-listing-img">
+					<?php
+            $imagesString = $result['images'];
+            $imagesArray = explode(',', $imagesString);
+            if (!empty($imagesArray)) {
+              $firstImage = trim($imagesArray[0]);
+              echo '<img src="admin/img/kostimages/' . htmlentities($firstImage) . '" class="img-responsive" alt="Image" />';
+            }
+          ?>
+				</div>
           <div class="product-listing-content">
-            <h5><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a></h5>
+            <h5><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamar']);?></a></h5>
             <p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
             <ul>
               <li><i class="fa fa-arrows-alt" aria-hidden="true"></i><?php echo htmlentities($result['luas']);?>m²</li>
@@ -127,7 +131,7 @@ return true;
 		</div>
       </div>
 </section>
-<!--/my-kosts--> 
+
 <?php include('includes/footer.php');?>
 
 <!-- Scripts --> 

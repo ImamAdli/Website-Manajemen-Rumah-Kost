@@ -13,6 +13,16 @@ if(strlen($_SESSION['ulogin'])==0){
 	$tglplus	  = $tglmulai+$jmlhari;
 	$now = date("Y-m-d",$tglplus);
 
+	// Ambil data tanggal yang sudah dipesan
+	$vid = $_GET['vid'];
+	$bookedDates = [];
+	$sqlBookedDates = "SELECT tgl_booking FROM cek_booking WHERE id_kamar='$vid'";
+	$queryBookedDates = mysqli_query($koneksidb, $sqlBookedDates);
+	while($row = mysqli_fetch_assoc($queryBookedDates)) {
+		$bookedDates[] = $row['tgl_booking'];
+	}
+	$bookedDatesJson = json_encode($bookedDates);
+
 	if(isset($_POST['submit'])){
 		$fromdate=$_POST['fromdate'];
 		$month=29*$_POST['month'];
@@ -26,7 +36,7 @@ if(strlen($_SESSION['ulogin'])==0){
 		$vid=$_POST['vid'];
 //cek
 		$sql 	= "SELECT kode_booking FROM cek_booking WHERE tgl_booking 
-						BETWEEN '$fromdate' AND '$dateto' AND id_kamarkost='$vid' and kode_booking is not NULL ";
+						BETWEEN '$fromdate' AND '$dateto' AND id_kamar='$vid' and kode_booking is not NULL ";
 		$query 	= mysqli_query($koneksidb,$sql);
 		if(mysqli_num_rows($query)>0){
 			echo " <script> alert ('kost tidak tersedia di tanggal yang anda pilih, silahkan pilih tanggal lain!'); 
@@ -61,6 +71,12 @@ if(strlen($_SESSION['ulogin'])==0){
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 <!-- Fav and touch icons -->
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png"> 
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- jQuery (local) -->
+<script src="assets/js/jquery.min.js"></script>
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 
@@ -71,31 +87,49 @@ if(strlen($_SESSION['ulogin'])==0){
 <?php 
 $vid=$_GET['vid'];
 $useremail=$_SESSION['login'];
-$sql1 = "SELECT kost.*,nama_kost.* FROM kost,nama_kost WHERE nama_kost.id_namakost=kost.id_namakost and kost.id_kamarkost='$vid'";
+$sql1 = "SELECT kamar_kost.*,pemilik_kost.* FROM kamar_kost,pemilik_kost WHERE pemilik_kost.id_pemilik=kamar_kost.id_pemilik and kamar_kost.id_kamar='$vid'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 ?>
 <script type="text/javascript">
 function valid()
 {
-	if(document.sewa.lastdate.value < document.sewa.fromdate.value){
-		alert("Tanggal selesai harus lebih besar dari tanggal mulai sewa!");
-		return false;
-	}
-	if(document.sewa.fromdate.value < document.sewa.now.value){
-		alert("Tanggal sewa minimal H-1!");
-		return false;
-	}
-return true;
+    var fromDate = document.sewa.fromdate.value;
+    var lastDate = document.sewa.lastdate.value;
+    var nowDate = document.sewa.now.value;
+
+    // Konversi tanggal dari format yyyy-mm-dd ke objek Date
+    var fromDateObj = new Date(fromDate);
+    var lastDateObj = new Date(lastDate);
+    var nowDateObj = new Date(nowDate);
+
+    if (lastDateObj < fromDateObj) {
+        alert("Tanggal selesai harus lebih besar dari tanggal mulai sewa!");
+        return false;
+    }
+    if (fromDateObj < nowDateObj) {
+        alert("Tanggal sewa minimal H-1!");
+        return false;
+    }
+    return true;
 }
 </script>
-
+<center><h3>Pilih Tanggal Sewa Kamar</h3></center>
 <section class="user_profile inner_pages">
 	<div class="container">
 		<div class="col-md-6 col-sm-8">
-			<div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> </div>
+			<div class="product-listing-img">
+				<?php
+					$imagesString = $result['images'];
+					$imagesArray = explode(',', $imagesString);
+					if (!empty($imagesArray)) {
+						$firstImage = trim($imagesArray[0]);
+						echo '<img src="admin/img/kostimages/' . htmlentities($firstImage) . '" class="img-responsive" alt="Image" />';
+					}
+        ?>
+			</div>
 			<div class="product-listing-content">
-				<h5><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a></h5>
+				<h5><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamar']);?></a></h5>
 				<p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
 				<ul>
 					<li><i class="fa fa-arrows-alt" aria-hidden="true"></i><?php echo htmlentities($result['luas']);?>m²</li>
@@ -111,7 +145,7 @@ return true;
 					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
 					<div class="form-group">
 					<label>Tanggal Mulai</label>
-						<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+						<input type="text" class="form-control datepicker" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
 						<input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
 					</div>
 					<?php 
@@ -119,7 +153,7 @@ return true;
 					if ($statustgl == 0){
 					echo "<div class='form-group'>";
 					echo "<label>Tanggal Selesai</label>";
-					echo	"<input type='date' class='form-control' name='lastdate' placeholder='To Date(dd/mm/yyyy)' required>";
+					echo	"<input type='text' class='form-control datepicker' name='lastdate' placeholder='To Date(dd/mm/yyyy)' required>";
 					echo "<input type='hidden' class='form-control' name='statustgl'  value='<?php echo $statustgl;?>' required>";
 					echo "</div>";
 					} else {
@@ -139,7 +173,7 @@ return true;
 		</div>
   </div>
 </section>
-<!--/my-kosts--> 
+
 <?php include('includes/footer.php');?>
 <!-- Scripts --> 
 <script src="assets/js/jquery.min.js"></script>
@@ -152,6 +186,32 @@ return true;
 <!--Slider-JS--> 
 <script src="assets/js/slick.min.js"></script> 
 <script src="assets/js/owl.carousel.min.js"></script>
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var bookedDates = <?php echo $bookedDatesJson; ?>;
+    $('.datepicker').datepicker({
+        dateFormat: 'yy-mm-dd',
+        beforeShowDay: function(date) {
+            var dateString = $.datepicker.formatDate('yy-mm-dd', date);
+            if (bookedDates.includes(dateString)) {
+                return [false, 'booked', 'Tanggal sudah dipesan'];
+            }
+            return [true, '', ''];
+        },
+        onSelect: function(dateText, inst) {
+            $(this).val(dateText);
+        }
+    });
+});
+</script>
+<style>
+.booked a {
+    background-color: red !important;
+    color: white !important;
+}
+</style>
 </body>
 </html>
 <?php } ?>

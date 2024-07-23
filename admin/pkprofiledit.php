@@ -14,7 +14,8 @@ if(isset($_POST['updatepk'])){
 	$statuspk = "Pending";
 	$latitude = $_POST['latitude'];
 	$longitude = $_POST['longitude'];
-	// $ktp=$_POST['ktp'];
+	$namakost	= $_POST['namakost'];
+	$tipekost = $_POST['tipekost'];
 	$rekening=$_POST['rekening'];
 	$imgoldData = $_POST['textimg'];
 	$file = $_FILES['imgusr']['name'];
@@ -25,12 +26,12 @@ if(isset($_POST['updatepk'])){
 		$file = $imgoldData;
 	}
 
-	$sql="UPDATE nama_kost SET nama_pemilik='$name',telepon='$kosteno',
-	alamat='$address', ktp='$file', rekening='$rekening', statuspk='$statuspk', 
+	$sql="UPDATE pemilik_kost SET nama_pemilik='$name',telepon='$kosteno',nama_kost='$namakost',
+	alamat='$address', tipe_kost='$tipekost', ktp='$file', rekening='$rekening', statuspk='$statuspk', 
 	latitude='$latitude', longitude='$longitude'  WHERE email='$email'";
 	$query = mysqli_query($koneksidb,$sql);
 	if($query){
-	$msg="Profile berhasi diupdate.";
+	$msg="Profil berhasil diupdate.";
 	}else{
     echo "No Error : ".mysqli_errno($koneksidb);
     echo "<br/>";
@@ -59,8 +60,6 @@ if(isset($_POST['updatepk'])){
 <link rel="stylesheet" href="css/bootstrap-social.css">
 <!-- Bootstrap select -->
 <link rel="stylesheet" href="css/bootstrap-select.css">
-<!-- Bootstrap file input -->
-<link rel="stylesheet" href="css/fileinput.min.css">
 <!-- Awesome Bootstrap checkbox -->
 <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 <!-- Admin Stye -->
@@ -100,7 +99,7 @@ function checkLetter(theform)
 <body>
 <?php 
 $useremail=$_SESSION['alogin'];
-$sql = "SELECT * from nama_kost where email='$useremail'";
+$sql = "SELECT * from pemilik_kost where email='$useremail'";
 $query = mysqli_query($koneksidb,$sql);
 while($result=mysqli_fetch_array($query)){
 ?>
@@ -122,7 +121,7 @@ while($result=mysqli_fetch_array($query)){
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="control-label">Tanggal Daftar -</label>
-													<?php echo htmlentities($result['CreationDate']);?>
+													<?php echo htmlentities($result['regDate']);?>
 												</div>
 												<?php if($result['UpdationDate']!=""){?>
 												<div class="form-group">
@@ -131,8 +130,12 @@ while($result=mysqli_fetch_array($query)){
 												</div>
 												<?php } ?>
 												<div class="form-group">
-													<label class="control-label">Nama</label>
+													<label class="control-label">Nama Pemilik</label>
 													<input class="form-control white_bg" name="fullname" value="<?php echo htmlentities($result['nama_pemilik']);?>" id="fullname" type="text"  required>
+												</div>
+												<div class="form-group">
+													<label class="control-label">Nama Kost</label>
+													<input class="form-control white_bg" name="namakost" value="<?php echo htmlentities($result['nama_kost']);?>" id="namakost" type="text"  required>
 												</div>
 												<div class="form-group">
 													<label class="control-label">Email</label>
@@ -141,6 +144,14 @@ while($result=mysqli_fetch_array($query)){
 												<div class="form-group">
 													<label class="control-label">Alamat Kost</label>
 													<input class="form-control white_bg" value="<?php echo htmlentities($result['alamat']);?>" name="address" id="address" type="text" required>
+												</div>
+												<div class="form-group">
+													<label class="control-label">Tipe Kost</label>
+													<select class="form-control white_bg" name="tipekost" id="tipekost" required>
+														<option value="Pria" <?php if($result['tipe_kost'] == 'Pria') echo 'selected'; ?>>Pria</option>
+														<option value="Wanita" <?php if($result['tipe_kost'] == 'Wanita') echo 'selected'; ?>>Wanita</option>
+														<option value="Campur" <?php if($result['tipe_kost'] == 'Campur') echo 'selected'; ?>>Campur</option>
+													</select>
 												</div>
 												<div class="form-group">
 													<label class="control-label">Rekening</label>
@@ -154,8 +165,11 @@ while($result=mysqli_fetch_array($query)){
 													<label class="control-label">KTP</label><br/>
 													<img src="img/id/<?php echo htmlentities($result['ktp']);?>" width="300"  style="border:solid 1px #000"><br/>
 													<input type="text" name="textimg" value="<?php echo htmlentities($result['ktp']);?>" hidden>
-													<label>Ganti Gambar KTP</label><input type="file" name="imgusr">
 												</div>
+												<div class="form-group">
+													<input type="file" id="file" name="imgusr">
+												</div>
+												<br>
 												<div class="form-group">
 													<style>
 															#map {
@@ -171,27 +185,39 @@ while($result=mysqli_fetch_array($query)){
 													<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
 													<script>
 														function initMap() {
+															// Pastikan variabel latitude dan longitude diatur dengan benar
+															var lat = parseFloat("<?php echo $result['latitude']; ?>");
+															var lng = parseFloat("<?php echo $result['longitude']; ?>");
+															 
+															// Periksa apakah lat dan lng adalah angka
+															if (isNaN(lat) || isNaN(lng)) {
+																console.error("Latitude atau Longitude tidak valid.");
+																return;
+															}
+
 															var map = new google.maps.Map(document.getElementById('map'), {
-																	center: {lat: -6.175110, lng: 106.865039}, // Default lokasi (Monas, Jakarta)
-																	zoom: 12
+																center: {lat: lat, lng: lng},
+																zoom: 15
 															});
 															var marker = new google.maps.Marker({
-																	position: {lat: -6.175110, lng: 106.865039},
-																	map: map,
-																	draggable: true // Marker dapat digeser
+																position: {lat: lat, lng: lng},
+																map: map,
+																draggable: true // Marker dapat digeser
 															});
 															// Ketika marker digeser, update nilai latitude dan longitude pada form
 															marker.addListener('dragend', function(event) {
-																	document.getElementById('latitude').value = event.latLng.lat();
-																	document.getElementById('longitude').value = event.latLng.lng();
+																document.getElementById('latitude').value = event.latLng.lat();
+																document.getElementById('longitude').value = event.latLng.lng();
 															});
 															// Ketika peta diklik, pindahkan marker dan update form
 															map.addListener('click', function(event) {
-																	marker.setPosition(event.latLng);
-																	document.getElementById('latitude').value = event.latLng.lat();
-																	document.getElementById('longitude').value = event.latLng.lng();
+																marker.setPosition(event.latLng);
+																document.getElementById('latitude').value = event.latLng.lat();
+																document.getElementById('longitude').value = event.latLng.lng();
 															});
 														}
+														// Pastikan initMap dipanggil setelah halaman selesai dimuat
+														window.addEventListener('load', initMap);
 													</script>
 												</div>
 												<?php } ?>

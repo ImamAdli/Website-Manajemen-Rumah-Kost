@@ -4,7 +4,7 @@ include('includes/config.php');
 if(isset($_POST['login'])){
 	$email=$_POST['email'];
 	$password=md5($_POST['password']);
-	$sql = "SELECT * FROM nama_kost WHERE email='$email' AND password='$password'";
+	$sql = "SELECT * FROM pemilik_kost WHERE email='$email' AND password='$password'";
 	$query = mysqli_query($koneksidb,$sql);
 	$results = mysqli_fetch_array($query);
 	if(mysqli_num_rows($query)>0){
@@ -17,6 +17,20 @@ if(isset($_POST['login'])){
 			echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
 		}
 	}else{
+		echo "<script>alert('Invalid Details');</script>";
+	}
+}
+
+if(isset($_POST['admin_login'])){
+	$email=$_POST['username'];
+	$password=md5($_POST['password']);
+	$sql = "SELECT * FROM admin WHERE UserName='$email' AND Password='$password'";
+	$query = mysqli_query($koneksidb,$sql);
+	$results = mysqli_fetch_array($query);
+	if(mysqli_num_rows($query)>0){
+		$_SESSION['alogin']=$_POST['username'];
+		echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
+	} else{
 		echo "<script>alert('Invalid Details');</script>";
 	}
 }
@@ -35,7 +49,7 @@ if(isset($_POST['login'])){
 	<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<link rel="stylesheet" href="css/fileinput.min.css">
+	
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -45,20 +59,33 @@ if(isset($_POST['login'])){
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<h1 class="text-center text-bold text-light mt-4x">Sign in Pemilik Kost</h1>
+						<h1 id="loginTitle" class="text-center text-bold text-light mt-4x">Sign in Pemilik Kost</h1>
 						<div class="well row pt-2x bk-light">
 							<div class="col-md-8 col-md-offset-2">
-								<form method="post">
+								<!-- Form Login Pemilik Kost -->
+								<form id="pemilikKostForm" method="post">
 									<label for="" class="text-uppercase text-sm">Email</label>
 									<input type="text" placeholder="Email" name="email" class="form-control mb">
 									<label for="" class="text-uppercase text-sm">Password</label>
 									<input type="password" placeholder="Password" name="password" class="form-control mb">
 									<button class="btn btn-primary btn-block" name="login" type="submit">LOGIN</button>
-									<div class=" text-center">
+									<div class="text-center">
 										<br>
 										<p>Belum Memiliki Akun? <a href="registpk.php">Daftar Disini</a></p>
 										<hr>
-										<p>Login Sebagai Admin <a href="index2.php">Klik Disini</a></p>
+										<p>Login Sebagai Admin <a href="#" onclick="showAdminForm()">Klik Disini</a></p>
+									</div>
+								</form>
+								<!-- Form Login Admin -->
+								<form id="adminForm" method="post" class="hidden">
+									<label for="" class="text-uppercase text-sm">Username</label>
+									<input type="text" placeholder="Username" name="username" class="form-control mb">
+									<label for="" class="text-uppercase text-sm">Password</label>
+									<input type="password" placeholder="Password" name="password" class="form-control mb">
+									<button class="btn btn-primary btn-block" name="admin_login" type="submit">LOGIN</button>
+									<div class="text-center">
+										<br>
+										<p>Login Sebagai Pemilik Kost <a href="#" onclick="showPemilikKostForm()">Klik Disini</a></p>
 									</div>
 								</form>
 							</div>
@@ -75,10 +102,6 @@ if(isset($_POST['login'])){
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.dataTables.min.js"></script>
 	<script src="js/dataTables.bootstrap.min.js"></script>
-	<script src="js/Chart.min.js"></script>
-	<script src="js/fileinput.js"></script>
-	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
-
 </body>
 </html>

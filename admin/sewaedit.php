@@ -31,7 +31,7 @@ header('location:index.php');
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	<title>Narty Boarding House | Admin Edit Sewa Kost</title>
+	<title>Narty Boarding House | Admin Edit Sewa kamar_kost</title>
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -42,8 +42,6 @@ header('location:index.php');
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
@@ -66,8 +64,8 @@ header('location:index.php');
 									<div class="panel-body">
 										<?php 
 										$id=$_GET['id'];
-										$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-													AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND booking.kode_booking ='$id'";
+										$sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+													AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND booking.kode_booking ='$id'";
 										$querysewa = mysqli_query($koneksidb,$sqlsewa);
 										$result = mysqli_fetch_array($querysewa);
 										$biayakost=$result['durasi']*$result['harga'];
@@ -101,7 +99,7 @@ header('location:index.php');
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">Telepon</label>
+												<label class="col-sm-2 control-label">Telepon Penyewa</label>
 												<div class="col-sm-4">
 													<input type="text" name="telp" class="form-control" value="<?php echo $result['telp'];?>" required readonly>
 												</div>
@@ -139,7 +137,7 @@ header('location:index.php');
 											<div class="form-group">
 												<label class="col-sm-2 control-label">kost</label>
 												<div class="col-sm-4">
-													<input type="text" name="namakost" class="form-control" value="<?php echo $result['nama_kamarkost'];?>" required readonly>
+													<input type="text" name="namakost" class="form-control" value="<?php echo $result['nama_kamar'];?>" required readonly>
 												</div>
 											</div>
 											<br/>

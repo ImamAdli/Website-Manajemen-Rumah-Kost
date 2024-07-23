@@ -30,40 +30,10 @@ else{
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-<style>
-.errorWrap {
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #dd3d36;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-.succWrap{
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #5cb85c;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-</style>
-<script type="text/javascript">
-function valid()
-{
-	if(document.laporan.akhir.value < document.laporan.awal.value){
-		alert("Tanggal akhir harus lebih besar dari tanggal awal!");
-		return false;
-	}
-	return true;
-}
-</script>
 </head>
 
 <body>
@@ -101,24 +71,25 @@ function valid()
 					$logpk = $_SESSION['alogin'];
 					$stt	 = "Selesai";
 					if ($_SESSION['alogin'] == 'admin') {
-					$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-								AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt'
+					$sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+								AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND status='$stt'
 								AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
 					} else {
-						$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-						AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND status='$stt' AND nama_kost.email='$logpk'
+						$sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+						AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND status='$stt' AND pemilik_kost.email='$logpk'
 						AND booking.tgl_booking BETWEEN '$mulai' AND '$selesai'";
 					}
 					$querysewa = mysqli_query($koneksidb,$sqlsewa);
 					?>
 					<div class="panel panel-default">
 						<div class="panel-heading">Laporan Sewa Tanggal <?php echo IndonesiaTgl($mulai);?> sampai <?php echo IndonesiaTgl($selesai);?></div>
-							<div class="panel-body">
+							<div class="panel-body table-responsive">
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>No</th>
 											<th>Kode Sewa</th>
+											<th>Kamar Kost</th>
 											<th>Status</th>
 											<th>Tanggal Sewa</th>
 											<th>Total</th>
@@ -134,6 +105,7 @@ function valid()
 										<tr>
 											<td><?php echo $no;?></td>
 											<td><?php echo htmlentities($result['kode_booking']);?></td>
+											<td><?php echo htmlentities($result['nama_kamar']);echo ", "; echo $result['nama_kost'];?> </td>
 											<td><?php echo htmlentities($result['status']);?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_booking']));?></td>
 											<td><?php echo format_rupiah($total);?></td>
@@ -177,8 +149,16 @@ function valid()
 			app.code = code;
 		}
 	});
+	
+	function valid()
+	{
+		if(document.laporan.akhir.value < document.laporan.awal.value){
+			alert("Tanggal akhir harus lebih besar dari tanggal awal!");
+			return false;
+		}
+		return true;
+	}
 	</script>
-
 </body>
 </html>
 <?php } ?>

@@ -11,7 +11,6 @@ if(isset($_POST['updateprofile'])){
 	$kosteno=$_POST['kostenumber'];
 	$address=$_POST['address'];
 	$email=$_POST['email'];
-
   $imgold = $_POST['img1old'];
 	$imgoldData = $_POST['textimg'];
 	$file = $_FILES['imgusr']['name'];

@@ -18,9 +18,6 @@ else {
 ?>
 
 <html>
-<head>
-</head>
-
 <body>
 	<div id="section-to-print">
 		<div id="only-on-print">

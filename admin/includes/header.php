@@ -1,7 +1,5 @@
 <div class="brand clearfix">
-	<div class="col-sm-9 col-md-5" style="top:15px;">
-		<a href="#" style="font-size: 20px;">Sewa Kost | Admin Panel</a>  
-	</div>	
+	<a href="#" style="font-size: 20px; top:15px;">Sewa Kost | Admin Panel</a>  
 	<span class="menu-btn"><i class="fa fa-bars"></i></span>
 		<ul class="ts-profile-nav">
 			<li class="ts-account">
@@ -9,7 +7,7 @@
 				<ul>
 					<li><a href="change-password.php">Ubah Password</a></li>
 					<?php if ($_SESSION['alogin'] != 'admin') {
-					 echo "<li><a href='pkdataedit.php'>Ubah Data</a></li>";
+					 echo "<li><a href='pkprofiledit.php'>Ubah Data</a></li>";
 					}?>
 					<li><a href="logout.php">Logout</a></li>
 				</ul>

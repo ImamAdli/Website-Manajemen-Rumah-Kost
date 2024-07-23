@@ -1,12 +1,5 @@
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap');
-
-/*
-Theme Name: CarForYou - Responsive Car Dealer HTML5 Template.
-Author: WMD Team
-Version:1.0
-*/
-
 /*===========================
  =  Table of CSS
  
@@ -82,9 +75,6 @@ Version:1.0
 	20. Coming-Soon-Page
 	21. Responsive CSS
 ===========================*/
-
-
-
 /*====================
 	1. General code
 ==========================*/
@@ -96,14 +86,6 @@ body {
 	overflow-x:hidden;
 	color:#080808;
 }
-
-.w3-btn,.w3-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
-.w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}   
-.w3-disabled,.w3-btn:disabled,.w3-button:disabled{cursor:not-allowed;opacity:0.3}.w3-disabled *,:disabled *{pointer-events:none}
-.w3-display-left{position:absolute;top:60%;left:0%;transform:translate(0%,-50%);-ms-transform:translate(-0%,-50%)}
-.w3-display-right{position:absolute;top:60%;right:0%;transform:translate(0%,-50%);-ms-transform:translate(0%,-50%)}
-.w3-black,.w3-hover-black:hover{color:#fff!important;background-color:#000!important}
-
 /*----------------------
 	1.1. Typography
 ------------------------------*/
@@ -127,10 +109,7 @@ h4 {
 }
 h5 {
 	font-size: 20px;
-	line-height:32px;
-  /* text-align: center; */
 }
-
 h6 {
 	font-size: 16px;
 }
@@ -185,8 +164,6 @@ ul.list-with-icon li i {
   position: absolute;
   top: 4px;
 }
-
-
 blockquote {
 	background:#f5f5f5 ;	
 }
@@ -212,6 +189,48 @@ blockquote {
   margin: 40px auto;
 }
 
+input[type=file] {
+  width: 100%;
+  color: #444;
+  padding: 2px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px dashed #555;
+}
+
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #325d88;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+}
+
+input[type=file]::file-selector-button:hover {
+  background: #294d70;
+}
+
+.filter-group {
+  margin-bottom: 10px;
+}
+
+.payment-notification {
+  background-color: #f8d7da;
+
+  border: 1px solid #f5c6cb;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.payment-notification h5 {
+  margin: 10px 0;
+  color: #721c24;
+}
 /*-----------------
 	1.2. Button
 -------------------------*/
@@ -231,6 +250,55 @@ blockquote {
      -webkit-transition: all 0.3s linear 0s;
       -ms-transition: all 0.3s linear 0s;
 }
+
+.button-group {
+  display: flex;
+  justify-content: center; /* Menempatkan tombol di tengah */
+  margin-top: 10px;
+  margin-bottom: 10px; /* Menambahkan jarak dengan tombol "Cari" */
+}
+
+.btn-left, .btn-right {
+  background-color: #4CAF50; /* Warna tombol */
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 50%; /* Membuat tombol menjadi bulat */
+  width: 40px; /* Menentukan lebar tombol */
+  height: 40px; /* Menentukan tinggi tombol */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px; /* Menambahkan jarak antara tombol kiri dan kanan */
+}
+
+.btn-left i, .btn-right i {
+  font-size: 16px;
+}
+
+.btn-left:hover, .btn-right:hover {
+  background-color: #45a049; /* Warna tombol saat di-hover */
+}
+
+.btn-list-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.note{
+  background-color: #020096; /* Warna tombol */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}
+
 .btn .fa {
   font-size: 20px;
   margin-left: 5px;
@@ -296,7 +364,7 @@ blockquote {
 
 a, 
 .btn-link, 
-.car-title-m h6 a:hover, 
+.kost-title-m h6 a:hover, 
 .featured-car-content > h6 a:hover, 
 .footer-top ul li a:hover, 
 .get-intouch a:hover, 
@@ -505,7 +573,13 @@ blockquote,
 .margin-none {
 	margin:0px;
 }
-
+.carousel-inner .item img {
+  display: block;
+  margin: 0 auto;
+  height: 500px;
+  width: auto;
+  object-fit: cover;
+}
 
 
 /*-----------------
@@ -807,6 +881,7 @@ table thead th, table thead td {
   float: right;
   margin: 1%;
 }
+
 .social-follow {
   display: inline-block;
   margin-left: 20px;
@@ -1248,13 +1323,13 @@ nav.navbar {
 .col-list-3:nth-child(3n+1) {
 	clear:left;
 }
-.recent-car-list {
+.recent-kost-list {
   background: #ffffff none repeat scroll 0 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin-top: 40px;
 }
-.car-info-box { position:relative;}
-.car-info-box ul {
+.kost-info-box { position:relative;}
+.kost-info-box ul {
   background: rgba(0, 0, 0, 0.6) none repeat scroll 0 0;
   bottom: 0;
   margin: 0 auto;
@@ -1262,7 +1337,7 @@ nav.navbar {
   position: absolute;
   width: 100%;
 }
-.car-info-box li {
+.kost-info-box li {
   color: #ffffff;
   display: inline-block;
   font-size: 13px;
@@ -1270,25 +1345,25 @@ nav.navbar {
   list-style: outside none none;
   margin: 0 15px 0 auto;
 }
-.car-info-box li .fa {
+.kost-info-box li .fa {
   margin-right: 8px;
 }
-.car-info-box li:nth-last-child(1) {
+.kost-info-box li:nth-last-child(1) {
   margin-right: 0;
 }
-.car-title-m {
+.kost-title-m {
   overflow: hidden;
   padding: 20px;
 }
-.car-title-m h6 {
+.kost-title-m h6 {
   float: left;
   margin: 0 auto;
   max-width: 245px;
 }
-.car-title-m h6 a {
+.kost-title-m h6 a {
   color: #111111;
 }
-.car-title-m .price {
+.kost-title-m .price {
   color: #080808;
   float: right;
   font-size: 16px;
@@ -2349,7 +2424,7 @@ form .slider.slider-horizontal {
   background: #f5f5f5 none repeat scroll 0 0;
   border-bottom: 3px solid #e5e5e5;
   border-left: 4px solid #cecece;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   overflow: hidden;
   padding: 10px 20px;
 }
@@ -2399,16 +2474,18 @@ form .slider.slider-horizontal {
 .product-listing-m {
   margin:0 auto 40px;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 .product-listing-img {
   float: left;
   width: 45%;
   position:relative;
   overflow:hidden;
+  padding: 10px 0px;
 }
 .product-listing-content {
   float: left;
-  padding:20px 15px 20px 30px;
+  padding:5px 15px 5px 30px;
   width: 55%;
 }
 .product-listing-content h5 {
@@ -3653,10 +3730,10 @@ table.info-tabel tr td {
 	16. Profile-page
 ================================*/
 .profile_page {
-	background-image:url(../images/profile-page-header-img.jpg);
+	background-image:url(../images/aboutus.png);
 }
 .inner_pages {
-	padding:80px 0;
+	padding: 50px 0;
 }
 .user_profile_info {
 	margin: auto;	
@@ -4525,9 +4602,7 @@ h3 {
 	display:block;
 	margin:0 auto 10px;	
 }
-/* .login_btn .btn.btn-xs {
-  margin-top: 8px;
-} */
+
 .navbar-nav > li > .dropdown-menu {
 	margin:0 20px;
 }
@@ -4691,7 +4766,7 @@ h3 {
 .col-list-3 {
 	width:100%;
 }
-.car-info-box img, .featured-car-img img {
+.kost-info-box img, .featured-car-img img {
 	width:100%;
 }
 .blog-info-box img {
@@ -4723,7 +4798,7 @@ h3 {
 .looking-car-content {
 	width:100%;
 }
-.car-info-box ul {
+.kost-info-box ul {
   padding: 0 5px;
 }
 .compare_info {
@@ -4864,6 +4939,35 @@ h3 {
 
 
 @media (max-width:480px) {
+  
+h1 {
+	font-size: 42px;
+}
+h2 {
+	font-size: 35px;
+}
+h3 {
+	font-size: 27px;
+}
+h4 {
+	font-size: 20px;
+}
+h5 {
+	font-size: 16px;
+}
+h6 {
+	font-size: 14px;
+}
+p{
+  font-size: 14px;
+}
+.listing_detail_head .price_info p {
+	font-size:30px;
+	font-weight:700;
+}
+.carousel-inner .item img {
+  height: 300px;
+}
 
 .sorting-count, .result-sorting-by {
 	float:none;
@@ -4871,7 +4975,7 @@ h3 {
 }
 .login_btn .btn.btn-xs {
   font-size: 11px;
-  padding: 0 15px;
+  padding: 5% 15px;
 }
 .fun-facts-m {
   height: 130px;
@@ -4943,7 +5047,7 @@ h3 {
 .col-list-3 {
 	width:100%;
 }
-.car-info-box li {
+.kost-info-box li {
   font-size: 12px;
   line-height: 40px;
   margin: 0 5px 0 auto;
@@ -5002,7 +5106,7 @@ h3 {
 }
 .login_btn .btn.btn-xs {
 	font-size:10px;
-	padding:0 15px;
+	padding: 5% 15px;
 }
 .social-follow {
 	margin:0px;
@@ -5348,10 +5452,10 @@ h5 {
   right: -30px;
   top: 70px;
 }
-.car-info-box ul {
+.kost-info-box ul {
   padding: 0 10px;
 }
-.car-info-box li {
+.kost-info-box li {
   font-size: 11px;
   line-height: 40px;
   margin: 0 5px 0 auto;

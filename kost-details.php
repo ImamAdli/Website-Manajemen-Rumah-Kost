@@ -28,7 +28,6 @@ error_reporting(0);
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
 </head>
 <body>
@@ -39,59 +38,45 @@ error_reporting(0);
 <!--Listing-Image-Slider-->
 <?php 
 $vhid=intval($_GET['vhid']);
-$sql = "SELECT kost.*, nama_kost.* from kost, nama_kost WHERE nama_kost.id_namakost=kost.id_namakost AND kost.id_kamarkost='$vhid'";
+$sql = "SELECT kamar_kost.*, pemilik_kost.* from kamar_kost, pemilik_kost WHERE pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND kamar_kost.id_kamar='$vhid'";
 $query = mysqli_query($koneksidb,$sql);
 if(mysqli_num_rows($query)>0)
 {
 while($result = mysqli_fetch_array($query))
 { 
-	$_SESSION['brndid']=$result['id_namakost'];  
+	$_SESSION['brndid']=$result['id_pemilik'];  
 ?>  
 
-<div style="text-align: center;" >
-  <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" style="height:500px">
-  <img class="mySlides" src="admin/img/kostimages/<?php echo htmlentities($result['image2']);?>" style="height:500px">
-  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-  <?php if($result['image3']==""){
-  } else {?>
-  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image3']);?>" class="mySlides" alt="image" height="500px"></div>
-  <?php } ?>
-  <?php if($result['image4']==""){} else {
-  ?>
-  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image4']);?>" class="mySlides" alt="image" height="500px"></div>
-  <?php } ?>
-  <?php if($result['image5']==""){} else {
-  ?>
-  <div><img src="admin/img/kostimages/<?php echo htmlentities($result['image5']);?>" class="mySlides" alt="image" height="500px"></div>
-  <?php } ?>
+<div id="kostCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <?php 
+    $fileNames=explode(",",$result['images']);
+    $jumlah_data = count($fileNames);
+    for ($i = 0; $i < $jumlah_data; $i++) {
+      $activeClass = $i === 0 ? 'active' : '';
+      echo "<div class='item $activeClass'>
+              <img src='admin/img/kostimages/".$fileNames[$i]."' class='' style=''>
+            </div>";
+    }
+    ?>
+  </div>
+  <a class="left carousel-control" href="#kostCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#kostCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
 </div>
-<script>
-var slideIndex = 1;
-showDivs(slideIndex);
-function plusDivs(n) {
-  showDivs(slideIndex += n);
-}
 
-function showDivs(n) {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  if (n > x.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = x.length}
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  x[slideIndex-1].style.display = "inline";
-}
-</script>
-<!--/Listing-Image-Slider-->
 
 <!--Listing-detail-->
 <section class="listing-detail">
   <div class="container">
     <div class="listing_detail_head row">
       <div class="col-md-8">
-        <h2><?php echo htmlentities($result['nama_kost']);?>, <?php echo htmlentities($result['nama_kamarkost']);?></h2>
+        <h2><?php echo htmlentities($result['nama_kost']);?> (<?php echo htmlentities($result['tipe_kost']);?>), <?php echo htmlentities($result['nama_kamar']);?></h2>
         <h3>Alamat Kost : <?php echo htmlentities($result['alamat']); ?></h3>
       </div>
       <div class="col-md-4">
@@ -121,7 +106,7 @@ function showDivs(n) {
           function initMap() {
             var lokasi =   {lat:<?php echo htmlentities($result['latitude']);?>, lng: <?php echo htmlentities($result['longitude']);?>}; // Contoh: Lokasi Monas
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
+                zoom: 16,
                 center: lokasi
                 });
             var marker = new google.maps.Marker({

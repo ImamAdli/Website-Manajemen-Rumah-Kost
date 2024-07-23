@@ -40,7 +40,7 @@ if(strlen($_SESSION['ulogin'])==0){
 
 <?php 
 $kode=$_GET['kode'];
-$sql1 	= "SELECT booking.*,kost.*, nama_kost.* FROM booking,kost,nama_kost WHERE booking.id_kamarkost=kost.id_kamarkost AND nama_kost.id_namakost=kost.id_namakost and booking.kode_booking='$kode'";
+$sql1 	= "SELECT booking.*,kamar_kost.*, pemilik_kost.* FROM booking,kamar_kost,pemilik_kost WHERE booking.id_kamar=kamar_kost.id_kamar AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik and booking.kode_booking='$kode'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 $harga	= $result['harga'];
@@ -51,7 +51,8 @@ $totalkost = $durasi*$harga;
 $totalsewa = $totalkost;
 $tglmulai = strtotime($result['tgl_mulai']);
 $jmlhari  = 86400*1;
-$tgl	  = $tglmulai-$jmlhari;
+$tglbooking = strtotime($result['tgl_booking']);
+$tgl = $tglbooking + $jmlhari;
 $tglhasil = date("Y-m-d",$tgl);
 ?>
 <section class="user_profile inner_pages">
@@ -68,7 +69,7 @@ $tglhasil = date("Y-m-d",$tgl);
 					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
 					<div class="form-group">
 						<label>kost</label>
-						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamarkost'];?>"readonly>
+						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamar'];?>"readonly>
 					</div>
 					<div class="form-group">
 					<label>Tanggal Mulai</label>
@@ -83,8 +84,8 @@ $tglhasil = date("Y-m-d",$tgl);
 						<input type="text" class="form-control" name="durasi" value="<?php echo $durasi;?> Hari"readonly>
 					</div>
 					<div class="form-group">
-						<label>Biaya kost (<?php echo $durasi;?> Hari)</label><br/>
-						<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($totalkost);?>"readonly>
+						<label>Biaya/Hari</label><br/>
+						<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($result['harga']);?>"readonly>
 					</div>
 					<div class="form-group">
 					<label>Total Biaya Sewa (<?php echo $durasi;?> Hari)</label><br/>
@@ -106,7 +107,7 @@ $tglhasil = date("Y-m-d",$tgl);
 		</div>
   </div>
 </section>
-<!--/my-kosts--> 
+
 <?php include('includes/footer.php');?>
 
 <!-- Scripts --> 

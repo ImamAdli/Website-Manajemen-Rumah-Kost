@@ -8,7 +8,7 @@ if(strlen($_SESSION['alogin'])==0){
 	else{
 	if(isset($_GET['id'])){
 		$id	= $_GET['id'];
-		$mySql	= "DELETE FROM kost WHERE id_kamarkost='$id'";
+		$mySql	= "DELETE FROM kamar_kost WHERE id_kamar='$id'";
 		$myQry	= mysqli_query($koneksidb, $mySql);
 		echo "<script type='text/javascript'>
 				alert('Data berhasil dihapus.'); 

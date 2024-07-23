@@ -24,13 +24,13 @@ if(isset($_POST['emailsubscibe'])){
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h6>Tentang Kami</h6>
+          <h6>About</h6>
           <ul>
             <li><a href="page.php?type=aboutus">Tentang Kami</a></li>
-            <li><a href="page.php?type=faqs">FAQs</a></li>
-            <li><a href="page.php?type=privacy">Privacy</a></li>
-            <li><a href="page.php?type=terms">Terms of use</a></li>
-            <li><a href="admin/">Login Pemilik Kost</a></li>
+            <li><a href="page.php?type=faqs">Pertanyaan Terkait</a></li>
+            <li><a href="page.php?type=privacy">Kebijakan Privasi</a></li>
+            <li><a href="page.php?type=terms">Syarat dan Ketentuan</a></li>
+            <li><a href="admin/">Login Admin</a></li>
           </ul>
         </div>
       </div>

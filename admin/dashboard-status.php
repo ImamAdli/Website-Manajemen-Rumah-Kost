@@ -17,21 +17,8 @@ if(strlen($_SESSION['alogin'])==0){
 <meta name="theme-color" content="#3e454c">
 <title>Narty Boarding House | Admin Dashboard</title>
 
-<!-- Font awesome -->
 <link rel="stylesheet" href="css/font-awesome.min.css">
-<!-- Sandstone Bootstrap CSS -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<!-- Bootstrap Datatables -->
-<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
-<!-- Bootstrap social button library -->
-<link rel="stylesheet" href="css/bootstrap-social.css">
-<!-- Bootstrap select -->
-<link rel="stylesheet" href="css/bootstrap-select.css">
-<!-- Bootstrap file input -->
-<link rel="stylesheet" href="css/fileinput.min.css">
-<!-- Awesome Bootstrap checkbox -->
-<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
-<!-- Admin Stye -->
 <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -42,11 +29,16 @@ if(strlen($_SESSION['alogin'])==0){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-10">
-					<?php if ($_SESSION['statuspk'] == 'Pending') {
+					<?php 
+					$sql2 ="SELECT admin.* FROM admin";
+					$query = mysqli_query($koneksidb,$sql2);
+					$result = mysqli_fetch_array($query);
+					if ($_SESSION['statuspk'] == 'Pending') {
 					 	echo "<h2 class='page-title'>Akun Anda Sedang Diproses...</h2>
-						 <h2>Mohon untuk Menunggu Konfirmasi, Maksimal 48 Jam</h2>";
+						<h2>Mohon untuk Menunggu Konfirmasi, Maksimal 48 Jam</h2>
+						<h2>Atau bisa dengan Kontak Admin ke <a href='https://wa.me/".htmlentities($result['telp'])."'>".htmlentities($result['telp'])."</a></h2>";
 					}else{
-						echo "<h2 class='page-title'>Akun Anda Ditolak!!!, Karena : </h2>
+						echo "<h2 class='page-title'>Akun Anda Ditolak!!!</h2>
 							<h2>Mohon untuk Memasukkan Data dengan Benar</h2>";
 					}
 					?>
@@ -60,30 +52,7 @@ if(strlen($_SESSION['alogin'])==0){
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap-select.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.dataTables.min.js"></script>
-	<script src="js/dataTables.bootstrap.min.js"></script>
-	<script src="js/Chart.min.js"></script>
-	<script src="js/fileinput.js"></script>
-	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
-	<script>
-	window.onload = function(){
-		// Line chart from swirlData for dashReport
-		var ctx = document.getElementById("dashReport").getContext("2d");
-		window.myLine = new Chart(ctx).Line(swirlData, {
-			responsive: true,
-			scaleShowVerticalLines: false,
-			scaleBeginAtZero : true,
-			multiTooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-		}); 
-		// Pie Chart from doughutData
-		var doctx = document.getElementById("chart-area3").getContext("2d");
-		window.myDoughnut = new Chart(doctx).Pie(doughnutData, {responsive : true});
-		// Dougnut Chart from doughnutData
-		var doctx = document.getElementById("chart-area4").getContext("2d");
-		window.myDoughnut = new Chart(doctx).Doughnut(doughnutData, {responsive : true});
-	}
-	</script>
 </body>
 </html>
 <?php } ?>

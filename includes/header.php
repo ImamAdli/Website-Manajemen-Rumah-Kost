@@ -1,4 +1,3 @@
-
 <header>
   <div class="default-header">
     <div class="container">
@@ -8,15 +7,20 @@
         </div>
         <div class="col-sm-9 col-md-10">
           <div class="header_info">
+            <?php 
+              $sql2 ="SELECT admin.* FROM admin";
+              $query = mysqli_query($koneksidb,$sql2);
+              $result = mysqli_fetch_array($query);
+            ?>
             <div class="header_widgets">
               <div class="circle_icon"> <i class="fa fa-envelope" aria-hidden="true"></i> </div>
               <p class="uppercase_text">Untuk Sponsor, Email Kita ke : </p>
-              <a href="https://mail.google.com/mail/u/0/?view=cm&tf=1&fs=1&to=rugimaku@gmail.com">rugimaku@gmail.com</a> 
+              <a href="https://mail.google.com/mail/u/0/?view=cm&tf=1&fs=1&to=<?php echo htmlentities($result['email']);?>"><?php echo htmlentities($result['email']);?></a> 
             </div>
             <div class="header_widgets">
               <div class="circle_icon"> <i class="fa fa-phone" aria-hidden="true"></i> </div>
               <p class="uppercase_text">Untuk Layanan, Telpon Kita ke: </p>
-              <a href="tel:+62-899-009-6343">+62-899-009-6343</a> 
+              <a href="https://wa.me/<?php echo htmlentities($result['telp']);?>"><?php echo htmlentities($result['telp']);?></a> 
             </div>
           </div>
           <div class="login_info">
@@ -55,13 +59,11 @@
                   <ul class="dropdown-menu">
                   <?php if($_SESSION['ulogin']){?>
                     <li><a href="profile.php">Profile Settings</a></li>
-                    <!-- <li><a href="contact-us.php">Keluhan</a></li> -->
                     <li><a href="update-password.php">Update Password</a></li>
                     <li><a href="riwayatsewa.php">Riwayat Sewa</a></li>
                     <li><a href="logout.php">Sign Out</a></li>
                     <?php } else { ?>
                     <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Profile Settings</a></li>
-                    <!-- <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Keluhan</a></li> -->
                     <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Update Password</a></li>
                     <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Riwayat Sewa</a></li>
                     <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Sign Out</a></li>
@@ -76,10 +78,37 @@
           <li><a href="index.php">Home</a></li>        	 
           <li><a href="page.php?type=aboutus">Tentang Kami</a></li>
           <li><a href="kost-listing.php">Daftar Kost</a>
-          <li><a href="page.php?type=faqs">FAQs</a></li>
+          <li><a href="page.php?type=faqs">Pertanyaan Terkait</a></li>
         </ul>
       </div>
     </div>
   </nav> 
   
 </header>
+
+<style>
+  .navbar-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  .navbar-default {
+    transition: top 1s;
+  }
+</style>
+
+<script>
+  window.onscroll = function() {fixNavbar()};
+
+  var navbar = document.getElementById("navigation_bar");
+  var sticky = navbar.offsetTop;
+
+  function fixNavbar() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("navbar-fixed")
+    } else {
+      navbar.classList.remove("navbar-fixed");
+    }
+  }
+</script>

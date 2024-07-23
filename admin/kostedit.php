@@ -27,30 +27,11 @@ header('location:index.php');
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-<style>
-.errorWrap {
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #dd3d36;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-.succWrap{
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #5cb85c;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-</style>
+
 <script type="text/javascript">
 function valid(theform){
 	pola_nama=/^[a-zA-Z0-9 ]*$/;
@@ -71,15 +52,15 @@ function valid(theform){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">Edit Kost</h2>
+						<h2 class="page-title">Edit Kamar Kost</h2>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
-									<div class="panel-heading">Form Edit Kost</div>
+									<div class="panel-heading">Form Edit Kamar Kost</div>
 									<div class="panel-body">
 										<?php 
 										$id=intval($_GET['id']);
-										$sql ="SELECT kost.*,nama_kost.* FROM kost, nama_kost WHERE kost.id_namakost=nama_kost.id_namakost AND kost.id_kamarkost='$id'";
+										$sql ="SELECT kamar_kost.*,pemilik_kost.* FROM kamar_kost, pemilik_kost WHERE kamar_kost.id_pemilik=pemilik_kost.id_pemilik AND kamar_kost.id_kamar='$id'";
 										$query = mysqli_query($koneksidb,$sql);
 										$result = mysqli_fetch_array($query);
 										?>
@@ -88,25 +69,25 @@ function valid(theform){
 												<label class="col-sm-2 control-label">Nama Kamar Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<input type="hidden" name="id" class="form-control" value="<?php echo $id;?>" required>
-													<input type="text" name="kosttitle" class="form-control" value="<?php echo htmlentities($result['nama_kamarkost']);?>" required>
+													<input type="text" name="kosttitle" class="form-control" value="<?php echo htmlentities($result['nama_kamar']);?>" required>
 												</div>
 												<label class="col-sm-2 control-label">Nama Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<select class="form-control" name="namakostname" required="" data-parsley-error-message="Field ini harus diisi" >
 													<?php
-													$idkost=$result['id_namakost'];
+													$idkost=$result['id_pemilik'];
 													$nmkost=$result['nama_kost'];
 													if($_SESSION['alogin'] != 'admin'){
 															echo "<option value='$idkost'>$nmkost</option>";
 													}else{
 														echo "<option value='$idkost'>$nmkost</option>";
-														$mySql = "SELECT * FROM nama_kost ORDER BY id_namakost";
+														$mySql = "SELECT * FROM pemilik_kost ORDER BY id_pemilik";
 														$myQry = mysqli_query($koneksidb, $mySql);
 														while ($myData = mysqli_fetch_array($myQry)) {
-														if ($myData['id_namakost']== $datanama_kost) {
+														if ($myData['id_pemilik']== $datapemilik_kost) {
 															$cek = " selected";
 															} else { $cek=""; }
-															echo "<option value='$myData[id_namakost]' $cek>$myData[nama_kost] </option>";
+															echo "<option value='$myData[id_pemilik]' $cek>$myData[nama_kost] </option>";
 														}
 													}
 													?>
@@ -157,49 +138,38 @@ function valid(theform){
 											<div class="hr-dashed"></div>								
 											<div class="form-group">
 												<div class="col-sm-12">
-													<h4><b>Gambar kost</b></h4>
+													<h3><b><center>Gambar Kamar Kost</center></b></h3>
 												</div>
 											</div>
 											<div class="form-group">
+												<?php
+												$imagesString = $result['images'];
+												$imagesArray = explode(',', $imagesString);
+												foreach ($imagesArray as $index => $image) {
+												$image = trim($image); // Hapus spasi di awal dan akhir string jika ada
+												?>
 												<div class="col-sm-4">
-													<label class="control-label">Gambar 1</label><br/>
-													<img src="img/kostimages/<?php echo htmlentities($result['image1']);?>" width="300"  style="border:solid 1px #000"><br/>
-													<input type="text" name="textimg1" value="<?php echo htmlentities($result['image1']);?>" hidden>
-													<h5>Ganti Gambar 1</h5><input type="file" name="imgusr1">
+														<label class="control-label">Gambar <?php echo $index + 1; ?></label><br/>
+														<img src="img/kostimages/<?php echo htmlentities($image); ?>" alt="Gambar <?php echo $index + 1; ?>" class="img-responsive"/><br/>
 												</div>
-												<div class="col-sm-4">
-													<label class="control-label">Gambar 2</label><br/>
-													<img src="img/kostimages/<?php echo htmlentities($result['image2']);?>" width="300"  style="border:solid 1px #000"><br/>
-													<input type="text" name="textimg2" value="<?php echo htmlentities($result['image2']);?>" hidden>
-													<h5>Ganti Gambar 2</h5><input type="file" name="imgusr2">
-												</div>
-												<div class="col-sm-4">
-													<label class="control-label">Gambar 3</label><br/>
-													<img src="img/kostimages/<?php echo htmlentities($result['image3']);?>" width="300"  style="border:solid 1px #000"><br/>
-													<input type="text" name="textimg3" value="<?php echo htmlentities($result['image3']);?>" hidden>
-													<h5>Ganti Gambar 3</h5><input type="file" name="imgusr3">
-												</div>
-											</div>	
+												<?php } ?>
+											</div>
 											<div class="form-group">
-												<div class="col-sm-4">
-													<label class="control-label">Gambar 4</label><br/>
-													<img src="img/kostimages/<?php echo htmlentities($result['image4']);?>" width="300"  style="border:solid 1px #000"><br/>
-													<input type="text" name="textimg4" value="<?php echo htmlentities($result['image4']);?>" hidden>
-													<h5>Ganti Gambar 4</h5><input type="file" name="imgusr4">
-												</div>
-												<div class="col-sm-4">
-													<label class="control-label">Gambar 5</label><br/>
-													<img src="img/kostimages/<?php echo htmlentities($result['image5']);?>" width="300"  style="border:solid 1px #000"><br/>
-													<input type="text" name="textimg5" value="<?php echo htmlentities($result['image5']);?>" hidden>
-													<h5>Ganti Gambar 5</h5><input type="file" name="imgusr5">
+												<div class="col-sm-10 col-sm-offset-1">
+													<h3><b><center>Ganti Gambar Kamar</center></b></h3>
+													<label for="file" class="drop-container" id="dropcontainer">
+														<span class="drop-title">Drag and Drop Images Here &nbsp;<i class="fa fa-picture-o"></i></span>
+														or
+														<input type="file" id="file" name="imgupt[]" accept="image/*" multiple onchange="previewImages()">
+													</label>
+													<input type="text" name="textimg" value="<?php echo htmlentities($result['images']);?>" hidden>
+													<div id="preview-container" class="preview-container"></div>
 												</div>
 											</div>
-											<div class="hr-dashed"></div>		
+											<div class="hr-dashed"></div>	
 											<div class="form-group">
-												<div class="col-sm-3">
-													<div class="checkbox checkbox-inline">
-														<button class="btn btn-primary" type="submit" style="margin-top:4%">Simpan Perubahan</button>
-													</div>
+												<div class="checkbox checkbox-inline">
+													<button class="btn btn-primary" type="submit" style="margin-top:4%">Simpan Perubahan</button>
 												</div>
 											</div>	
 										</form>
@@ -207,10 +177,8 @@ function valid(theform){
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
-					
 			</div>
 		</div>
 	</div>

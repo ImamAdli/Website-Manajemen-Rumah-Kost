@@ -16,7 +16,7 @@ if(strlen($_SESSION['alogin'])==0){
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	<title>Narty Boarding House | Admin Edit Info Nama Kost</title>
+	<title>Narty Boarding House | Admin Edit Info Pemilik Kost</title>
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -27,30 +27,10 @@ if(strlen($_SESSION['alogin'])==0){
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-<style>
-.errorWrap {
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #dd3d36;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-.succWrap{
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #5cb85c;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-</style>
 </head>
 
 <body>
@@ -61,23 +41,23 @@ if(strlen($_SESSION['alogin'])==0){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">Edit Nama Kost</h2>
+						<h2 class="page-title">Edit Pemilik Kost</h2>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
-									<div class="panel-heading">Form Edit Nama Kost</div>
+									<div class="panel-heading">Form Edit Pemilik Kost</div>
 									<div class="panel-body">
 										<?php
 										$id=$_GET['id'];
 										$respassword=md5('123456');
-										$sql ="SELECT * FROM nama_kost WHERE id_namakost='$id'";
+										$sql ="SELECT * FROM pemilik_kost WHERE id_pemilik='$id'";
 										$query = mysqli_query($koneksidb,$sql);
 										$result = mysqli_fetch_array($query);
 										if(isset($_POST['submitreset'])){
-											$sql ="SELECT password FROM nama_kost WHERE id_namakost='$id'";
+											$sql ="SELECT password FROM pemilik_kost WHERE id_pemilik='$id'";
 											$query= mysqli_query($koneksidb,$sql);
 												if(mysqli_num_rows($query) > 0){
-													$con="UPDATE nama_kost SET password='$respassword' WHERE id_namakost='$id'";
+													$con="UPDATE pemilik_kost SET password='$respassword' WHERE id_pemilik='$id'";
 													$chngpwd = mysqli_query($koneksidb,$con);
 													$msg="Your Password succesfully changed";
 												}else {
@@ -85,8 +65,7 @@ if(strlen($_SESSION['alogin'])==0){
 												}
 										}
 										?>
-										<form method="post" class="form-horizontal" name="theform" action ="namakosteditact.php" onsubmit="return valid(this);" enctype="multipart/form-data">
-										
+										<form method="post" class="form-horizontal" name="theform" action ="pkeditact.php" onsubmit="return valid(this);" enctype="multipart/form-data">
 											<div class="form-group">
 												<label class="col-sm-2 control-label">Nama Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
@@ -100,10 +79,17 @@ if(strlen($_SESSION['alogin'])==0){
 											</div>
 											<div class="hr-dashed"></div>
 											<div class="form-group">
-
 												<label class="col-sm-2 control-label">Telepon<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<input type="text" name="telepon" class="form-control" value="<?php echo htmlentities($result['telepon']);?>" required>
+												</div>
+												<label class="col-sm-2 control-label">Tipe Kost<span style="color:red">*</span></label>
+												<div class="col-sm-4">
+													<select class="form-control white_bg" name="tipekost" id="tipekost" required>
+														<option value="Pria" <?php if($result['tipe_kost'] == 'Pria') echo 'selected'; ?>>Pria</option>
+														<option value="Wanita" <?php if($result['tipe_kost'] == 'Wanita') echo 'selected'; ?>>Wanita</option>
+														<option value="Campur" <?php if($result['tipe_kost'] == 'Campur') echo 'selected'; ?>>Campur</option>
+													</select>
 												</div>
 											</div>	
 											<div class="hr-dashed"></div>
@@ -119,7 +105,7 @@ if(strlen($_SESSION['alogin'])==0){
 											</div>	
 											<div class="hr-dashed"></div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">Alamat<span style="color:red">*</span></label>
+												<label class="col-sm-2 control-label">Alamat Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<input type="text" name="alamat" class="form-control" value="<?php echo htmlentities($result['alamat']);?>" required>
 												</div>
@@ -135,6 +121,56 @@ if(strlen($_SESSION['alogin'])==0){
 													</select>											
 												</div>
 											</div>	
+											<div class="form-group">
+												<div class="col-sm-10 col-sm-offset-1">
+													<style>
+													#map {
+														height: 400px;
+														width: 100%;
+														}
+													</style>
+													<h4>Edit Lokasi Kost pada Google Maps</h4>
+													<div id="map"></div>
+													<input type="text" name="latitude" id="latitude" hidden>
+													<input type="text" name="longitude" id="longitude" hidden>
+													<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
+													<script>
+														function initMap() {
+															// Pastikan variabel latitude dan longitude diatur dengan benar
+															var lat = parseFloat("<?php echo $result['latitude']; ?>");
+															var lng = parseFloat("<?php echo $result['longitude']; ?>");
+															// Periksa apakah lat dan lng adalah angka
+															if (isNaN(lat) || isNaN(lng)) {
+																console.error("Latitude atau Longitude tidak valid.");
+																return;
+															}
+
+															var map = new google.maps.Map(document.getElementById('map'), {
+																center: {lat: lat, lng: lng},
+																zoom: 15
+															});
+															var marker = new google.maps.Marker({
+																position: {lat: lat, lng: lng},
+																map: map,
+																draggable: true // Marker dapat digeser
+															});
+															// Ketika marker digeser, update nilai latitude dan longitude pada form
+															marker.addListener('dragend', function(event) {
+																document.getElementById('latitude').value = event.latLng.lat();
+																document.getElementById('longitude').value = event.latLng.lng();
+															});
+															// Ketika peta diklik, pindahkan marker dan update form
+															map.addListener('click', function(event) {
+																marker.setPosition(event.latLng);
+																document.getElementById('latitude').value = event.latLng.lat();
+																document.getElementById('longitude').value = event.latLng.lng();
+															});
+														}
+														// Pastikan initMap dipanggil setelah halaman selesai dimuat
+														window.addEventListener('load', initMap);
+													</script>
+												</div>
+											</div>
 											<div class="hr-dashed"></div>
 											<div class="form-group">
 												<div class="col-sm-3">
@@ -158,7 +194,7 @@ if(strlen($_SESSION['alogin'])==0){
 													<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 													else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 													<div class="col-sm-4">
-														<button class="btn btn-primary" name="submitreset" style="margin-top:4%" onclick="return confirm('Apakah anda akan mereset password <?php echo $result['nama_kost'];?>?');" >Reset Password</button>
+														<button class="btn btn-primary" name="submitreset" style="margin-top:4%" onclick="return confirm('Apakah anda akan mereset password <?php echo $result['nama_pemilik'];?>?');" >Reset Password</button>
 													</div>
 												</form>
 											</div>
@@ -167,7 +203,6 @@ if(strlen($_SESSION['alogin'])==0){
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>

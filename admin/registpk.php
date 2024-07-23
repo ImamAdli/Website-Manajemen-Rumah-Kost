@@ -25,7 +25,7 @@ include('includes/config.php');
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
 	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
+	
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
@@ -70,13 +70,13 @@ function checkLetter(theform){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">Daftar Pemilik Kost</h2>
+						<h2 class="page-title">Daftar Akun Pemilik Kost</h2>
 						<div class="row">
 							<div class="col-md-10">
 								<div class="panel panel-default">
-									<div class="panel-heading">Form Daftar Pemilik Kost</div>
+									<div class="panel-heading"> Form Daftar Akun Pemilik Kost</div>
 									<div class="panel-body">
-									<form  method="post" name="theform" class="form-horizontal" action="namakostact.php" id="theform" onSubmit="return checkLetter(this); " enctype="multipart/form-data">
+									<form  method="post" name="theform" class="form-horizontal" action="pkact.php" id="theform" onSubmit="return checkLetter(this); " enctype="multipart/form-data">
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Nama Kost</label>
 										<div class="col-sm-8">
@@ -84,9 +84,9 @@ function checkLetter(theform){
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">Nama Lengkap</label>
+										<label class="col-sm-3 control-label">Nama Pemilik</label>
 										<div class="col-sm-8">
-												<input type="text" class="form-control" name="namapemilik" placeholder="Nama Lengkap" required>
+												<input type="text" class="form-control" name="namapemilik" placeholder="Nama Pemilik" required>
 										</div>
 									</div>
 									<div class="form-group">
@@ -115,14 +115,23 @@ function checkLetter(theform){
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-sm-3 control-label">Tipe Kost</label>
+										<div class="col-sm-8">
+											<select class="form-control" name="tipekost" id="tipekost" required>
+												<option value="Pria">Pria</option>
+												<option value="Wanita">Wanita</option>
+												<option value="Campur" selected>Campur</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<div class="col-sm-10 col-sm-offset-1">
 											<style>
-											#map {
-												height: 400px;
-												width: 100%;
-												}
-											</style>
-											<body>
+												#map {
+													height: 400px;
+													width: 100%;
+													}
+												</style>
 												<h4>Pilih Lokasi Kost pada Google Maps</h4>
 												<div id="map"></div>
 												<input type="text" name="latitude" id="latitude" hidden>
@@ -131,11 +140,11 @@ function checkLetter(theform){
 												<script>
 													function initMap() {
 														var map = new google.maps.Map(document.getElementById('map'), {
-															center: {lat: -6.175110, lng: 106.865039}, // Default lokasi (Monas, Jakarta)
-															zoom: 12
+															center: {lat: -0.8262803081990282, lng: 100.35501429355675}, // Default lokasi (Monas, Jakarta)
+															zoom: 15
 														});
 														var marker = new google.maps.Marker({
-															position: {lat: -6.175110, lng: 106.865039},
+															position: {lat: -0.8262803081990282, lng: 100.35501429355675},
 															map: map,
 															draggable: true // Marker dapat digeser
 														});
@@ -157,7 +166,7 @@ function checkLetter(theform){
 									<div class="form-group">
 										<label class="col-sm-3 control-label">KTP</label>
 										<div class="col-sm-8">
-										Upload Foto KTP<span style="color:red">*</span><input type="file" name="img1" accept="image/*" required>
+											Upload Foto KTP<span style="color:red">*</span><input type="file" id="file" name="img1" accept="image/*" required>
 										</div>
 									</div>
 									<div class="form-group">

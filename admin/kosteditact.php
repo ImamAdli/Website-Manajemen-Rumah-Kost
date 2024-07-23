@@ -1,62 +1,43 @@
 <?php
 include('includes/config.php');
 error_reporting(0);
-$kosttitle=$_POST['kosttitle'];
-$namakost=$_POST['namakostname'];
-$kostoverview=$_POST['vehicalorcview'];
-$priceperday=$_POST['priceperday'];
-$bathinfo=$_POST['bathinfo'];
-$modelluas=$_POST['modelluas'];
-$acinfo=$_POST['acinfo'];
-$kimage1=$_FILES["imgusr1"]["name"];
-$kimage2=$_FILES["imgusr2"]["name"];
-$kimage3=$_FILES["imgusr3"]["name"];
-$kimage4=$_FILES["imgusr4"]["name"];
-$kimage5=$_FILES["imgusr5"]["name"];
-$imgoldData1 = $_POST['textimg1'];
-$imgoldData2 = $_POST['textimg2'];
-$imgoldData3 = $_POST['textimg3'];
-$imgoldData4 = $_POST['textimg4'];
-$imgoldData5 = $_POST['textimg5'];
-move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
-move_uploaded_file($_FILES["imgusr2"]["tmp_name"],"img/kostimages/".$_FILES["imgusr2"]["name"]);
-move_uploaded_file($_FILES["imgusr3"]["tmp_name"],"img/kostimages/".$_FILES["imgusr3"]["name"]);
-move_uploaded_file($_FILES["imgusr4"]["tmp_name"],"img/kostimages/".$_FILES["imgusr4"]["name"]);
-move_uploaded_file($_FILES["imgusr5"]["tmp_name"],"img/kostimages/".$_FILES["imgusr5"]["name"]);
+$kosttitle = $_POST['kosttitle'];
+$namakost = $_POST['namakostname'];
+$kostoverview = $_POST['vehicalorcview'];
+$priceperday = $_POST['priceperday'];
+$bathinfo = $_POST['bathinfo'];
+$modelluas = $_POST['modelluas'];
+$acinfo = $_POST['acinfo'];
+$totalImages = count($_FILES['imgupt']['name']);
+$imgold = $_POST['textimg'];
 
-if($kimage1!="") {
-	move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
+if ($totalImages > 0 && !empty($_FILES['imgupt']['name'][0])) {
+    $fileNames = [];
+    for ($i = 0; $i < $totalImages; $i++) {
+        $fileNames[] = $_FILES['imgupt']['name'][$i];
+        move_uploaded_file($_FILES["imgupt"]["tmp_name"][$i], "img/kostimages/" . $_FILES["imgupt"]["name"][$i]);
+    }
+    $fileNamesString = implode(",", $fileNames);
 } else {
-	$kimage1 = $imgoldData1;
-}
-if($kimage2!="") {
-	move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
-} else {
-	$kimage2 = $imgoldData2;
-}
-if($kimage3!="") {
-	move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
-} else {
-	$kimage3 = $imgoldData3;
-}
-if($kimage4!="") {
-	move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
-} else {
-	$kimage4 = $imgoldData4;
-}
-if($kimage5!="") {
-	move_uploaded_file($_FILES["imgusr1"]["tmp_name"],"img/kostimages/".$_FILES["imgusr1"]["name"]);
-} else {
-	$kimage5 = $imgoldData5;
+    $fileNamesString = $imgold;
 }
 
-$id=$_POST['id'];
-$sql="UPDATE kost SET nama_kamarkost='$kosttitle',id_namakost='$namakost',deskripsi='$kostoverview',harga='$priceperday',bath='$bathinfo',luas='$modelluas',
-	ac='$acinfo', image1='$kimage1', image2='$kimage2', image3='$kimage3', image4='$kimage4', image5='$kimage5' where id_kamarkost='$id'";
-$query 	= mysqli_query($koneksidb,$sql);
+$id = $_POST['id'];
+$sql = "UPDATE kamar_kost SET 
+    nama_kamar='$kosttitle',
+    id_pemilik='$namakost',
+    deskripsi='$kostoverview',
+    harga='$priceperday',
+    bath='$bathinfo',
+    luas='$modelluas',
+    ac='$acinfo',
+    images='$fileNamesString' 
+WHERE id_kamar='$id'";
+
+$query = mysqli_query($koneksidb, $sql);
 if($query){
 	echo "<script type='text/javascript'>
-		alert('Berhasil edit data.'); 
+		alert('Data kamar berhasil diubah.'); 
 		document.location = 'kost.php'; 
 		</script>";
 }else {

@@ -7,8 +7,8 @@ $email=$_POST['emailid'];
 $koste=$_POST['kosteno'];
 $pass = $_POST['pass'];
 $conf = $_POST['conf'];
-$image1=$_FILES["img1"]["name"];
-$newimg1 = date('dmYHis').$image1;
+$images=$_FILES["img1"]["name"];
+$newimg1 = date('dmYHis').$images;
 move_uploaded_file($_FILES["img1"]["tmp_name"],"image/id/".$newimg1);
 if($conf!=$pass){
 	echo "<script>alert('Password tidak sama!');</script>";

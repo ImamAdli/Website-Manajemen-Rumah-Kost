@@ -26,30 +26,10 @@ if(strlen($_SESSION['alogin'])==0){
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-<style>
-.errorWrap {
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #dd3d36;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-.succWrap{
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #5cb85c;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-</style>
 </head>
 
 <body>
@@ -60,45 +40,47 @@ if(strlen($_SESSION['alogin'])==0){
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title">Tambah kost</h2>
+						<h2 class="page-title">Tambah kamar Kost</h2>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
 									<div class="panel-heading">Form Tambah kost</div>
 									<div class="panel-body">
+										<?php 
+										$id=$_SESSION['alogin'];
+										$sql ="SELECT * FROM  pemilik_kost WHERE email ='$id'";
+										$query = mysqli_query($koneksidb,$sql);
+										$result = mysqli_fetch_array($query);
+										?>
 										<form method="post" name="theform" action="tambahkostact.php" class="form-horizontal" onsubmit="return valid(this);" enctype="multipart/form-data">
 											<div class="form-group">
 												<label class="col-sm-2 control-label">Nama Kamar Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<input type="text" name="kosttitle" class="form-control" required>
 												</div>
-												<label class="col-sm-2 control-label">Pilih nama_kost<span style="color:red">*</span></label>
+												<label class="col-sm-2 control-label">Pilih Nama Kost<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<select class="form-control" name="kostname" required="" data-parsley-error-message="Field ini harus diisi" >
-														<option value="">== Pilih nama_kost ==</option>
-														<?php
-														$idkost=$result['id_namakost'];
-														$nmkost=$result['nama_kost'];
-														if($_SESSION['alogin'] != 'admin'){
-															echo "<option value='$idkost'>$nmkost</option>";
-														}else{
-															echo "<option value='$idkost'>$nmkost</option>";
-															$mySql = "SELECT * FROM nama_kost ORDER BY id_namakost";
-															$myQry = mysqli_query($koneksidb, $mySql);
-															while ($myData = mysqli_fetch_array($myQry)) {
-															if ($myData['id_namakost']== $datanama_kost) {
-																$cek = " selected";
-																} else { $cek=""; }
-																echo "<option value='$myData[id_namakost]' $cek>$myData[nama_kost] </option>";
-															}
+														<option value="">== Pilih Nama Kost ==</option>
+													<?php
+													$idkost=$result['id_pemilik'];
+													$nmkost=$result['nama_kost'];
+													if($_SESSION['alogin'] != 'admin'){
+															echo  "<option value='$idkost' selected >$nmkost</option>";
+													}else{
+														$mySql = "SELECT * FROM pemilik_kost ORDER BY id_pemilik";
+														$myQry = mysqli_query($koneksidb, $mySql);
+														while ($myData = mysqli_fetch_array($myQry)) {
+															echo "<option value='$myData[id_pemilik]'>$myData[nama_kost] </option>";
 														}
-														?>
+													}
+													?>
 													</select>
 												</div>
 											</div>
 											<div class="hr-dashed"></div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">Deskripsi kost<span style="color:red">*</span></label>
+												<label class="col-sm-2 control-label">Deskripsi Kamar Kost<span style="color:red">*</span></label>
 												<div class="col-sm-10">
 													<textarea class="form-control" name="kostview" rows="3" required></textarea>
 												</div>
@@ -127,33 +109,20 @@ if(strlen($_SESSION['alogin'])==0){
 													<select class="form-control" name="acinfo" required>
 														<option value=""> == Pilih Fasilitas == </option>
 														<option value="Ada">Ada</option>
-														<option value="Tidak">Tidak Ada</option>
+														<option value="Tidak Ada">Tidak Ada</option>
 													</select>
 												</div>
 											</div>
 											<div class="hr-dashed"></div>
+													
 											<div class="form-group">
-												<div class="col-sm-12">
-													<h4><b>Upload Gambar</b></h4>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="col-sm-4">
-													Gambar 1<span style="color:red">*</span><input type="file" name="img1" accept="image/*" required>
-												</div>
-												<div class="col-sm-4">
-													Gambar 2<span style="color:red">*</span><input type="file" name="img2" accept="image/*" required>
-												</div>
-												<div class="col-sm-4">
-													Gambar 3<input type="file" name="img3" accept="image/*">
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="col-sm-4">
-													Gambar 4<input type="file" name="img4" accept="image/*">
-												</div>
-												<div class="col-sm-4">
-													Gambar 5<input type="file" name="img5" accept="image/*">
+												<div class="col-sm-10 col-sm-offset-1">
+													<h3><b><center>Upload Gambar Kamar</center></b></h3>
+													<label for="file" class="drop-container" id="dropcontainer">
+														<span class="drop-title">Drag and Drop Images Here &nbsp;<i class="fa fa-picture-o"></i></span>
+														or
+														<input type="file" name="files[]" id="file" accept="image/*" multiple required>
+													</label>
 												</div>
 											</div>
 											<div class="hr-dashed"></div>
@@ -174,7 +143,6 @@ if(strlen($_SESSION['alogin'])==0){
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Loading Scripts -->
 	<script src="js/jquery.min.js"></script>

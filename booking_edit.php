@@ -16,7 +16,7 @@ if(strlen($_SESSION['ulogin'])==0){
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="keywords" content="">
 <meta name="description" content="">
-<title>Narty Boarding House</title>
+<title>Narty Boarding House | Booking Edit</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->
@@ -31,14 +31,7 @@ if(strlen($_SESSION['ulogin'])==0){
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
-<!-- Fav and touch icons -->
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->  
 </head>
 <body>
 
@@ -47,22 +40,24 @@ if(strlen($_SESSION['ulogin'])==0){
 
 <?php 
 $kode=$_GET['kode'];
-$sql1 	= "SELECT booking.*,kost.*, nama_kost.* FROM booking,kost,nama_kost WHERE booking.id_kamarkost=kost.id_kamarkost AND nama_kost.id_namakost=kost.id_namakost and booking.kode_booking='$kode'";
+$sql1 	= "SELECT booking.*,kamar_kost.*, pemilik_kost.* FROM booking,kamar_kost,pemilik_kost WHERE booking.id_kamar=kamar_kost.id_kamar AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik and booking.kode_booking='$kode'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 $harga	= $result['harga'];
 $durasi = $result['durasi'];
-$durasi = $result['durasi'];
 $rekening = $result['rekening'];
+$telepon = $result['telepon'];
+$namapemilik = $result['nama_pemilik'];
 $totalkost = $durasi*$harga;
 $totalsewa = $totalkost;
 $tglmulai = strtotime($result['tgl_mulai']);
-$jmlhari  = 86400*1;
-$tgl	  = $tglmulai-$jmlhari;
+$jmlhari  = 86400*2;
+$tglbooking = strtotime($result['tgl_booking']);
+$tgl = $tglbooking + $jmlhari;
 $tglhasil = date("Y-m-d",$tgl);
 ?>
 <section class="user_profile inner_pages">
-	<center><h3>Detail Sewa</h3></center>
+	<center><h3>Bayar Sewa</h3></center>
 	<div class="container">
 		<div class="user_profile_info">	
 			<div class="col-md-12 col-sm-10">
@@ -75,7 +70,7 @@ $tglhasil = date("Y-m-d",$tgl);
 					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
 					<div class="form-group">
 					<label>kost</label>
-						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamarkost'];?>"readonly>
+						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamar'];?>"readonly>
 					</div>
 					<div class="form-group">
 					<label>Tanggal Mulai</label>
@@ -100,26 +95,24 @@ $tglhasil = date("Y-m-d",$tgl);
 					<div class="form-group">
 					<label>Upload Bukti Pembayaran</label><br/>
 						<input type="file" class="form-control" name="img1" accept="image/*" required>
-						<b>*Silahkan transfer total biaya sewa ke BANK <?php echo $rekening;?> dengan nama <?php echo $namapemilik;?> maksimal tanggal <?php echo IndonesiaTgl($tglhasil);?>.
-					</div>											
+					</div>
+					<div class="form-group payment-notification">
+						<h5>Silahkan Transfer Total Biaya Sewa ke:</h5>
+						<h5>- BANK <?php echo $rekening;?> dengan Nama <?php echo $namapemilik;?></h5>
+						<h5>- Maksimal pada Tanggal <?php echo IndonesiaTgl($tglhasil);?>.</h5>
+						<h5>- Kontak Pemilik Kost di : <?php echo $telepon;?></h5>
+					</div>								
 					<div class="hr-dashed"></div>
 					<div class="form-group">
-					<div class="col-md-6">
-						<button class="btn btn-primary" type="submit" name="submit1" value="submit1" formaction="update_sewa.php">Submit</button>
-						</div>
-					<div class="col-md-6">
-						<button class="btn btn-warning" type="submit" name="submit2" value="submit2" formaction="booking_del.php">Batalkan Pemesanan</button>
-						</div>
-
+						<button class="btn btn-primary col-md-12" type="submit" name="submit1" value="submit1" formaction="update_sewa.php">Submit</button>
 					</div>
 				</form>
 			</div>
 		</div>
   </div>
 </section>
-<!--/my-kosts--> 
-<?php include('includes/footer.php');?>
 
+<?php include('includes/footer.php');?>
 <!-- Scripts --> 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 

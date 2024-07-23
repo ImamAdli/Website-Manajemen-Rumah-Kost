@@ -47,20 +47,20 @@ header('location:index.php');
         ?>
         <form  method="post" action="update-passwordact.php">
           <div class="form-group">
-            <label class="control-label">Current Password</label>
+            <label class="control-label">Password Sekarang</label>
             <input class="form-control white_bg" name="mail" id="mail" type="hidden" value="<?php echo $mail;?>" required>
             <input class="form-control white_bg" name="pass" id="pass" type="password"  required>
           </div>
           <div class="form-group">
-            <label class="control-label">New Password</label>
+            <label class="control-label">Password Baru</label>
             <input class="form-control white_bg" name="new" id="new" type="password"  required>
           </div>
           <div class="form-group">
-            <label class="control-label">Confirm Password</label>
+            <label class="control-label">Konfirmasi Password Baru</label>
             <input class="form-control white_bg" name="confirm" id="confirm" type="password"  required>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn">Update Password <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+            <button type="submit" class="btn">Ubah Password <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
           </div>
         </form>
       </div>

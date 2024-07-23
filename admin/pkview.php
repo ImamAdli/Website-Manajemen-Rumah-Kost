@@ -7,7 +7,7 @@ error_reporting(0);
 include('includes/config.php');
 if($_GET) {
 	$Kode = $_GET['code'];
-	$mySql ="SELECT * FROM nama_kost WHERE email ='$Kode'";
+	$mySql ="SELECT * FROM pemilik_kost WHERE email ='$Kode'";
 	$myQry = mysqli_query($koneksidb, $mySql);
 	$result = mysqli_fetch_array($myQry);
 }
@@ -18,9 +18,6 @@ else {
 ?>
 
 <html>
-<head>
-</head>
-
 <body>
 	<div id="section-to-print">
 		<div id="only-on-print">
@@ -28,7 +25,7 @@ else {
 		</div>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-			<h4 class="modal-title" id="myModalLabel">Detail Penyewa</h4>
+			<h4 class="modal-title" id="myModalLabel">Detail Pemilik Kost</h4>
 		</div>
 		<div><br/></div>
 		<form id="theform" data-parsley-validate class="form-horizontal form-label-left" action="<?php $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
@@ -65,7 +62,7 @@ else {
 			<div class="form-group">
 				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Tanggal Daftar</label>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" id="nis" required="required" class="form-control col-md-7 col-xs-12" name="nama" data-parsley-error-message="Field ini harus diisi" value="<?php echo $result['CreationDate'];?>" readonly>
+						<input type="text" id="nis" required="required" class="form-control col-md-7 col-xs-12" name="nama" data-parsley-error-message="Field ini harus diisi" value="<?php echo $result['regDate'];?>" readonly>
 					</div>
 			</div>
 			<div class="form-group">
@@ -73,6 +70,32 @@ else {
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<img src="img/id/<?php echo htmlentities($result['ktp']);?>" height="150">
 					</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Lokasi Kost</label>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+				<style>
+				#map {
+						height: 400px;
+						width: 100%;
+				}
+				</style>
+				<div id="map"></div>
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
+				<script>
+					function initMap() {
+						var lokasi =   {lat:<?php echo htmlentities($result['latitude']);?>, lng: <?php echo htmlentities($result['longitude']);?>}; // Contoh: Lokasi Monas
+						var map = new google.maps.Map(document.getElementById('map'), {
+								zoom: 16,
+								center: lokasi
+								});
+						var marker = new google.maps.Marker({
+								position: lokasi,
+								map: map
+								});
+					}
+				</script>
+				</div>
 			</div>
 		</form>
 		<div class="modal-footer">

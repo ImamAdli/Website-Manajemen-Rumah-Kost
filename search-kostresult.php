@@ -77,22 +77,22 @@ error_reporting(0);
             $todate=$_POST['todate'];
             if($namakost == null){
               $sql = "SELECT DISTINCT *
-                      FROM kost a 
-                      JOIN nama_kost c 
-                      ON a.id_namakost=c.id_namakost
+                      FROM kamar_kost a 
+                      JOIN pemilik_kost c 
+                      ON a.id_pemilik=c.id_pemilik
                       LEFT JOIN cek_booking b 
-                      ON a.id_kamarkost=b.id_kamarkost
+                      ON a.id_kamar=b.id_kamar
                       AND b.tgl_booking between '$fromdate' and '$todate'
                       where b.tgl_booking is null";
             }else{
               $sql = "SELECT DISTINCT *
-                    FROM kost a 
-                    JOIN nama_kost c 
-                    ON a.id_namakost=c.id_namakost
+                    FROM kamar_kost a 
+                    JOIN pemilik_kost c 
+                    ON a.id_pemilik=c.id_pemilik
                     LEFT JOIN cek_booking b 
-                    ON a.id_kamarkost=b.id_kamarkost
+                    ON a.id_kamar=b.id_kamar
                     AND b.tgl_booking between '$fromdate' and '$todate'
-                    WHERE a.id_namakost='$namakost'
+                    WHERE a.id_pemilik='$namakost'
                     AND b.tgl_booking is null";
             }
             $query = mysqli_query($koneksidb,$sql);
@@ -102,35 +102,43 @@ error_reporting(0);
           </div>
         </div>
         <?php 
-          if($namakost == null){
-            $sql1 = "SELECT DISTINCT a.*,c.*
-                    FROM kost a 
-                    JOIN nama_kost c 
-                    ON a.id_namakost=c.id_namakost
-                    LEFT JOIN cek_booking b 
-                    ON a.id_kamarkost=b.id_kamarkost
-                    AND b.tgl_booking between '$fromdate' and '$todate'
-                    where b.tgl_booking is null";
-            }else{
-              $sql1 = "SELECT DISTINCT a.*,c.*
-                    FROM kost a 
-                    JOIN nama_kost c 
-                    ON a.id_namakost=c.id_namakost
-                    LEFT JOIN cek_booking b 
-                    ON a.id_kamarkost=b.id_kamarkost
-                    AND b.tgl_booking between '$fromdate' and '$todate'
-                    WHERE a.id_namakost='$namakost'
-                    AND b.tgl_booking is null";
-            }
+        if($namakost == null){
+          $sql1 = "SELECT DISTINCT a.*,c.*
+                FROM kamar_kost a 
+                JOIN pemilik_kost c 
+                ON a.id_pemilik=c.id_pemilik
+                LEFT JOIN cek_booking b 
+                ON a.id_kamar=b.id_kamar
+                AND b.tgl_booking between '$fromdate' and '$todate'
+                where b.tgl_booking is null";
+        }else{
+          $sql1 = "SELECT DISTINCT a.*,c.*
+                FROM kamar_kost a 
+                JOIN pemilik_kost c 
+                ON a.id_pemilik=c.id_pemilik
+                LEFT JOIN cek_booking b 
+                ON a.id_kamar=b.id_kamar
+                AND b.tgl_booking between '$fromdate' and '$todate'
+                WHERE a.id_pemilik='$namakost'
+                AND b.tgl_booking is null";
+        }
         $query1 = mysqli_query($koneksidb,$sql1);
         if(mysqli_num_rows($query1)>0){
           while($result = mysqli_fetch_array($query1)){ 
         ?>
         <div class="product-listing-m gray-bg">
-          <div class="product-listing-img"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" class="img-responsive" alt="Image" /> </a> 
+          <div class="product-listing-img">
+            <?php
+            $imagesString = $result['images'];
+            $imagesArray = explode(',', $imagesString);
+            if (!empty($imagesArray)) {
+              $firstImage = trim($imagesArray[0]);
+              echo '<img src="admin/img/kostimages/' . htmlentities($firstImage) . '" class="img-responsive" alt="Image" />';
+            }
+            ?>
           </div>
           <div class="product-listing-content">
-            <h5><a href="kost-details.php?vhid=<?php echo $result['id_kamarkost'];?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a></h5>
+            <h5><a href="kost-details.php?vhid=<?php echo $result['id_kamar'];?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamar']);?></a></h5>
             <h6><?php echo htmlentities($result['alamat']);?></a></h6>
             <p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
             <ul>
@@ -138,7 +146,7 @@ error_reporting(0);
               <li><i class="fa fa-bath" aria-hidden="true"></i><?php echo htmlentities($result['bath']);?></li>
               <li><i class="fa fa-thermometer-quarter" aria-hidden="true"></i><?php echo htmlentities($result['ac']);?> </li>
             </ul>
-            <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>" class="btn">Lihat Detail <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
+            <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamar']);?>" class="btn">Lihat Detail <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
           </div>
         </div>
         <?php }} ?>
@@ -178,13 +186,13 @@ error_reporting(0);
                 <select class="form-control" name="namakost" >
                 <option value="" selected>Pilih Nama Kost</option>
                 <?php 
-                $sql3 = "SELECT * from  nama_kost";
+                $sql3 = "SELECT * from  pemilik_kost";
                 $query3 = mysqli_query($koneksidb,$sql3);
                 if(mysqli_num_rows($query3)>0)
                 {
                   while($result = mysqli_fetch_array($query3))
                 {?>
-                <option value="<?php echo htmlentities($result['id_namakost']);?>"><?php echo htmlentities($result['nama_kost']);?></option>
+                <option value="<?php echo htmlentities($result['id_pemilik']);?>"><?php echo htmlentities($result['nama_kost']);?></option>
                 <?php }} ?>
                 </select>
               </div>
@@ -196,20 +204,20 @@ error_reporting(0);
         </div>
         <div class="sidebar_widget">
           <div class="widget_heading">
-            <h5><i class="fa fa-home" aria-hidden="true"></i>kost Terbaru</h5>
+            <h5><i class="fa fa-home" aria-hidden="true"></i> Terbaru</h5>
           </div>
-          <div class="recent_addedkost">
+          <div class="recent_added">
             <ul>
               <?php
-              $sql2 = "SELECT kost.*,nama_kost.* FROM kost,nama_kost 
-                  WHERE nama_kost.id_namakost=kost.id_namakost order by nama_kost.id_namakost desc limit 4";
+              $sql2 = "SELECT kamar_kost.*,pemilik_kost.* FROM kamar_kost,pemilik_kost 
+                  WHERE pemilik_kost.id_pemilik=kamar_kost.id_pemilik order by pemilik_kost.id_pemilik desc limit 4";
               $query2 = mysqli_query($koneksidb,$sql2);
               if(mysqli_num_rows($query2)>0){
               while($result = mysqli_fetch_array($query2))
               { ?>
               <li class="gray-bg">
-                <div class="recent_post_img"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($result['image1']);?>" alt="image"></a> </div>
-                <div class="recent_post_title"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamarkost']);?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamarkost']);?></a>
+                <div class="recent_post_img"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamar']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($result['images']);?>" alt="image"></a> </div>
+                <div class="recent_post_title"> <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamar']);?>"><?php echo htmlentities($result['nama_kost']);?> , <?php echo htmlentities($result['nama_kamar']);?></a>
                 <p class="widget_price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p>
                 </div>
               </li>

@@ -57,7 +57,7 @@ error_reporting(0);
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="resentnewcar">
           <?php 
-          $sql = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE nama_kost.id_namakost = kost.id_namakost order by nama_kost.id_namakost desc limit 6";
+          $sql = "SELECT kamar_kost.*, pemilik_kost.* FROM kamar_kost, pemilik_kost WHERE pemilik_kost.id_pemilik = kamar_kost.id_pemilik ORDER BY RAND() LIMIT 6";
           $query = mysqli_query($koneksidb,$sql);
           if(mysqli_num_rows($query)>0)
           {
@@ -65,16 +65,26 @@ error_reporting(0);
           {
           ?>  
           <div class="col-list-3">
-            <div class="recent-car-list gray-bg">
-              <div class="car-info-box"> <a href="kost-details.php?vhid=<?php echo htmlentities($results['id_kamarkost']);?>"><img src="admin/img/kostimages/<?php echo htmlentities($results['image1']);?>" class="img-responsive" alt="image"></a>
+            <div class="recent-kost-list gray-bg">
+              <div class="kost-info-box"> 
+                <a href="kost-details.php?vhid=<?php echo htmlentities($results['id_kamar']);?>">
+                <?php
+                $imagesString = $results['images'];
+                $imagesArray = explode(',', $imagesString);
+                if (!empty($imagesArray)) {
+                    $firstImage = trim($imagesArray[0]);
+                    echo '<img src="admin/img/kostimages/' . htmlentities($firstImage) . '" class="img-responsive" alt="Image" />';
+                }
+                ?>
+                </a>
                 <ul>
                   <li><i class="fa fa-arrows-alt" aria-hidden="true"></i>Luas <?php echo htmlentities($results['luas']);?>m²</li>
                   <li><i class="fa fa-bath" aria-hidden="true"></i><?php echo htmlentities($results['bath']);?></li>
                   <li><i class="fa fa-thermometer-quarter" aria-hidden="true"></i>AC <?php echo htmlentities($results['ac']);?></li>
                 </ul>
               </div>
-              <div class="car-title-m">
-                <h6><a href="kost-details.php?vhid=<?php echo htmlentities($results['id_kamarkost']);?>"><?php echo htmlentities($results['nama_kost']);?> , <?php echo htmlentities($results['nama_kamarkost']);?></a></h6>
+              <div class="kost-title-m">
+                <h6><a href="kost-details.php?vhid=<?php echo htmlentities($results['id_kamar']);?>"><?php echo htmlentities($results['nama_kost']);?> , <?php echo htmlentities($results['nama_kamar']);?></a></h6>
                 <span class="price"><?php echo htmlentities(format_rupiah($results['harga']));?> /Hari</span> 
               </div>
               <div class="inventory_info_m">

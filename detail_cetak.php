@@ -3,8 +3,8 @@ include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
 $kode=$_GET['kode'];
-$sql1 	= "SELECT booking.*,kost.*, nama_kost.*, users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost 
-			AND nama_kost.id_namakost=kost.id_namakost and booking.email=users.email and booking.kode_booking='$kode'";
+$sql1 	= "SELECT booking.*,kamar_kost.*, pemilik_kost.*, users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar 
+			AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik and booking.email=users.email and booking.kode_booking='$kode'";
 $query1 = mysqli_query($koneksidb,$sql1);
 $result = mysqli_fetch_array($query1);
 $harga	= $result['harga'];
@@ -16,7 +16,8 @@ $totalkost = $durasi*$harga;
 $totalsewa = $totalkost;
 $tglmulai = strtotime($result['tgl_mulai']);
 $jmlhari  = 86400*1;
-$tgl	  = $tglmulai-$jmlhari;
+$tglbooking = strtotime($result['tgl_booking']);
+$tgl = $tglbooking + $jmlhari;
 $tglhasil = date("Y-m-d",$tgl);
 ?>
 <!DOCTYPE html>
@@ -81,9 +82,9 @@ $tglhasil = date("Y-m-d",$tgl);
 						<td><?php echo $result['nama_user'] ?></td>
 					</tr>
 					<tr>
-						<td>kost</td>
+						<td>Kamar Kost</td>
 						<td>:</td>
-						<td><?php echo $result['nama_kost'];echo  ", "; echo $result['nama_kamarkost']; ?></td>
+						<td><?php echo $result['nama_kost'];echo  ", "; echo $result['nama_kamar']; ?></td>
 					</tr>
 					<tr>
 						<td>Tanggal Mulai</td>
@@ -101,9 +102,9 @@ $tglhasil = date("Y-m-d",$tgl);
 						<td><?php echo $result['durasi'];?> Hari</td>
 					</tr>
 					<tr>
-						<td>Biaya kost (<?php echo $result['durasi'];?>) Hari</td>
+						<td>Biaya Sewa/Hari </td>
 						<td>:</td>
-						<td><?php echo format_rupiah($totalkost);?></td>
+						<td><?php echo format_rupiah($result['harga']);?></td>
 					</tr>
 					<tr>
 						<td>Total Biaya Sewa (<?php echo $result['durasi'];?>) Hari</td>

@@ -4,8 +4,8 @@ error_reporting(0);
 include('includes/config.php');
 include('includes/library.php');
 
-	$image1=$_FILES["img1"]["name"];
-	$newimg1 = date('dmYHis').$image1;
+	$images=$_FILES["img1"]["name"];
+	$newimg1 = date('dmYHis').$images;
 	$kode = $_POST['kode'];
 	$stt = "Menunggu Konfirmasi";
 	move_uploaded_file($_FILES["img1"]["tmp_name"],"image/bukti/".$newimg1);

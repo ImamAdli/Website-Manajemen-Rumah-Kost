@@ -16,7 +16,7 @@ if(strlen($_SESSION['alogin'])==0){
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
-	<title>Narty Boarding House | Admin Kelola kost</title>
+	<title>Narty Boarding House | Admin Kelola Kamar Kost</title>
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<!-- Sandstone Bootstrap CSS -->
@@ -27,30 +27,10 @@ if(strlen($_SESSION['alogin'])==0){
 	<link rel="stylesheet" href="css/bootstrap-social.css">
 	<!-- Bootstrap select -->
 	<link rel="stylesheet" href="css/bootstrap-select.css">
-	<!-- Bootstrap file input -->
-	<link rel="stylesheet" href="css/fileinput.min.css">
 	<!-- Awesome Bootstrap checkbox -->
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
-<style>
-.errorWrap {
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #dd3d36;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-.succWrap{
-	padding: 10px;
-	margin: 0 0 20px 0;
-	background: #fff;
-	border-left: 4px solid #5cb85c;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-</style>
 </head>
 <body>
 	<?php include('includes/header.php');?>
@@ -64,7 +44,7 @@ if(strlen($_SESSION['alogin'])==0){
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
 							<div class="panel-heading">Daftar Kamar Kost</div>
-							<div class="panel-body">
+							<div class="panel-body table-responsive">
 								<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 								else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -77,7 +57,7 @@ if(strlen($_SESSION['alogin'])==0){
 											<th>Kamar Mandi</th>
 											<th>Luas Kamar (m²)</th>
 											<th>AC</th>
-											<th><a href="tambahkost.php"><span class="fa fa-plus-circle"></span>Tambah kost</a></th>
+											<th><a href="tambahkost.php"><span class="fa fa-plus-circle"></span>Tambah Kamar</a></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -85,10 +65,10 @@ if(strlen($_SESSION['alogin'])==0){
 										$nomor = 0;
 										$logpk = $_SESSION['alogin'];
 										if ($_SESSION['alogin'] == 'admin') {
-											$sqlkost = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE kost.id_namakost=nama_kost.id_namakost ORDER BY kost.id_kamarkost ASC";
+											$sqlkost = "SELECT kamar_kost.*, pemilik_kost.* FROM kamar_kost, pemilik_kost WHERE kamar_kost.id_pemilik=pemilik_kost.id_pemilik ORDER BY kamar_kost.id_kamar ASC";
 											$querykost = mysqli_query($koneksidb,$sqlkost);
 										} else {
-											$sqlkost = "SELECT kost.*, nama_kost.* FROM kost, nama_kost WHERE kost.id_namakost=nama_kost.id_namakost AND nama_kost.email='$logpk' ORDER BY kost.id_kamarkost ASC";
+											$sqlkost = "SELECT kamar_kost.*, pemilik_kost.* FROM kamar_kost, pemilik_kost WHERE kamar_kost.id_pemilik=pemilik_kost.id_pemilik AND pemilik_kost.email='$logpk' ORDER BY kamar_kost.id_kamar ASC";
 											$querykost = mysqli_query($koneksidb,$sqlkost);
 										}
 										while ($result = mysqli_fetch_array($querykost)){
@@ -96,14 +76,14 @@ if(strlen($_SESSION['alogin'])==0){
 										?>
 										<tr>
 											<td><?php echo htmlentities($nomor);?></td>
-											<td><?php echo htmlentities($result['nama_kamarkost']);?></td>
+											<td><?php echo htmlentities($result['nama_kamar']);?></td>
 											<td><?php echo htmlentities($result['nama_kost']);?></td>
 											<td><?php echo format_rupiah($result['harga']);?></td>
 											<td><?php echo htmlentities($result['bath']);?></td>
 											<td><?php echo htmlentities($result['luas']);?></td>
 											<td><?php echo htmlentities($result['ac']);?></td>
-											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_kamarkost'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-											<a href="kostdel.php?id=<?php echo $result['id_kamarkost'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_kamarkost'];?>?');"><i class="fa fa-close"></i></a></td>
+											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_kamar'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+											<a href="kostdel.php?id=<?php echo $result['id_kamar'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_kamar'];?>?');"><i class="fa fa-close"></i></a></td>
 										</tr>
 										<?php } ?>
 									</tbody>

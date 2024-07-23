@@ -9,8 +9,8 @@ include('includes/format_rupiah.php');
 include('includes/library.php');
 if($_GET) {
 	$Kode = $_GET['code'];
-	$sqlsewa = "SELECT booking.*,kost.*,nama_kost.*,users.* FROM booking,kost,nama_kost,users WHERE booking.id_kamarkost=kost.id_kamarkost
-			AND nama_kost.id_namakost=kost.id_namakost AND users.email=booking.email AND booking.kode_booking='$Kode'";
+	$sqlsewa = "SELECT booking.*,kamar_kost.*,pemilik_kost.*,users.* FROM booking,kamar_kost,pemilik_kost,users WHERE booking.id_kamar=kamar_kost.id_kamar
+			AND pemilik_kost.id_pemilik=kamar_kost.id_pemilik AND users.email=booking.email AND booking.kode_booking='$Kode'";
 	$querysewa = mysqli_query($koneksidb,$sqlsewa);
 	$result = mysqli_fetch_array($querysewa);
 	$biayakost=$result['durasi']*$result['harga'];
@@ -48,7 +48,7 @@ else {
 			<tr>
 				<td width="20%"><b>kost</b></td>
 				<td width="2%"><b>:</b></td>
-				<td width="78%"><?php echo $result['nama_kost'];?>, <?php echo $result['nama_kamarkost'];?></td>
+				<td width="78%"><?php echo $result['nama_kost'];?>, <?php echo $result['nama_kamar'];?></td>
 			</tr>
 			<tr>
 				<td colspan="3">&nbsp;</td>
