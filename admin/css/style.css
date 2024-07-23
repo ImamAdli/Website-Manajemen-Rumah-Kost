@@ -602,7 +602,7 @@ li {
 }
 .brand .ts-profile-nav li ul li {
   float: none;
-  width: 180px;
+  width: 200px;
 }
 .brand .ts-profile-nav li ul li a {
   padding: 10px 20px;
@@ -612,7 +612,7 @@ li {
   float: right;
 }
 .brand .ts-profile-nav .ts-account > a {
-  width: 180px;
+  width: 200px;
   background: #2c3136;
 }
 .brand .ts-profile-nav .ts-account .ts-avatar {

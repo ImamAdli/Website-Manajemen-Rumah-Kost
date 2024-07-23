@@ -155,12 +155,6 @@ function checkLetter(theform){
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">Link Maps</label>
-										<div class="col-sm-8">
-												<input type="text" class="form-control" name="maps" id="maps" placeholder="Masukkan Link Google Maps" required>
-										</div>
-									</div>
-									<div class="form-group">
 										<label class="col-sm-3 control-label">KTP</label>
 										<div class="col-sm-8">
 										Upload Foto KTP<span style="color:red">*</span><input type="file" name="img1" accept="image/*" required>
