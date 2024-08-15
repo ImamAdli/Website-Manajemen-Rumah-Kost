@@ -4,8 +4,34 @@ error_reporting(0);
 include('includes/config.php');
 
 if(strlen($_SESSION['ulogin'])==0){ 
-header('location:index.php');
-}else{
+    header('location:index.php');
+} else {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $passw = $_POST['pass'];
+        $pass = md5($passw);
+        $new = $_POST['new'];
+        $confirm = $_POST['confirm'];
+        $mail = $_POST['mail'];
+        $sql = "SELECT * FROM users WHERE email='$mail' AND password='$pass'";
+        $query = mysqli_query($koneksidb, $sql);
+
+        if (mysqli_num_rows($query) == 1) {
+            if ($confirm == $new) {
+                $newpass = md5($new);
+                $sqlup = "UPDATE users SET password='$newpass' WHERE email='$mail'";
+                $queryup = mysqli_query($koneksidb, $sqlup);
+                if ($queryup) {
+                    $msg = "Berhasil update password.";
+                } else {
+                    $error = "Gagal update password!";
+                }
+            } else {
+                $error = "Password baru dan konfirmasi password baru tidak sama!";
+            }
+        } else {
+            $error = "Password sekarang yang dimasukkan salah!";
+        }
+    }
 ?>
 
 <!DOCTYPE HTML>
@@ -42,10 +68,12 @@ header('location:index.php');
   <div class="container">
     <div class="user_profile_info">
       <div class="col-md-12 col-sm-10">
+        <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
         <?php
         $mail=$_SESSION['ulogin'];
         ?>
-        <form  method="post" action="update-passwordact.php">
+        <form  method="post" action="">
           <div class="form-group">
             <label class="control-label">Password Sekarang</label>
             <input class="form-control white_bg" name="mail" id="mail" type="hidden" value="<?php echo $mail;?>" required>
@@ -69,7 +97,7 @@ header('location:index.php');
 </section>
 <!--/Profile-setting--> 
 
-<<!--Footer -->
+<!--Footer -->
 <?php include('includes/footer.php');?>
 <!-- /Footer--> 
 <!--Back to top-->

@@ -4,16 +4,64 @@ error_reporting(0);
 include('includes/config.php');
 include('includes/format_rupiah.php');
 include('includes/library.php');
+require '../vendor/autoload.php'; // Tambahkan ini untuk autoload PHPMailer
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if(strlen($_SESSION['alogin'])==0){	
 header('location:index.php');
 }else{
 	if(isset($_POST['submit'])){
 		$status = $_POST['status'];
 		$kode = $_POST['id'];
-		$mySql	= "UPDATE booking SET status = '$status' WHERE kode_booking='$kode'";
-		$myQry	= mysqli_query($koneksidb, $mySql);
-		$mySql1	= "UPDATE cek_booking SET status = '$status' WHERE kode_booking='$kode'";
-		$myQry1	= mysqli_query($koneksidb, $mySql1);
+
+		if ($status == 'Dibatalkan') {
+			// Hapus pesanan jika status adalah Dibatalkan
+			$mySql = "DELETE FROM booking WHERE kode_booking='$kode'";
+			$myQry = mysqli_query($koneksidb, $mySql);
+			$mySql1 = "DELETE FROM cek_booking WHERE kode_booking='$kode'";
+			$myQry1 = mysqli_query($koneksidb, $mySql1);
+		} else {
+			// Update status pesanan
+			$mySql = "UPDATE booking SET status = '$status' WHERE kode_booking='$kode'";
+			$myQry = mysqli_query($koneksidb, $mySql);
+			$mySql1 = "UPDATE cek_booking SET status = '$status' WHERE kode_booking='$kode'";
+			$myQry1 = mysqli_query($koneksidb, $mySql1);
+		}
+
+		// Ambil email penyewa dari database
+		$sqlEmail = "SELECT users.email FROM booking JOIN users ON booking.email = users.email WHERE booking.kode_booking='$kode'";
+		$queryEmail = mysqli_query($koneksidb, $sqlEmail);
+		$resultEmail = mysqli_fetch_array($queryEmail);
+		$emailPenyewa = $resultEmail['email'];
+
+		// Kirim email notifikasi ke penyewa menggunakan PHPMailer
+		$mail = new PHPMailer(true);
+		try {
+			//Server settings
+			$mail->isSMTP();
+			$mail->Host = 'smtp.gmail.com';
+			$mail->SMTPAuth = true;
+			$mail->Username = 'nartylaptop17@gmail.com'; // Ganti dengan email Anda
+			$mail->Password = 'ntobkniigiqnpznx'; // Ganti dengan password email Anda
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Menggunakan SMTPS sesuai dengan pengaturan SSL
+			$mail->Port = 465; // Port yang sesuai dengan pengaturan SSL
+
+			//Recipients
+			$mail->setFrom('no-reply@yourdomain.com', 'Narty Boarding House');
+			$mail->addAddress($emailPenyewa);
+
+			//Content
+			$mail->isHTML(true);
+			$mail->Subject = 'Perubahan Status Transaksi';
+			$mail->Body = "<b>Pemilik kost telah merubah status anda menjadi $status di transaksi $kode.</b>";
+
+			$mail->send();
+		} catch (Exception $e) {
+			echo "Pesan tidak dapat dikirim. Mailer Error: {$mail->ErrorInfo}";
+		}
+
 		echo "<script type='text/javascript'>
 			alert('Status berhasil diupdate.'); 
 			document.location = 'sewa_konfirmasi.php'; 
@@ -87,15 +135,21 @@ header('location:index.php');
 																echo "<option value='$stt' selected>".strtoupper($stt)."</option>";
 																echo "<option value='Menunggu Pembayaran'>".strtoupper("Menunggu Pembayaran")."</option>";
 																echo "<option value='Selesai'>".strtoupper("Selesai")."</option>";
-																echo "<option value='Cancel'>".strtoupper("Cancel")."</option>";
+																echo "<option value='Dibatalkan'>DIBATALKAN</option>";
 															?>
 													</select>
 												</div>
 											</div>
-											<div class="form-group">
+												<div class="form-group">
 												<label class="col-sm-2 control-label">Penyewa</label>
 												<div class="col-sm-4">
 													<input type="text" name="penyewa" class="form-control" value="<?php echo $result['nama_user'];?>" required readonly>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Email Penyewa</label>
+												<div class="col-sm-4">
+													<input type="text" name="penyewa" class="form-control" value="<?php echo $result['email'];?>" required readonly>
 												</div>
 											</div>
 											<div class="form-group">
@@ -185,7 +239,6 @@ header('location:index.php');
 			</div>
 		</div>
 	</div>
-</div>
 
 	<!-- Loading Scripts -->
 	<script src="js/jquery.min.js"></script>

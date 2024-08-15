@@ -29,19 +29,21 @@ $sql 	= "INSERT INTO booking (kode_booking,id_kamar,tgl_mulai,tgl_selesai,durasi
 			VALUES('$kode','$vid','$fromdate','$todate','$durasi','$status','$email','$tgl')";
 $query 	= mysqli_query($koneksidb,$sql);
 if($query){
-	for($cek;$cek<$durasi;$cek++){
-		$tglmulai = strtotime($fromdate);
-		$jmlhari  = 86400*$cek;
-		$tgl	  = $tglmulai+$jmlhari;
-		$tglhasil = date("Y-m-d",$tgl);
-		$sql1	="INSERT INTO cek_booking (kode_booking,id_kamar,tgl_booking,status)VALUES('$kode','$vid','$tglhasil','$status')";
-		$query1 = mysqli_query($koneksidb,$sql1);
-	}
-	echo " <script> alert ('Kost berhasil disewa.'); </script> ";
-	echo "<script type='text/javascript'> document.location = 'booking_edit.php?kode=$kode'; </script>";
-	}else{
-		echo " <script> alert ('Ooops, terjadi kesalahan. Silahkan coba lagi.'); </script> ";
-	}
+    $currentDate = strtotime($fromdate);
+    $endDate = strtotime($todate);
+    
+    while ($currentDate <= $endDate) {
+        $tglhasil = date("Y-m-d", $currentDate);
+        $sql1     = "INSERT INTO cek_booking (kode_booking, id_kamar, tgl_booking, status) VALUES ('$kode', '$vid', '$tglhasil', '$status')";
+        $query1   = mysqli_query($koneksidb, $sql1);
+        $currentDate = strtotime("+1 day", $currentDate);
+    }
+    
+    echo " <script> alert ('Kost berhasil disewa.'); </script> ";
+    echo "<script type='text/javascript'> document.location = 'booking_edit.php?kode=$kode'; </script>";
+} else {
+    echo " <script> alert ('Ooops, terjadi kesalahan. Silahkan coba lagi.'); </script> ";
+}
 }
 ?>
 
@@ -130,14 +132,14 @@ $totalsewa = $totalkost;
             </div>
             <div class="form-group">
 			<label>Durasi</label>
-				<input type="text" class="form-control" name="durasi" value="<?php echo $durasi;?> Hari"readonly>
+				<input type="text" class="form-control" name="durasi" value="<?php echo $durasi;?> Hari	"readonly>
             </div>
             <div class="form-group">
-			<label>Biaya kost (<?php echo $durasi;?> Hari)</label><br/>
-				<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($totalkost);?>"readonly>
+			<label>Biaya kost/hari </label><br/>
+				<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($harga);?>"readonly>
             </div>
             <div class="form-group">
-			<label>Total Biaya Sewa</label><br/>
+			<label>Total Biaya Sewa (<?php echo $durasi;?> Hari)</label><br/>
 				<input type="text" class="form-control" name="total" value="<?php echo format_rupiah($totalsewa);?>"readonly>
             </div>
 			<br/>			

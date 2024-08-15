@@ -8,6 +8,41 @@ include('includes/library.php');
 if(strlen($_SESSION['ulogin'])==0){ 
 	header('location:index.php');
 }else{
+	$email = $_SESSION['ulogin'];
+	$deletedBookings = [];
+	$userDeletedBooking = null;
+
+	// Hapus pemesanan yang melewati batas maksimal pembayaran
+	$sql = "SELECT kode_booking, tgl_booking FROM booking WHERE email='$email' AND status='Menunggu Pembayaran'";
+	$query = mysqli_query($koneksidb, $sql);
+	while($row = mysqli_fetch_array($query)) {
+		$tgl_booking = strtotime($row['tgl_booking']);
+		$batas_pembayaran = strtotime('+2 days', $tgl_booking);
+		if(time() > $batas_pembayaran) {
+			$kode_booking = $row['kode_booking'];
+			$delete_sql = "DELETE FROM booking WHERE kode_booking='$kode_booking'";
+			mysqli_query($koneksidb, $delete_sql);
+			$deletedBookings[] = $kode_booking;
+		}
+	}
+
+	// Hapus pemesanan oleh user
+	if(isset($_GET['kode'])){
+		$kode_booking = $_GET['kode'];
+		$delete_sql = "DELETE FROM booking WHERE kode_booking='$kode_booking'";
+		if(mysqli_query($koneksidb, $delete_sql)){
+			$userDeletedBooking = $kode_booking;
+		}
+	}
+
+	// Notifikasi pemesanan yang dihapus
+	$notification = "";
+	if(!empty($deletedBookings)) {
+		$notification = "Pemesanan " . implode(", ", $deletedBookings) . " terhapus karena anda telat melakukan pembayaran.";
+	}
+	if($userDeletedBooking) {
+		$notification .= " Pesanan transaksi $userDeletedBooking telah berhasil dibatalkan.";
+	}
 ?>
 
 <!DOCTYPE HTML>
@@ -38,6 +73,12 @@ if(strlen($_SESSION['ulogin'])==0){
 
 <!--Header-->
 <?php include('includes/header.php');?>
+
+<?php if($notification): ?>
+<div class="alert alert-warning" role="alert">
+	<?php echo $notification; ?>
+</div>
+<?php endif; ?>
 
 <?php
 $email=$_SESSION['ulogin'];  
@@ -113,7 +154,7 @@ $tglhasil = date("Y-m-d",$tgl);
 							?>
 							<a href="booking_edit.php?kode=<?php echo $result['kode_booking'];?>" class="fa fa-edit"></a>&emsp;
 							<a href="booking_detail.php?kode=<?php echo $result['kode_booking'];?>" class="glyphicon glyphicon-eye-open"></a>&emsp;
-							<a href="booking_del.php?kode=<?php echo $result['kode_booking'];?>" onclick="return confirm('Apakah anda yakin menghapus transaksi <?php echo $result['kode_booking'];?>?');" class="fa fa-close"></a>
+							<a href="riwayatsewa.php?kode=<?php echo $result['kode_booking'];?>" onclick="return confirm('Apakah anda yakin membatalkan pemesanan<?php echo $result['kode_booking'];?>?');" class="fa fa-close"></a>
 							<?php }?>
 						</td>
 					</tr>

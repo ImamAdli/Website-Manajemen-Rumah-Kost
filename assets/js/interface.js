@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ac) {
       filteredRooms = filteredRooms.filter(room => {
         const acText = room.querySelector('li:nth-child(3)').textContent.trim().toLowerCase();
-        return ac === 'ada' ? acText === 'ada' : acText === 'tidak ada';
+        return ac === 'ada' ? acText.includes('ac ada') : acText.includes('ac tidak ada');
       });
     }
     if (tipeKost) {

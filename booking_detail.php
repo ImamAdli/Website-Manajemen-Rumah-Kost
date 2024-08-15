@@ -46,11 +46,12 @@ $result = mysqli_fetch_array($query1);
 $harga	= $result['harga'];
 $durasi = $result['durasi'];
 $rekening = $result['rekening'];
+$telepon = $result['telepon'];
 $namapemilik = $result['nama_pemilik'];
 $totalkost = $durasi*$harga;
 $totalsewa = $totalkost;
 $tglmulai = strtotime($result['tgl_mulai']);
-$jmlhari  = 86400*1;
+$jmlhari  = 86400*2;
 $tglbooking = strtotime($result['tgl_booking']);
 $tgl = $tglbooking + $jmlhari;
 $tglhasil = date("Y-m-d",$tgl);
@@ -66,9 +67,12 @@ $tglhasil = date("Y-m-d",$tgl);
 						<label>Kode Sewa</label>
 						<input type="text" class="form-control" name="kost" value="<?php echo $result['kode_booking'];?>"readonly>
 					</div>
-					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
 					<div class="form-group">
-						<label>kost</label>
+						<label>Nama Penyewa</label>
+						<input type="text" class="form-control" name="nama_user" value="<?php echo $_SESSION['fname'];?>" readonly>
+					</div>
+					<div class="form-group">
+						<label>Kamar Kost</label>
 						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamar'];?>"readonly>
 					</div>
 					<div class="form-group">
@@ -84,21 +88,26 @@ $tglhasil = date("Y-m-d",$tgl);
 						<input type="text" class="form-control" name="durasi" value="<?php echo $durasi;?> Hari"readonly>
 					</div>
 					<div class="form-group">
-						<label>Biaya/Hari</label><br/>
+						<label>Biaya Sewa Kamar Kost/Hari</label><br/>
 						<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($result['harga']);?>"readonly>
 					</div>
 					<div class="form-group">
-					<label>Total Biaya Sewa (<?php echo $durasi;?> Hari)</label><br/>
+					<label>Total Biaya Sewa Kamar Kost (<?php echo $durasi;?> Hari)</label><br/>
 						<input type="text" class="form-control" name="total" value="<?php echo format_rupiah($totalsewa);?>"readonly>
 					</div>
 					<?php if($result['status']=="Menunggu Pembayaran"){
 					?>
-					<b>*Silahkan transfer total biaya sewa ke BANK <?php echo $rekening;?> dengan nama <?php echo $namapemilik;?> maksimal tanggal <?php echo IndonesiaTgl($tglhasil);?>.
+					<div class="form-group payment-notification">
+						<h5>Silahkan Transfer Total Biaya Sewa ke:</h5>
+						<h5>- BANK <?php echo $rekening;?> dengan Nama <?php echo $namapemilik;?></h5>
+						<h5>- Maksimal pada Tanggal <?php echo IndonesiaTgl($tglhasil);?>.</h5>
+						<h5>- Kontak Pemilik Kost di : <?php echo $telepon;?></h5>
+					</div>
 					<?php
 					}else{
 					}?>
 					</b>
-					<br/><br/>			
+					<br/>		
 					<div class="form-group">
 						<a href="detail_cetak.php?kode=<?php echo $kode;?>" target="_blank" class="btn btn-primary btn-xs">Cetak</a>
 					</div>

@@ -131,8 +131,8 @@ if(strlen($_SESSION['alogin'])==0){
 													</style>
 													<h4>Edit Lokasi Kost pada Google Maps</h4>
 													<div id="map"></div>
-													<input type="text" name="latitude" id="latitude" hidden>
-													<input type="text" name="longitude" id="longitude" hidden>
+													<input type="text" name="latitude" id="latitude" value="<?php echo htmlentities($result['latitude']); ?>" hidden>
+													<input type="text" name="longitude" id="longitude" value="<?php echo htmlentities($result['longitude']); ?>" hidden>
 													<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
 													<script>
 														function initMap() {

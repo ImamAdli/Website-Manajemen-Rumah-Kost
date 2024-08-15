@@ -1,4 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php';
+
 session_start();
 error_reporting(0);
 include('includes/config.php');
@@ -31,12 +36,31 @@ if(isset($_POST['updatepk'])){
 	latitude='$latitude', longitude='$longitude'  WHERE email='$email'";
 	$query = mysqli_query($koneksidb,$sql);
 	if($query){
-	$msg="Profil berhasil diupdate.";
+		$msg="Profil berhasil diupdate.";
+
+		// Kirim email notifikasi ke admin menggunakan PHPMailer
+		$mail = new PHPMailer(true);
+			//Server settings
+			$mail->isSMTP();
+			$mail->Host = 'smtp.gmail.com';
+			$mail->SMTPAuth = true;
+			$mail->Username = 'nartylaptop17@gmail.com';
+			$mail->Password = 'ntobkniigiqnpznx'; 
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Menggunakan SMTPS sesuai dengan pengaturan SSL
+			$mail->Port = 465; // Port yang sesuai dengan pengaturan SSL
+
+			//Recipients
+			$mail->setFrom('nartylaptop17@gmail.com', 'Narty Boarding House'); // Ganti dengan email Anda
+			$mail->addAddress('rugimaku@gmail.com');
+
+			//Content
+			$mail->isHTML(true);
+			$mail->Subject = 'Pemilik Kost Merubah Data';
+			$mail->Body = "Pemilik kost telah merubah data dengan detail berikut:<br><br>Nama Kost: $namakost<br>Email: $email<br>Telepon: $kosteno<br>Nama Pemilik: $name<br>Alamat: $address<br>Tipe Kost: $tipekost";
+
+			$mail->send();
 	}else{
-    echo "No Error : ".mysqli_errno($koneksidb);
-    echo "<br/>";
-    echo "Pesan Error : ".mysqli_error($koneksidb);	
-  }
+	}
 }
 ?>
 
@@ -180,8 +204,8 @@ while($result=mysqli_fetch_array($query)){
 													<body>
 													<h4>Pilih Lokasi pada Peta</h4>
 													<div id="map"></div>
-													<input type="text" name="latitude" id="latitude" hidden><br>
-													<input type="text" name="longitude" id="longitude" hidden><br>
+													<input type="text" name="latitude" id="latitude" value="<?php echo htmlentities($result['latitude']); ?>" hidden><br>
+													<input type="text" name="longitude" id="longitude" value="<?php echo htmlentities($result['longitude']); ?>" hidden><br>
 													<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iV3faeC_1QJw69QzDDFbUXVL4G9XbtU&callback=initMap"></script>
 													<script>
 														function initMap() {

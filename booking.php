@@ -142,18 +142,18 @@ function valid()
 		<div class="user_profile_info">	
 			<div class="col-md-12 col-sm-10">
 				<form method="post" name="sewa" onSubmit="return valid();"> 
-					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
+					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>" required>
 					<div class="form-group">
 					<label>Tanggal Mulai</label>
-						<input type="text" class="form-control datepicker" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+						<input type="text" class="form-control datepicker" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required autocomplete="off">
 						<input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
 					</div>
-					<?php 
+					 <?php 
 					$statustgl = $_GET['bulanan'];
 					if ($statustgl == 0){
 					echo "<div class='form-group'>";
 					echo "<label>Tanggal Selesai</label>";
-					echo	"<input type='text' class='form-control datepicker' name='lastdate' placeholder='To Date(dd/mm/yyyy)' required>";
+					echo	"<input type='text' class='form-control datepicker' name='lastdate' placeholder='To Date(dd/mm/yyyy)' required autocomplete='off'>";
 					echo "<input type='hidden' class='form-control' name='statustgl'  value='<?php echo $statustgl;?>' required>";
 					echo "</div>";
 					} else {

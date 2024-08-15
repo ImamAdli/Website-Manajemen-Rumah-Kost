@@ -4,8 +4,31 @@ error_reporting(0);
 include('includes/config.php');
 if(strlen($_SESSION['alogin'])==0){	
 	header('location:index.php');
-}
-else{
+} else {
+	if(isset($_GET['del_id']) && isset($_GET['email'])){
+		$id	= $_GET['del_id'];
+		$email = $_GET['email'];
+		$mySql	= "DELETE FROM users WHERE id_user='$id'";
+		$myQry	= mysqli_query($koneksidb, $mySql);
+		if($myQry){
+			$msg = "Data user $email berhasil dihapus.";
+		} else {
+			$error = "Terjadi kesalahan, silahkan coba lagi!";
+		}
+	}
+
+	if(isset($_GET['reset_password'])){
+		$email = $_GET['reset_password'];
+		$password = "123456";
+		$pass = md5($password);
+		$mySql	= "UPDATE users SET password='$pass' WHERE email='$email'";
+		$myQry	= mysqli_query($koneksidb, $mySql);
+		if($myQry){
+			$msg = "Password untuk $email berhasil direset.";
+		} else {
+			$error = "Terjadi kesalahan, silahkan coba lagi!";
+		}
+	}
 ?>
 
 <!doctype html>
@@ -77,8 +100,8 @@ else{
 											<td><a href="../image/id/<?php echo htmlentities($result['ktp']);?>" target="blank"><img src="../image/id/<?php echo htmlentities($result['ktp']);?>" width="40"></a></td>
 											<td>
 												<a href="#myModal" data-toggle="modal" data-load-code="<?php echo $result['email']; ?>" data-remote-target="#myModal .modal-body"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;&nbsp;
-												<a href="userrespass.php?email=<?php echo $result['email'];?>" onclick="return confirm('Apakah anda yakin akan mereset password untuk email <?php echo $result['email'];?>?');"><span class="fa fa-refresh"></span></a>&nbsp;&nbsp;&nbsp;
-												<a href="userdel.php?id=<?php echo $result['id_user'];?>" onclick="return confirm('Apakah anda yakin akan menghapus akun <?php echo $result['nama_user'];?>?');"><span class="fa fa-close"></span></a>
+												<a href="reg-users.php?reset_password=<?php echo $result['email'];?>" onclick="return confirm('Apakah anda yakin akan mereset password untuk email <?php echo $result['email'];?>?');"><span class="fa fa-refresh"></span></a>&nbsp;&nbsp;&nbsp;
+												<a href="reg-users.php?del_id=<?php echo $result['id_user'];?>&email=<?php echo htmlentities($result['email']);?>" onclick="return confirm('Apakah anda yakin akan menghapus akun <?php echo $result['nama_user'];?>?');"><span class="fa fa-close"></span></a>
 											</td>
 										</tr>
 										<?php } ?>

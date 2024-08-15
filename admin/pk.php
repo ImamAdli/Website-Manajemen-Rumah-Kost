@@ -3,8 +3,19 @@ session_start();
 error_reporting(0);
 include('includes/config.php');
 if(strlen($_SESSION['alogin'])==0){	
-	header('location:index.php');}
-else{
+	header('location:index.php');
+} else {
+	if(isset($_GET['del_id']) && isset($_GET['nama_pemilik'])){
+		$id	= $_GET['del_id'];
+		$namaPemilik = $_GET['nama_pemilik'];
+		$mySql	= "DELETE FROM pemilik_kost WHERE id_pemilik='$id'";
+		$myQry	= mysqli_query($koneksidb, $mySql);
+		if($myQry){
+			$msg = "Data Pemilik Kost $namaPemilik berhasil dihapus.";
+		} else {
+			$error = "Terjadi kesalahan, silahkan coba lagi!";
+		}
+	}
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
@@ -78,7 +89,7 @@ else{
 											<td><?php echo htmlentities($result['statuspk']);?></td>
 											<td><a href="#myModal" data-toggle="modal" data-load-code="<?php echo $result['email']; ?>" data-remote-target="#myModal .modal-body"><span class="glyphicon glyphicon-eye-open"></span></a>
 												<a href="pkedit.php?id=<?php echo $result['id_pemilik'];?>"><i class="fa fa-edit"></i></a>
-											<a href="pkdel.php?id=<?php echo $result['id_pemilik'];?>" onclick="return confirm('Apakah anda yakin akan menghapus <?php echo $result['nama_kost'];?>?');"><i class="fa fa-close"></i></a></td>
+											<a href="pk.php?del_id=<?php echo $result['id_pemilik'];?>&nama_pemilik=<?php echo htmlentities($result['nama_pemilik']);?>" onclick="return confirm('Apakah anda yakin akan menghapus <?php echo $result['nama_kost'];?>?');"><i class="fa fa-close"></i></a></td>
 										</tr>
 										<?php }?>
 									</tbody>

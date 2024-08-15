@@ -6,7 +6,19 @@ include('includes/format_rupiah.php');
 include('includes/library.php');
 if(strlen($_SESSION['alogin'])==0){	
 	header('location:index.php');
-} else{ ?>
+} else {
+	if(isset($_GET['del_id']) && isset($_GET['nama_kamar'])){
+		$id	= $_GET['del_id'];
+		$namaKamar = $_GET['nama_kamar'];
+		$mySql	= "DELETE FROM kamar_kost WHERE id_kamar='$id'";
+		$myQry	= mysqli_query($koneksidb, $mySql);
+		if($myQry){
+			$msg = "Data Kamar $namaKamar berhasil dihapus.";
+		} else {
+			$error = "Terjadi kesalahan, silahkan coba lagi!";
+		}
+	}
+?>
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
@@ -83,7 +95,7 @@ if(strlen($_SESSION['alogin'])==0){
 											<td><?php echo htmlentities($result['luas']);?></td>
 											<td><?php echo htmlentities($result['ac']);?></td>
 											<td class="text-center"><a href="kostedit.php?id=<?php echo $result['id_kamar'];?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-											<a href="kostdel.php?id=<?php echo $result['id_kamar'];?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_kamar'];?>?');"><i class="fa fa-close"></i></a></td>
+											<a href="kost.php?del_id=<?php echo $result['id_kamar'];?>&nama_kamar=<?php echo htmlentities($result['nama_kamar']);?>" onclick="return confirm('Apakah anda akan menghapus <?php echo $result['nama_kamar'];?>?');"><i class="fa fa-close"></i></a></td>
 										</tr>
 										<?php } ?>
 									</tbody>

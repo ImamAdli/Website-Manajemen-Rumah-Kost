@@ -236,8 +236,8 @@ while ($row = mysqli_fetch_assoc($queryNamaKost)) {
             <p class="list-price"><?php echo htmlentities(format_rupiah($result['harga']));?> / Hari</p> 
             <ul>
               <li><i class="fa fa-arrows-alt" aria-hidden="true"></i>Luas <?php echo htmlentities($result['luas']);?>m²</li>
-              <li><i class="fa fa-bath" aria-hidden="true"></i><?php echo htmlentities($result['bath']);?></li>
-              <li><i class="fa fa-thermometer-quarter" aria-hidden="true"></i><?php echo htmlentities($result['ac']);?> </li>
+              <li><i class="fa fa-bath" aria-hidden="true"></i>WC <?php echo htmlentities($result['bath']);?></li>
+              <li><i class="fa fa-thermometer-quarter" aria-hidden="true"></i>AC <?php echo htmlentities($result['ac']);?> </li>
             </ul>
             <a href="kost-details.php?vhid=<?php echo htmlentities($result['id_kamar']);?>" class="btn">Lihat Detail <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
           </div>

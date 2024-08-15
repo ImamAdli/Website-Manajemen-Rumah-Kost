@@ -143,7 +143,7 @@ while($result = mysqli_fetch_array($query))
             <div class="tab-content"> 
               <!-- kost-overview -->
               <div role="tabpanel" class="tab-pane active" id="kost-overview">
-                <p><?php echo htmlentities($result['deskripsi']);?></p>
+                <p><?php echo nl2br(htmlentities($result['deskripsi']));?></p>
               </div>
               <div role="tabpanel" class="tab-pane" id="accessories"> 
                 <table>

@@ -69,7 +69,11 @@ $tglhasil = date("Y-m-d",$tgl);
 					</div>
 					<input type="hidden" class="form-control" name="vid"  value="<?php echo $vid;?>"required>
 					<div class="form-group">
-					<label>kost</label>
+					<label>Nama Penyewa</label>
+						<input type="text" class="form-control" name="nama_user" value="<?php echo $_SESSION['fname'];?>"readonly>
+					</div>
+					<div class="form-group">
+					<label>Kamar Kost</label>
 						<input type="text" class="form-control" name="kost" value="<?php echo $result['nama_kost']; echo ", "; echo $result['nama_kamar'];?>"readonly>
 					</div>
 					<div class="form-group">
@@ -85,11 +89,11 @@ $tglhasil = date("Y-m-d",$tgl);
 						<input type="text" class="form-control" name="durasi" value="<?php echo $durasi;?> Hari"readonly>
 					</div>
 					<div class="form-group">
-					<label>Biaya kost (<?php echo $durasi;?> Hari)</label><br/>
-						<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($totalkost);?>"readonly>
+					<label>Biaya Sewa Kamar Kost/Hari</label><br/>
+						<input type="text" class="form-control" name="biayakost" value="<?php echo format_rupiah($harga);?>"readonly>
 					</div>
 					<div class="form-group">
-					<label>Total Biaya Sewa (<?php echo $durasi;?> Hari)</label><br/>
+					<label>Total Biaya Sewa Kamar Kost (<?php echo $durasi;?> Hari)</label><br/>
 						<input type="text" class="form-control" name="total" value="<?php echo format_rupiah($totalsewa);?>"readonly>
 					</div>
 					<div class="form-group">
